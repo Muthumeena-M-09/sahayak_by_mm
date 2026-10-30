@@ -1,0 +1,6 @@
+{
+  "name": "Sahayak",
+  "description": "Multilingual AI citizen assistance and service automation platform supporting 22 scheduled Indian languages and English across government, education, healthcare, banking, business, and customer support.",
+  "requestFramePermissions": ["microphone", "camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

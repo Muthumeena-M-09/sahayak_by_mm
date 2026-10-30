@@ -1,0 +1,160 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  /* Core 6-hue Sahayak Palette */
+  --palette-brick: #A14646;
+  --palette-pink: #E3AFC9;
+  --palette-mauve: #AF719D;
+  --palette-copper: #C08552;
+  --palette-teal: #12544F;
+  --palette-cream: #EFE9E3;
+
+  /* Semantic Light Theme Tokens (derived strictly from the 6 hues) */
+  --surface-canvas: #EFE9E3;
+  --surface-card: #FAF7F4;
+  --surface-elevated: #FFFDFB;
+  --surface-tint: rgba(227, 175, 201, 0.26);
+  --surface-tint-hover: rgba(227, 175, 201, 0.42);
+  --surface-tint-solid: #E3AFC9;
+
+  --text-body: #082421;
+  --text-muted: #2B524E;
+  --text-tint-fg: #12544F;
+
+  --action-primary: #12544F;
+  --action-primary-hover: #0D3F3B;
+  --action-on-primary: #EFE9E3;
+
+  --accent-voice: #AF719D;
+  --accent-voice-hover: #9B5E89;
+  --accent-on-voice: #EFE9E3;
+
+  --accent-warm: #C08552;
+  --accent-warm-soft: rgba(192, 133, 82, 0.16);
+
+  --status-danger: #A14646;
+  --status-danger-soft: rgba(161, 70, 70, 0.14);
+  --status-on-danger: #EFE9E3;
+
+  --border-hairline: rgba(18, 84, 79, 0.15);
+  --border-strong: rgba(18, 84, 79, 0.32);
+  --focus-ring: #12544F;
+
+  --app-font-stack: 'DM Sans', 'Plus Jakarta Sans', sans-serif;
+  font-size: 16px;
+}
+
+.dark {
+  --surface-canvas: #071E1C;
+  --surface-card: #0D2C29;
+  --surface-elevated: #133A36;
+  --surface-tint: rgba(227, 175, 201, 0.14);
+  --surface-tint-hover: rgba(227, 175, 201, 0.24);
+  --surface-tint-solid: #E3AFC9;
+
+  --text-body: #EFE9E3;
+  --text-muted: rgba(239, 233, 227, 0.74);
+  --text-tint-fg: #E3AFC9;
+
+  --action-primary: #176861;
+  --action-primary-hover: #1E7D75;
+  --action-on-primary: #EFE9E3;
+
+  --accent-voice: #AF719D;
+  --accent-voice-hover: #C082AE;
+  --accent-on-voice: #EFE9E3;
+
+  --accent-warm: #CFA075;
+  --accent-warm-soft: rgba(192, 133, 82, 0.22);
+
+  --status-danger: #A14646;
+  --status-danger-soft: rgba(161, 70, 70, 0.26);
+  --status-on-danger: #EFE9E3;
+
+  --border-hairline: rgba(239, 233, 227, 0.15);
+  --border-strong: rgba(239, 233, 227, 0.32);
+  --focus-ring: #E3AFC9;
+}
+
+/* 4-level scalable typography for accessibility */
+html[data-text-scale="1"] { font-size: 16px; }
+html[data-text-scale="2"] { font-size: 17.5px; }
+html[data-text-scale="3"] { font-size: 19px; }
+html[data-text-scale="4"] { font-size: 21px; }
+
+@theme {
+  --color-canvas: var(--surface-canvas);
+  --color-card: var(--surface-card);
+  --color-elevated: var(--surface-elevated);
+  --color-tint: var(--surface-tint);
+  --color-tint-hover: var(--surface-tint-hover);
+  --color-tint-solid: var(--surface-tint-solid);
+
+  --color-body: var(--text-body);
+  --color-muted: var(--text-muted);
+  --color-tint-fg: var(--text-tint-fg);
+
+  --color-primary: var(--action-primary);
+  --color-primary-hover: var(--action-primary-hover);
+  --color-on-primary: var(--action-on-primary);
+
+  --color-voice: var(--accent-voice);
+  --color-voice-hover: var(--accent-voice-hover);
+  --color-on-voice: var(--accent-on-voice);
+
+  --color-warm: var(--accent-warm);
+  --color-warm-soft: var(--accent-warm-soft);
+
+  --color-danger: var(--status-danger);
+  --color-danger-soft: var(--status-danger-soft);
+  --color-on-danger: var(--status-on-danger);
+
+  --color-hairline: var(--border-hairline);
+  --color-strong: var(--border-strong);
+
+  --font-display: 'Plus Jakarta Sans', var(--app-font-stack);
+  --font-sans: var(--app-font-stack);
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+@layer base {
+  html,
+  body {
+    background-color: var(--surface-canvas);
+    color: var(--text-body);
+    font-family: var(--app-font-stack);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Generous line-height for tall Brahmic and Perso-Arabic Nastaliq scripts */
+  html[dir="rtl"] body {
+    line-height: 1.85;
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
