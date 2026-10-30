@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  ArrowLeft,
   ArrowRight,
   Check,
   KeyRound,
@@ -180,7 +181,7 @@ export const OnboardingFlow: React.FC = () => {
       <div className="min-h-screen bg-canvas text-body flex flex-col">
         <header className="border-b border-hairline bg-card/80 backdrop-blur-xs">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-            <span className="font-display text-xl font-bold text-primary whitespace-nowrap shrink-0">
+            <span className="font-display text-xl font-bold text-body whitespace-nowrap shrink-0">
               {t('app.name')}
             </span>
             <PWAInstallControl compact />
@@ -304,13 +305,31 @@ export const OnboardingFlow: React.FC = () => {
     <div className="min-h-screen bg-canvas text-body flex flex-col">
       <header className="border-b border-hairline bg-card/80">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-          <span className="font-display text-xl font-bold text-primary whitespace-nowrap shrink-0">
-            {t('app.name')}
-          </span>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                setErrorMsg(null);
+                if (otpSent) {
+                  setOtpSent(false);
+                  setOtpCode('');
+                } else {
+                  setStep('language');
+                }
+              }}
+              className="min-h-11 px-3.5 rounded-xl bg-secondary text-on-secondary border border-strong hover:bg-secondary-hover text-sm font-semibold flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0"
+            >
+              <ArrowLeft className="w-4 h-4 rtl:rotate-180 shrink-0" />
+              <span>{t('common.back')}</span>
+            </button>
+            <span className="font-display text-xl font-bold text-body whitespace-nowrap shrink-0">
+              {t('app.name')}
+            </span>
+          </div>
           <button
             type="button"
             onClick={() => setStep('language')}
-            className="min-h-12 px-3.5 rounded-xl border border-hairline bg-card text-body text-sm font-medium hover:bg-tint whitespace-nowrap shrink-0"
+            className="min-h-11 px-3.5 rounded-xl border border-hairline bg-card text-body text-sm font-medium hover:bg-tint whitespace-nowrap shrink-0"
           >
             {currentLanguage.nativeName} · {t('auth.change_lang')}
           </button>

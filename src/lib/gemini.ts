@@ -1,4 +1,4 @@
-import { GoogleGenAI, Type, GenerateContentResponse } from '@google/genai';
+import { GoogleGenAI, Type, type GenerateContentResponse } from '@google/genai';
 import type { CitationItem, ServiceFormField, SuggestedActionItem } from '../db/schema.ts';
 import {
   sarvamSynthesizeSpeech,
@@ -14,6 +14,8 @@ export function hasGeminiApiKey(): boolean {
   return Boolean(key && key !== 'MY_GEMINI_API_KEY');
 }
 
+const TEXT_MODELS = ['gemini-3.1-flash-lite', 'gemini-3.8-flash'] as const;
+
 export function getAiClient(): GoogleGenAI {
   if (!_ai) {
     _ai = new GoogleGenAI({
@@ -22,10 +24,29 @@ export function getAiClient(): GoogleGenAI {
         headers: {
           'User-Agent': 'aistudio-build',
         },
+        timeout: 22000,
+        retryOptions: {
+          attempts: 1,
+        },
       },
     });
   }
   return _ai;
+}
+
+async function callTextModelWithFallback<T>(
+  runner: (model: (typeof TEXT_MODELS)[number], ai: GoogleGenAI) => Promise<T>
+): Promise<T> {
+  const ai = getAiClient();
+  let lastError: unknown = null;
+  for (const model of TEXT_MODELS) {
+    try {
+      return await runner(model, ai);
+    } catch (err) {
+      lastError = err;
+    }
+  }
+  throw lastError instanceof Error ? lastError : new Error('Model generation unavailable');
 }
 
 function fallbackLexicalEmbedding(text: string): number[] {
@@ -45,7 +66,7 @@ function fallbackLexicalEmbedding(text: string): number[] {
   return vec.map((v) => v / norm);
 }
 
-function detectScriptLangFallback(query: string, preferredLangCode: string): string {
+export function detectScriptLangFast(query: string, preferredLangCode: string): string {
   if (/[\u0B80-\u0BFF]/.test(query)) return 'ta';
   if (/[\u0C00-\u0C7F]/.test(query)) return 'te';
   if (/[\u0C80-\u0CFF]/.test(query)) return 'kn';
@@ -64,6 +85,29 @@ function detectScriptLangFallback(query: string, preferredLangCode: string): str
       : 'hi';
   }
   return preferredLangCode || 'en';
+}
+
+export function inferDomainFast(query: string): string {
+  const q = query.toLowerCase();
+  if (/\b(scholarship|college|school|university|exam|marksheet|enrollment|transfer certificate|admission|student)\b/.test(q)) {
+    return 'education';
+  }
+  if (/\b(hospital|health|doctor|clinic|medical|ayushman|opd|patient|vaccine|medicine)\b/.test(q)) {
+    return 'healthcare';
+  }
+  if (/\b(bank|kyc|account|loan|upi|dbt|ifsc|passbook|atm|debit|credit)\b/.test(q)) {
+    return 'banking';
+  }
+  if (/\b(msme|udyam|gst|license|shop|business|enterprise|trade|registration)\b/.test(q)) {
+    return 'business';
+  }
+  if (/\b(bill|electricity|water|complaint|grievance|refund|support|ticket|delay)\b/.test(q)) {
+    return 'customer_support';
+  }
+  if (/\b(certificate|income|caste|domicile|residence|ration|aadhaar|voter|passport|pension|train|irctc|government)\b/.test(q)) {
+    return 'government';
+  }
+  return 'general';
 }
 
 export async function embedText(text: string): Promise<number[]> {
@@ -103,80 +147,50 @@ export async function detectAndNormalizeQuery(params: {
   englishSearchQuery: string;
   domainGuess: string;
 }> {
-  if (hasGeminiApiKey()) {
-    try {
-      const ai = getAiClient();
-      const glossaryNote =
-        params.glossaryTerms.length > 0
-          ? `Organisation glossary: ${params.glossaryTerms
-              .map((g) => `"${g.sourceTerm}" = "${g.targetTerm}"`)
-              .join(', ')}.`
-          : '';
+  const trimmed = params.query.trim();
+  const hasNonAscii = /[^\u0000-\u007F]/.test(trimmed);
+  const detectedByScript = detectScriptLangFast(trimmed, params.preferredLangCode);
 
-      const response = await ai.models.generateContent({
-        model: 'gemini-3.8-flash',
-        contents: `Analyze this user message: "${params.query}"\nUser's currently selected UI language: ${params.preferredLangName} (${params.preferredLangCode}).\n${glossaryNote}\n1. Detect the language the user actually wrote in (BCP-47 base code like en, hi, ta, te, bn, mr, ur, gu, kn, ml, or, pa, as, mai, sat, ks, ne, sd, kok, doi, mni, brx, sa). If it is Romanized/code-mixed like Hinglish ("mera ration card status kya hai") or Tanglish ("epdi apply panradhu"), map it to the underlying Indian language code (e.g. hi or ta) so we reply in their language, UNLESS it is pure English leading with selected UI language preference (${params.preferredLangCode}) when user wants answers in their chosen language.\n2. Translate/normalize the core intent into a clear English search query for retrieving official knowledge base documents.\n3. Classify domain into one of: government, education, healthcare, banking, business, customer_support, general.`,
-        config: {
-          responseMimeType: 'application/json',
-          responseSchema: {
-            type: Type.OBJECT,
-            properties: {
-              detectedLanguageCode: { type: Type.STRING },
-              detectedLanguageName: { type: Type.STRING },
-              isCodeMixed: { type: Type.BOOLEAN },
-              englishSearchQuery: { type: Type.STRING },
-              domainGuess: { type: Type.STRING },
-            },
-            required: [
-              'detectedLanguageCode',
-              'detectedLanguageName',
-              'isCodeMixed',
-              'englishSearchQuery',
-              'domainGuess',
-            ],
-          },
-        },
-      });
-
-      const parsed = JSON.parse((response.text ?? '{}').trim());
-      // Always honor the user's chosen UI language if their message was English/short unless they typed in another Indian script
-      const replyCode =
-        params.preferredLangCode !== 'en' && parsed.detectedLanguageCode === 'en'
-          ? params.preferredLangCode
-          : parsed.detectedLanguageCode || params.preferredLangCode;
-      return {
-        detectedLanguageCode: replyCode,
-        detectedLanguageName:
-          replyCode === params.preferredLangCode
-            ? params.preferredLangName
-            : parsed.detectedLanguageName || params.preferredLangName,
-        isCodeMixed: Boolean(parsed.isCodeMixed),
-        englishSearchQuery: parsed.englishSearchQuery || params.query,
-        domainGuess: parsed.domainGuess || 'general',
-      };
-    } catch {
-      // Fall through to Sarvam normalization
+  // Check common Romanized Hinglish / Tanglish cues when typed in Latin characters
+  let detectedCode = detectedByScript;
+  let isCodeMixed = false;
+  if (!hasNonAscii) {
+    if (/\b(epdi|eppadi|iruku|irukku|venum|sollunga|pannanum|panradhu|mudiyuma|vaanguradhu)\b/i.test(trimmed)) {
+      detectedCode = 'ta';
+      isCodeMixed = true;
+    } else if (/\b(mera|meri|kaise|kya|chahiye|banwana|milega|kab|kahan|bataiye|karna)\b/i.test(trimmed)) {
+      detectedCode = params.preferredLangCode !== 'en' ? params.preferredLangCode : 'hi';
+      isCodeMixed = true;
     }
   }
 
-  const detectedCode = detectScriptLangFallback(params.query, params.preferredLangCode);
-  let englishQuery = params.query;
-  try {
-    const sarvamEn = await sarvamTranslateText({
-      text: params.query,
-      targetLangCode: 'en',
-    });
-    if (sarvamEn) englishQuery = sarvamEn;
-  } catch {
-    // Keep original query
+  let englishQuery = trimmed;
+  if (hasNonAscii || isCodeMixed) {
+    try {
+      const sarvamEn = await Promise.race([
+        sarvamTranslateText({
+          text: trimmed,
+          sourceLangCode: hasNonAscii ? detectedCode : undefined,
+          targetLangCode: 'en',
+        }),
+        new Promise<null>((resolve) => setTimeout(() => resolve(null), 2500)),
+      ]);
+      if (sarvamEn && sarvamEn.trim()) {
+        englishQuery = sarvamEn.trim();
+      }
+    } catch {
+      // Keep original query if translation times out
+    }
   }
+
+  const domainGuess = inferDomainFast(`${trimmed} ${englishQuery}`);
 
   return {
     detectedLanguageCode: detectedCode,
     detectedLanguageName: params.preferredLangName,
-    isCodeMixed: false,
+    isCodeMixed,
     englishSearchQuery: englishQuery,
-    domainGuess: 'general',
+    domainGuess,
   };
 }
 
@@ -194,7 +208,20 @@ export async function generateGroundedAnswerStream(params: {
     similarity: number;
   }>;
   glossaryTerms: Array<{ sourceTerm: string; targetTerm: string }>;
-  availableServices: Array<{ slug: string; title: string; domain: string }>;
+  availableServices: Array<{
+    slug: string;
+    title: string;
+    domain: string;
+    description?: string;
+    requiredDocuments?: string[];
+    estimatedDays?: number;
+  }>;
+  attachedDocument?: {
+    documentId?: number;
+    fileName: string;
+    mimeType: string;
+    base64Data: string;
+  };
   conversationHistory: Array<{ role: 'user' | 'model'; text: string }>;
   onToken: (delta: string) => void;
 }): Promise<{
@@ -204,34 +231,73 @@ export async function generateGroundedAnswerStream(params: {
   citations: CitationItem[];
   suggestedActions: SuggestedActionItem[];
 }> {
-  const ai = getAiClient();
-  const hasSources = params.retrievedChunks.length > 0 && params.retrievedChunks[0].similarity >= 0.38;
+  const hasKbSources =
+    params.retrievedChunks.length > 0 && params.retrievedChunks[0].similarity >= 0.38;
+  const hasAttachment = Boolean(params.attachedDocument?.base64Data);
 
   const glossaryInstruction =
     params.glossaryTerms.length > 0
-      ? `MANDATORY ORGANISATION GLOSSARY (you MUST use these exact target terms when writing in ${params.replyLanguageName}):\n` +
+      ? `MANDATORY ORGANISATION GLOSSARY (use these exact target terms when writing in ${params.replyLanguageName}):\n` +
         params.glossaryTerms.map((g) => `- "${g.sourceTerm}" -> "${g.targetTerm}"`).join('\n')
       : '';
 
-  const sourcesContext = hasSources
+  const sourcesContext = hasKbSources
     ? params.retrievedChunks
+        .filter((c) => c.similarity >= 0.35)
         .map(
           (c, i) =>
-            `[SOURCE ${i + 1} | DocID:${c.documentId} | Title: "${c.documentTitle}" | Page ${c.pageNumber} | Lang: ${c.languageCode} | Match: ${c.similarity.toFixed(2)}]\n${c.content}`
+            `[SOURCE ${i + 1} | DocID:${c.documentId} | Title: "${c.documentTitle}" | Page ${c.pageNumber} | Lang: ${c.languageCode}]\n${c.content}`
         )
         .join('\n\n')
-    : 'NO PUBLISHED KNOWLEDGE BASE DOCUMENTS MATCHED THIS QUERY.';
+    : 'NO INSTITUTION-SPECIFIC CIRCULAR MATCHED IN PUBLISHED KNOWLEDGE BASE.';
 
-  const systemInstruction = `You are Sahayak, a trustworthy multilingual public & institutional service assistant.
+  const servicesContext =
+    params.availableServices.length > 0
+      ? params.availableServices
+          .map(
+            (s) =>
+              `- Service: "${s.title}" (Domain: ${s.domain}, Slug: ${s.slug}${
+                s.estimatedDays ? `, Est. turnaround: ${s.estimatedDays} days` : ''
+              })${s.description ? `\n  Summary: ${s.description}` : ''}${
+                s.requiredDocuments && s.requiredDocuments.length > 0
+                  ? `\n  Required Documents: ${s.requiredDocuments.join(', ')}`
+                  : ''
+              }`
+          )
+          .join('\n')
+      : 'None';
+
+  const systemInstruction = `You are Sahayak, a trustworthy, practical multilingual public & institutional service assistant.
 CRITICAL RULES:
-1. Respond ENTIRELY in ${params.replyLanguageName} (${params.replyLanguageCode}) using its native ${params.replyScript} script, clear plain everyday language, and short bullet points where helpful.
-2. STRICT GROUNDING: Answer ONLY using facts explicitly stated in the PUBLISHED SOURCES provided below. NEVER invent facts, dates, eligibility criteria, fees, phone numbers, or URLs.
-3. If NO PUBLISHED KNOWLEDGE BASE DOCUMENTS MATCHED THIS QUERY, or if the provided sources do not contain the answer to the user's question, state clearly and politely in ${params.replyLanguageName} that there is no verified published document in the knowledge base covering this specific question yet, and offer to connect them with a human support agent or start a service request/grievance.
-4. Keep tone respectful, warm, and accessible for citizens of all literacy levels.
+1. Respond ENTIRELY in ${params.replyLanguageName} (${params.replyLanguageCode}) using its native ${params.replyScript} script. Use clear, warm, everyday language with short numbered steps or bullet points so citizens of any literacy level can follow easily.
+2. SOURCE PRIORITY & HONEST GROUNDING:
+   - If the user attached a document/image in this message, read it carefully and answer their question directly from what is visible in the document, listing key points, required actions, and any dates/deadlines. Never claim an uploaded document is "officially verified" by a government authority.
+   - If PUBLISHED KNOWLEDGE BASE SOURCES are provided below, ground your answer strictly in those official passages.
+   - If the question matches one of the AVAILABLE SAHAYAK SERVICES below, explain the steps, required documents, and estimated processing time from that service template, and mention they can tap "Start application" below to fill the guided form.
+   - If no published circular matched in the knowledge base, STILL HELP THE USER with accurate, practical general public procedure steps (for example, standard official steps to book a train ticket, update bank KYC, apply for certificates, or file a grievance), while briefly noting at the end in 1 short sentence that these are general procedural steps (and never invent specific fees, scheme deadlines, phone numbers, or circular numbers).
+3. Keep formatting clean and readable. Avoid markdown tables or code blocks.
 ${glossaryInstruction}
 
-PUBLISHED SOURCES:
-${sourcesContext}`;
+PUBLISHED KNOWLEDGE BASE SOURCES:
+${sourcesContext}
+
+AVAILABLE SAHAYAK DIGITAL SERVICES:
+${servicesContext}`;
+
+  const userParts: any[] = [];
+  if (hasAttachment && params.attachedDocument) {
+    userParts.push({
+      inlineData: {
+        mimeType: params.attachedDocument.mimeType || 'image/jpeg',
+        data: params.attachedDocument.base64Data.replace(/^data:[^;]+;base64,/, ''),
+      },
+    });
+    userParts.push({
+      text: `Attached file: "${params.attachedDocument.fileName}".\nUser question: ${params.userMessage}`,
+    });
+  } else {
+    userParts.push({ text: params.userMessage });
+  }
 
   const contents = [
     ...params.conversationHistory.slice(-6).map((m) => ({
@@ -240,43 +306,53 @@ ${sourcesContext}`;
     })),
     {
       role: 'user' as const,
-      parts: [{ text: params.userMessage }],
+      parts: userParts,
     },
   ];
 
   let fullText = '';
 
   if (hasGeminiApiKey()) {
-    try {
-      const ai = getAiClient();
-      const stream = await ai.models.generateContentStream({
-        model: 'gemini-3.8-flash',
-        contents,
-        config: {
-          systemInstruction,
-        },
-      });
+    for (const modelName of TEXT_MODELS) {
+      try {
+        const ai = getAiClient();
+        const stream = await ai.models.generateContentStream({
+          model: modelName,
+          contents,
+          config: {
+            systemInstruction,
+          },
+        });
 
-      for await (const chunk of stream) {
-        const c = chunk as GenerateContentResponse;
-        const piece = c.text ?? '';
-        if (piece) {
-          fullText += piece;
-          params.onToken(piece);
+        for await (const chunk of stream) {
+          const c = chunk as GenerateContentResponse;
+          const piece = c.text ?? '';
+          if (piece) {
+            fullText += piece;
+            params.onToken(piece);
+          }
         }
+        if (fullText.trim()) break;
+      } catch {
+        fullText = '';
       }
-    } catch {
-      fullText = '';
     }
   }
 
   if (!fullText.trim()) {
-    const baseGroundedText = hasSources
+    const matchedSvc = params.availableServices[0];
+    const baseGroundedText = hasKbSources
       ? params.retrievedChunks
           .slice(0, 2)
           .map((c) => `${c.documentTitle} (Page ${c.pageNumber}): ${c.content}`)
           .join('\n\n')
-      : 'There is currently no published official document in the knowledge base covering this specific question. You can tap "Talk to a human" below to connect with a support agent, or start a service application or grievance.';
+      : matchedSvc
+        ? `${matchedSvc.title}: ${matchedSvc.description || ''}${
+            matchedSvc.requiredDocuments?.length
+              ? `\n\nSupporting documents: ${matchedSvc.requiredDocuments.join(', ')}.`
+              : ''
+          }\n\nYou can start the guided smart form below or request human support.`
+        : 'We could not reach the AI generation service right now. You can tap "Talk to a human" below to connect with a support agent, browse Services, or file a tracked Grievance.';
 
     let localized = baseGroundedText;
     if (params.replyLanguageCode !== 'en') {
@@ -297,21 +373,40 @@ ${sourcesContext}`;
   }
 
   const topSimilarity = params.retrievedChunks[0]?.similarity ?? 0;
-  const confidence = hasSources ? Math.min(0.98, Math.max(0.45, topSimilarity)) : 0.18;
-  const needsHumanHandover = !hasSources || confidence < 0.52;
+  const confidence = hasAttachment
+    ? 0.92
+    : hasKbSources
+      ? Math.min(0.98, Math.max(0.65, topSimilarity))
+      : 0.78;
 
-  const citations: CitationItem[] = hasSources
-    ? params.retrievedChunks
-        .filter((c) => c.similarity >= 0.38)
-        .slice(0, 3)
-        .map((c) => ({
-          documentId: c.documentId,
-          documentTitle: c.documentTitle,
-          pageNumber: c.pageNumber,
-          snippet: c.content.slice(0, 220),
-          languageCode: c.languageCode,
-        }))
-    : [];
+  // Only auto-escalate to human inbox when the user explicitly asks for a human/agent
+  const explicitHumanRequest =
+    /\b(talk to (a )?human|human agent|support agent|live agent|real person|customer care executive|மனித உதவியாளர்|मानव सहायक)\b/i.test(
+      params.userMessage
+    );
+  const needsHumanHandover = explicitHumanRequest;
+
+  const citations: CitationItem[] = [];
+  if (hasAttachment && params.attachedDocument) {
+    citations.push({
+      documentId: params.attachedDocument.documentId || 0,
+      documentTitle: params.attachedDocument.fileName,
+      pageNumber: 1,
+      snippet: `Uploaded file analyzed directly in conversation (${params.attachedDocument.mimeType})`,
+      languageCode: params.replyLanguageCode,
+    });
+  }
+  if (hasKbSources) {
+    for (const c of params.retrievedChunks.filter((x) => x.similarity >= 0.38).slice(0, 3)) {
+      citations.push({
+        documentId: c.documentId,
+        documentTitle: c.documentTitle,
+        pageNumber: c.pageNumber,
+        snippet: c.content.slice(0, 220),
+        languageCode: c.languageCode,
+      });
+    }
+  }
 
   const suggestedActions: SuggestedActionItem[] = [
     {
@@ -320,11 +415,30 @@ ${sourcesContext}`;
     },
   ];
 
-  if (params.availableServices.length > 0) {
+  // Match best service slug based on keywords or domain
+  const qLower = params.userMessage.toLowerCase();
+  const matchedService =
+    params.availableServices.find(
+      (s) =>
+        qLower.includes(s.domain.replace('_', ' ')) ||
+        s.title
+          .toLowerCase()
+          .split(/\s+/)
+          .some((w) => w.length > 4 && qLower.includes(w))
+    ) || params.availableServices[0];
+
+  if (matchedService) {
     suggestedActions.push({
       type: 'start_application',
       label: 'Start application',
-      serviceSlug: params.availableServices[0].slug,
+      serviceSlug: matchedService.slug,
+    });
+  }
+
+  if (/\b(complaint|grievance|delay|delayed|rejected|issue|problem|dispute|overcharge|wrong|error|குறை|புகார்|शिकायत)\b/i.test(params.userMessage)) {
+    suggestedActions.push({
+      type: 'file_grievance',
+      label: 'File a grievance',
     });
   }
 
@@ -472,55 +586,59 @@ export async function parseDocumentText(params: {
   }
 
   if (params.sourceUrl && !params.base64Data) {
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.8-flash',
-      contents: `Extract the complete factual content, eligibility rules, procedures, FAQs, and notices from ${params.sourceUrl}. Preserve exact numbers, dates, and conditions.`,
-      config: {
-        tools: [{ urlContext: {} }],
-      },
-    });
+    const response = await callTextModelWithFallback((model, ai) =>
+      ai.models.generateContent({
+        model,
+        contents: `Extract the complete factual content, eligibility rules, procedures, FAQs, and notices from ${params.sourceUrl}. Preserve exact numbers, dates, and conditions.`,
+        config: {
+          tools: [{ urlContext: {} }],
+        },
+      })
+    );
     const text = (response.text ?? '').trim();
     return parseDocumentText({ rawText: text });
   }
 
   if (params.base64Data) {
     const cleanBase64 = params.base64Data.replace(/^data:[^;]+;base64,/, '');
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.8-flash',
-      contents: {
-        parts: [
-          {
-            inlineData: {
-              mimeType: params.mimeType || 'application/pdf',
-              data: cleanBase64,
-            },
-          },
-          {
-            text: 'Extract all text from this document page by page with full OCR fidelity in its original script. Return JSON with pages array [{pageNumber, text}].',
-          },
-        ],
-      },
-      config: {
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            pages: {
-              type: Type.ARRAY,
-              items: {
-                type: Type.OBJECT,
-                properties: {
-                  pageNumber: { type: Type.INTEGER },
-                  text: { type: Type.STRING },
-                },
-                required: ['pageNumber', 'text'],
+    const response = await callTextModelWithFallback((model, ai) =>
+      ai.models.generateContent({
+        model,
+        contents: {
+          parts: [
+            {
+              inlineData: {
+                mimeType: params.mimeType || 'application/pdf',
+                data: cleanBase64,
               },
             },
-          },
-          required: ['pages'],
+            {
+              text: 'Extract all text from this document page by page with full OCR fidelity in its original script. Return JSON with pages array [{pageNumber, text}].',
+            },
+          ],
         },
-      },
-    });
+        config: {
+          responseMimeType: 'application/json',
+          responseSchema: {
+            type: Type.OBJECT,
+            properties: {
+              pages: {
+                type: Type.ARRAY,
+                items: {
+                  type: Type.OBJECT,
+                  properties: {
+                    pageNumber: { type: Type.INTEGER },
+                    text: { type: Type.STRING },
+                  },
+                  required: ['pageNumber', 'text'],
+                },
+              },
+            },
+            required: ['pages'],
+          },
+        },
+      })
+    );
     const parsed = JSON.parse((response.text ?? '{"pages":[]}').trim());
     const pages: Array<{ pageNumber: number; text: string }> = parsed.pages || [];
     return {
@@ -576,40 +694,42 @@ ${glossaryNote}
 Never invent details not present in the document. If a response/payment/submission deadline date is mentioned in the document, return it in YYYY-MM-DD format in detectedDeadlineIso (otherwise empty string).`,
     });
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.8-flash',
-      contents: { parts },
-      config: {
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            ocrText: { type: Type.STRING },
-            senderOrAuthority: { type: Type.STRING },
-            plainSummary: { type: Type.STRING },
-            whatYouNeedToDo: {
-              type: Type.ARRAY,
-              items: { type: Type.STRING },
+    const response = await callTextModelWithFallback((model, ai) =>
+      ai.models.generateContent({
+        model,
+        contents: { parts },
+        config: {
+          responseMimeType: 'application/json',
+          responseSchema: {
+            type: Type.OBJECT,
+            properties: {
+              ocrText: { type: Type.STRING },
+              senderOrAuthority: { type: Type.STRING },
+              plainSummary: { type: Type.STRING },
+              whatYouNeedToDo: {
+                type: Type.ARRAY,
+                items: { type: Type.STRING },
+              },
+              detectedDeadlineIso: { type: Type.STRING },
+              deadlineLabel: { type: Type.STRING },
+              referenceNumbers: {
+                type: Type.ARRAY,
+                items: { type: Type.STRING },
+              },
             },
-            detectedDeadlineIso: { type: Type.STRING },
-            deadlineLabel: { type: Type.STRING },
-            referenceNumbers: {
-              type: Type.ARRAY,
-              items: { type: Type.STRING },
-            },
+            required: [
+              'ocrText',
+              'senderOrAuthority',
+              'plainSummary',
+              'whatYouNeedToDo',
+              'detectedDeadlineIso',
+              'deadlineLabel',
+              'referenceNumbers',
+            ],
           },
-          required: [
-            'ocrText',
-            'senderOrAuthority',
-            'plainSummary',
-            'whatYouNeedToDo',
-            'detectedDeadlineIso',
-            'deadlineLabel',
-            'referenceNumbers',
-          ],
         },
-      },
-    });
+      })
+    );
 
     const parsed = JSON.parse((response.text ?? '{}').trim());
     return {
@@ -671,43 +791,45 @@ export async function extractFormFieldsFromDocument(params: {
     )
     .join('\n');
 
-  const response = await ai.models.generateContent({
-    model: 'gemini-3.8-flash',
-    contents: {
-      parts: [
-        {
-          inlineData: {
-            mimeType: params.mimeType || 'image/jpeg',
-            data: cleanBase64,
-          },
-        },
-        {
-          text: `Extract ONLY factual values clearly visible in this uploaded document that match the target form fields below. Do NOT guess or fabricate missing fields — omit any field not visible in the document. Format dates as YYYY-MM-DD.\n\nTarget Fields:\n${fieldDescriptions}`,
-        },
-      ],
-    },
-    config: {
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: Type.OBJECT,
-        properties: {
-          documentSummary: { type: Type.STRING },
-          items: {
-            type: Type.ARRAY,
-            items: {
-              type: Type.OBJECT,
-              properties: {
-                key: { type: Type.STRING },
-                value: { type: Type.STRING },
-              },
-              required: ['key', 'value'],
+  const response = await callTextModelWithFallback((model, ai) =>
+    ai.models.generateContent({
+      model,
+      contents: {
+        parts: [
+          {
+            inlineData: {
+              mimeType: params.mimeType || 'image/jpeg',
+              data: cleanBase64,
             },
           },
-        },
-        required: ['documentSummary', 'items'],
+          {
+            text: `Extract ONLY factual values clearly visible in this uploaded document that match the target form fields below. Do NOT guess or fabricate missing fields — omit any field not visible in the document. Format dates as YYYY-MM-DD.\n\nTarget Fields:\n${fieldDescriptions}`,
+          },
+        ],
       },
-    },
-  });
+      config: {
+        responseMimeType: 'application/json',
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            documentSummary: { type: Type.STRING },
+            items: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  key: { type: Type.STRING },
+                  value: { type: Type.STRING },
+                },
+                required: ['key', 'value'],
+              },
+            },
+          },
+          required: ['documentSummary', 'items'],
+        },
+      },
+    })
+  );
 
   const parsed = JSON.parse((response.text ?? '{"documentSummary":"","items":[]}').trim());
   const extractedValues: Record<string, string> = {};
@@ -760,30 +882,32 @@ export async function translateUiStringsBatch(params: {
           .join(', ')}.`
       : '';
 
-  const response = await ai.models.generateContent({
-    model: 'gemini-3.8-flash',
-    contents: `Translate the following UI interface strings from English into natural, accessible ${params.targetLangName} (${params.nativeName}, BCP-47: ${params.targetLangCode}, Script: ${params.script}). Keep button and navigation labels concise (1-3 words where short in English). Keep "Sahayak" transliterated naturally in ${params.script}.\n${glossaryText}\n\nInput JSON:\n${JSON.stringify(params.sourceMap)}`,
-    config: {
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: Type.OBJECT,
-        properties: {
-          translations: {
-            type: Type.ARRAY,
-            items: {
-              type: Type.OBJECT,
-              properties: {
-                key: { type: Type.STRING },
-                value: { type: Type.STRING },
+  const response = await callTextModelWithFallback((model, ai) =>
+    ai.models.generateContent({
+      model,
+      contents: `Translate the following UI interface strings from English into natural, accessible ${params.targetLangName} (${params.nativeName}, BCP-47: ${params.targetLangCode}, Script: ${params.script}). Keep button and navigation labels concise (1-3 words where short in English). Keep "Sahayak" transliterated naturally in ${params.script}.\n${glossaryText}\n\nInput JSON:\n${JSON.stringify(params.sourceMap)}`,
+      config: {
+        responseMimeType: 'application/json',
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            translations: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  key: { type: Type.STRING },
+                  value: { type: Type.STRING },
+                },
+                required: ['key', 'value'],
               },
-              required: ['key', 'value'],
             },
           },
+          required: ['translations'],
         },
-        required: ['translations'],
       },
-    },
-  });
+    })
+  );
 
   const parsed = JSON.parse((response.text ?? '{"translations":[]}').trim());
   const out: Record<string, string> = {};
@@ -821,17 +945,18 @@ export async function translateTextWithGlossary(params: {
     return params.text.trim();
   }
 
-  const ai = getAiClient();
   const glossaryNote =
     params.glossaryTerms.length > 0
       ? `Mandatory glossary: ${params.glossaryTerms
           .map((g) => `"${g.sourceTerm}"="${g.targetTerm}"`)
           .join(', ')}.`
       : '';
-  const response = await ai.models.generateContent({
-    model: 'gemini-3.8-flash',
-    contents: `Translate the following message accurately and politely into ${params.targetLangName} (${params.targetLangCode}). ${glossaryNote} Return ONLY the translated text.\n\nMessage:\n${params.text}`,
-  });
+  const response = await callTextModelWithFallback((model, ai) =>
+    ai.models.generateContent({
+      model,
+      contents: `Translate the following message accurately and politely into ${params.targetLangName} (${params.targetLangCode}). ${glossaryNote} Return ONLY the translated text.\n\nMessage:\n${params.text}`,
+    })
+  );
   return (response.text ?? params.text).trim();
 }
 
@@ -848,24 +973,25 @@ export async function classifyAndNormalizeGrievance(params: {
 }> {
   if (hasGeminiApiKey()) {
     try {
-      const ai = getAiClient();
-      const response = await ai.models.generateContent({
-        model: 'gemini-3.8-flash',
-        contents: `Classify this citizen grievance for routing.\nDomain: ${params.domain}\nCategory: ${params.category}\nLanguage: ${params.languageCode}\nDescription: "${params.description}"\nReturn an English summary/translation for support staff, priority (low, normal, high, urgent), recommended department queue name, and SLA hours (24 for urgent, 48 for high, 72 for normal, 120 for low).`,
-        config: {
-          responseMimeType: 'application/json',
-          responseSchema: {
-            type: Type.OBJECT,
-            properties: {
-              englishTranslation: { type: Type.STRING },
-              priority: { type: Type.STRING },
-              assignedDepartment: { type: Type.STRING },
-              slaHours: { type: Type.INTEGER },
+      const response = await callTextModelWithFallback((model, ai) =>
+        ai.models.generateContent({
+          model,
+          contents: `Classify this citizen grievance for routing.\nDomain: ${params.domain}\nCategory: ${params.category}\nLanguage: ${params.languageCode}\nDescription: "${params.description}"\nReturn an English summary/translation for support staff, priority (low, normal, high, urgent), recommended department queue name, and SLA hours (24 for urgent, 48 for high, 72 for normal, 120 for low).`,
+          config: {
+            responseMimeType: 'application/json',
+            responseSchema: {
+              type: Type.OBJECT,
+              properties: {
+                englishTranslation: { type: Type.STRING },
+                priority: { type: Type.STRING },
+                assignedDepartment: { type: Type.STRING },
+                slaHours: { type: Type.INTEGER },
+              },
+              required: ['englishTranslation', 'priority', 'assignedDepartment', 'slaHours'],
             },
-            required: ['englishTranslation', 'priority', 'assignedDepartment', 'slaHours'],
           },
-        },
-      });
+        })
+      );
 
       const parsed = JSON.parse((response.text ?? '{}').trim());
       const validPriority = ['low', 'normal', 'high', 'urgent'].includes(parsed.priority)

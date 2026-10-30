@@ -1,4 +1,4 @@
-import { Server as HttpServer } from 'http';
+import type { Server as HttpServer } from 'http';
 import { WebSocketServer, WebSocket } from 'ws';
 
 export interface RealtimeEvent {
@@ -24,7 +24,22 @@ class RealtimeHub {
   private clients = new Set<ClientMeta>();
 
   attach(server: HttpServer) {
-    this.wss = new WebSocketServer({ server, path: '/ws' });
+    // Use noServer: true so non-/ws upgrade requests (e.g., Vite HMR sockets) are never aborted
+    this.wss = new WebSocketServer({ noServer: true });
+
+    server.on('upgrade', (req, socket, head) => {
+      try {
+        const pathname = new URL(req.url || '/', 'http://localhost').pathname;
+        if (pathname !== '/ws' || !this.wss) {
+          return;
+        }
+        this.wss.handleUpgrade(req, socket, head, (ws) => {
+          this.wss?.emit('connection', ws, req);
+        });
+      } catch {
+        // Ignore malformed upgrade URLs
+      }
+    });
 
     this.wss.on('connection', (ws) => {
       const meta: ClientMeta = {

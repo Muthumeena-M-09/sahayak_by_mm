@@ -5,6 +5,8 @@ import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig(() => {
+  const port = Number.parseInt(process.env.PORT || '3000', 10) || 3000;
+
   return {
     plugins: [
       react(),
@@ -24,8 +26,8 @@ export default defineConfig(() => {
           short_name: 'Sahayak',
           description:
             'Multilingual AI assistance, document explanation, form filling, grievance support, and status tracking in 23 languages.',
-          theme_color: '#12544F',
-          background_color: '#EFE9E3',
+          theme_color: '#898AC4',
+          background_color: '#F6E7BC',
           display: 'standalone',
           start_url: '/',
           scope: '/',
@@ -111,11 +113,21 @@ export default defineConfig(() => {
       },
     },
     server: {
+      host: '0.0.0.0',
+      port,
+      strictPort: true,
+      allowedHosts: true as const,
       // HMR is disabled in AI Studio via DISABLE_HMR env var.
       // Do not modify—file watching is disabled to prevent flickering during agent edits.
       hmr: process.env.DISABLE_HMR !== 'true',
       // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
+    },
+    preview: {
+      host: '0.0.0.0',
+      port,
+      strictPort: true,
+      allowedHosts: true as const,
     },
   };
 });

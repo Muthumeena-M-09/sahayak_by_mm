@@ -122,7 +122,7 @@ const AdminSignInGate: React.FC<{ onBackToCitizen: () => void }> = ({ onBackToCi
       if (!res.ok) throw new Error(data.error || 'Could not send verification code.');
       setOtpSent(true);
       setResendTimer(30);
-      setSandboxOtp(data.sandboxOtpPreview || null);
+      setSandboxOtp(data.sandboxVerificationCode || data.sandboxOtpPreview || null);
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to send verification code.');
     } finally {
@@ -152,7 +152,11 @@ const AdminSignInGate: React.FC<{ onBackToCitizen: () => void }> = ({ onBackToCi
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Verification failed.');
-      completeOtpOrGuestSession(data.token, data.profile, data.roles || ['citizen']);
+      completeOtpOrGuestSession(
+        data.sessionToken || data.token,
+        data.profile,
+        data.roles || ['citizen']
+      );
     } catch (err: any) {
       setErrorMsg(err.message || 'Invalid verification code.');
     } finally {
@@ -180,9 +184,9 @@ const AdminSignInGate: React.FC<{ onBackToCitizen: () => void }> = ({ onBackToCi
         <button
           type="button"
           onClick={onBackToCitizen}
-          className="min-h-12 px-4 rounded-xl border border-hairline bg-card text-body text-sm font-semibold flex items-center gap-2 hover:bg-tint"
+          className="min-h-11 px-4 rounded-xl bg-secondary text-on-secondary border border-strong hover:bg-secondary-hover text-sm font-semibold flex items-center gap-2 transition-colors"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-4 h-4 rtl:rotate-180" />
           <span>{t('admin.back_to_app')}</span>
         </button>
         <div className="font-display font-bold text-lg text-body">Sahayak · {t('admin.title')}</div>
@@ -3186,6 +3190,7 @@ export const AdminConsole: React.FC<{ onBackToCitizen: () => void }> = ({ onBack
   }, [roles]);
 
   const [activeSection, setActiveSection] = useState<AdminSection>('kb');
+  const [sectionHistory, setSectionHistory] = useState<AdminSection[]>([]);
 
   useEffect(() => {
     if (navItems.length > 0 && !navItems.some((n) => n.id === activeSection)) {
@@ -3193,11 +3198,35 @@ export const AdminConsole: React.FC<{ onBackToCitizen: () => void }> = ({ onBack
     }
   }, [navItems, activeSection]);
 
+  const navigateAdminSection = (nextSection: AdminSection) => {
+    if (nextSection !== activeSection) {
+      setSectionHistory((prev) => [...prev.slice(-24), activeSection]);
+    }
+    setActiveSection(nextSection);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleAdminBack = () => {
+    if (sectionHistory.length > 0) {
+      const prev = sectionHistory[sectionHistory.length - 1];
+      setSectionHistory((s) => s.slice(0, -1));
+      setActiveSection(prev);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    onBackToCitizen();
+  };
+
   if (!isAdminOrStaff) {
     return <AdminSignInGate onBackToCitizen={onBackToCitizen} />;
   }
 
   const canEditKb = roles.includes('admin') || roles.includes('content_editor');
+  const previousAdminLabel =
+    sectionHistory.length > 0
+      ? navItems.find((n) => n.id === sectionHistory[sectionHistory.length - 1])?.label ||
+        t('common.back')
+      : t('admin.back_to_app');
 
   return (
     <div className="min-h-screen bg-canvas text-body flex">
@@ -3205,7 +3234,7 @@ export const AdminConsole: React.FC<{ onBackToCitizen: () => void }> = ({ onBack
       <aside className="hidden xl:flex xl:w-64 xl:flex-col xl:shrink-0 bg-card border-e border-hairline justify-between p-4">
         <div className="space-y-6">
           <div className="px-3 py-2">
-            <div className="font-display text-xl font-bold text-body">Sahayak</div>
+            <div className="font-display text-xl font-bold text-primary">Sahayak</div>
             <div className="text-xs text-muted font-mono mt-0.5">
               {t('admin.title')} · {roles.filter((r) => r !== 'citizen').join(', ')}
             </div>
@@ -3219,7 +3248,7 @@ export const AdminConsole: React.FC<{ onBackToCitizen: () => void }> = ({ onBack
                 <button
                   key={item.id}
                   type="button"
-                  onClick={() => setActiveSection(item.id)}
+                  onClick={() => navigateAdminSection(item.id)}
                   className={`w-full min-h-12 px-3.5 rounded-xl flex items-center gap-3 text-sm font-medium transition-colors ${
                     active ? 'bg-primary text-on-primary' : 'text-body hover:bg-tint/50'
                   }`}
@@ -3236,9 +3265,9 @@ export const AdminConsole: React.FC<{ onBackToCitizen: () => void }> = ({ onBack
           <button
             type="button"
             onClick={onBackToCitizen}
-            className="w-full min-h-12 px-3.5 rounded-xl border border-strong bg-elevated text-body text-sm font-semibold flex items-center gap-2.5 hover:bg-tint"
+            className="w-full min-h-12 px-3.5 rounded-xl bg-secondary text-on-secondary border border-strong text-sm font-semibold flex items-center gap-2.5 hover:bg-secondary-hover transition-colors"
           >
-            <ArrowLeft className="w-4 h-4 shrink-0" />
+            <ArrowLeft className="w-4 h-4 rtl:rotate-180 shrink-0" />
             <span>{t('admin.back_to_app')}</span>
           </button>
         </div>
@@ -3247,21 +3276,35 @@ export const AdminConsole: React.FC<{ onBackToCitizen: () => void }> = ({ onBack
       {/* Main Content Area */}
       <div className="flex-1 min-w-0 flex flex-col">
         <header className="h-16 px-4 sm:px-8 bg-card border-b border-hairline flex items-center justify-between gap-4 sticky top-0 z-30">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 min-w-0">
             <button
               type="button"
               onClick={() => setMobileMenuOpen(true)}
               aria-label="Open admin navigation"
-              className="xl:hidden min-h-11 min-w-11 rounded-xl border border-hairline bg-elevated text-body flex items-center justify-center"
+              className="xl:hidden min-h-11 min-w-11 rounded-xl border border-hairline bg-elevated text-body flex items-center justify-center shrink-0"
             >
               <Menu className="w-5 h-5" />
             </button>
+
+            <button
+              type="button"
+              onClick={handleAdminBack}
+              aria-label={`${t('common.back')} · ${previousAdminLabel}`}
+              className="min-h-11 px-3 rounded-xl bg-secondary text-on-secondary border border-strong hover:bg-secondary-hover text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0"
+            >
+              <ArrowLeft className="w-4 h-4 rtl:rotate-180 shrink-0" />
+              <span>{t('common.back')}</span>
+              <span className="hidden md:inline text-muted font-normal max-w-[160px] truncate">
+                · {previousAdminLabel}
+              </span>
+            </button>
+
             <div className="font-display font-bold text-base sm:text-lg text-body truncate">
               {navItems.find((n) => n.id === activeSection)?.label || t('admin.title')}
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2.5 shrink-0">
             <span className="hidden md:inline text-xs text-muted font-mono truncate max-w-[200px]">
               {profile?.email || profile?.phone}
             </span>
@@ -3312,7 +3355,7 @@ export const AdminConsole: React.FC<{ onBackToCitizen: () => void }> = ({ onBack
                 key={item.id}
                 type="button"
                 onClick={() => {
-                  setActiveSection(item.id);
+                  navigateAdminSection(item.id);
                   setMobileMenuOpen(false);
                 }}
                 className={`w-full min-h-12 px-4 rounded-xl flex items-center gap-3 text-sm font-semibold ${

@@ -1,0 +1,22 @@
+steps:
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - '${_SERVICE_NAME}'
+      - '--source=.'
+      - '--region=${_REGION}'
+      - '--port=3000'
+      - '--timeout=300s'
+      - '--cpu-boost'
+      - '--set-env-vars=NODE_ENV=production,STARTUP_TIMEOUT_MS=120000'
+      - '--startup-probe=httpGet.path=/healthz,httpGet.port=3000,initialDelaySeconds=5,periodSeconds=10,timeoutSeconds=10,failureThreshold=24'
+      - '--liveness-probe=httpGet.path=/healthz,httpGet.port=3000,initialDelaySeconds=15,periodSeconds=30,timeoutSeconds=10,failureThreshold=3'
+      - '--allow-unauthenticated'
+substitutions:
+  _SERVICE_NAME: 'sahayak'
+  _REGION: 'asia-southeast1'
+options:
+  logging: CLOUD_LOGGING_ONLY
+timeout: '1200s'

@@ -890,6 +890,8 @@ export const CitizenSettingsScreen: React.FC = () => {
     apiFetch,
     logout,
     signInWithGooglePopup,
+    accentPalette,
+    setAccentPalette,
   } = useApp();
 
   const [langSheetOpen, setLangSheetOpen] = useState(false);
@@ -1047,6 +1049,43 @@ export const CitizenSettingsScreen: React.FC = () => {
                     : t('settings.theme_dark')}
               </button>
             ))}
+          </div>
+        </div>
+
+        {/* Main Color Palette (#898AC4 Default vs #C1785A Alternative) */}
+        <div className="space-y-2.5 pb-6 border-b border-hairline">
+          <div className="font-semibold text-body">Main Color</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <button
+              type="button"
+              onClick={() => setAccentPalette('periwinkle')}
+              className={`min-h-12 px-4 rounded-xl border text-sm font-medium flex items-center justify-between gap-3 ${
+                accentPalette === 'periwinkle'
+                  ? 'bg-primary text-on-primary border-primary font-semibold'
+                  : 'bg-elevated border-hairline text-body'
+              }`}
+            >
+              <span className="truncate">Periwinkle · #898AC4</span>
+              <span
+                aria-hidden="true"
+                className="w-5 h-5 rounded-md border border-black/15 bg-[#898AC4] shrink-0"
+              />
+            </button>
+            <button
+              type="button"
+              onClick={() => setAccentPalette('terracotta')}
+              className={`min-h-12 px-4 rounded-xl border text-sm font-medium flex items-center justify-between gap-3 ${
+                accentPalette === 'terracotta'
+                  ? 'bg-primary text-on-primary border-primary font-semibold'
+                  : 'bg-elevated border-hairline text-body'
+              }`}
+            >
+              <span className="truncate">Terracotta · #C1785A</span>
+              <span
+                aria-hidden="true"
+                className="w-5 h-5 rounded-md border border-black/15 bg-[#C1785A] shrink-0"
+              />
+            </button>
           </div>
         </div>
 

@@ -1,9 +1,12 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
-import { Pool } from 'pg';
+import pg from 'pg';
+import type { Pool as PgPool } from 'pg';
 import * as schema from './schema.ts';
 
+const { Pool } = pg;
+
 declare global {
-  var _postgresPool: Pool | undefined;
+  var _postgresPool: PgPool | undefined;
 }
 
 export const createPool = () => {
@@ -14,7 +17,9 @@ export const createPool = () => {
       password: process.env.SQL_PASSWORD,
       database: process.env.SQL_DB_NAME,
       max: 10,
-      connectionTimeoutMillis: 15000,
+      connectionTimeoutMillis: 30000,
+      idleTimeoutMillis: 30000,
+      keepAlive: true,
     });
 
     global._postgresPool.on('error', (err) => {

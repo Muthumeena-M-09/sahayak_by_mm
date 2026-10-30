@@ -157,7 +157,7 @@ export const CitizenHomeScreen: React.FC<{
               className={`min-h-16 px-6 py-4 rounded-2xl font-display text-lg font-bold flex items-center justify-center gap-3 transition-transform active:scale-[0.99] shrink-0 ${
                 voice.isRecording
                   ? 'bg-danger text-on-danger'
-                  : 'bg-voice text-on-voice hover:bg-voice-hover'
+                  : 'bg-secondary text-on-secondary border border-strong hover:bg-secondary-hover'
               }`}
             >
               {voice.isRecording ? (
@@ -652,9 +652,10 @@ export const SmartFormScreen: React.FC<{
           <button
             type="button"
             onClick={onBack}
-            className="min-h-12 px-4 rounded-xl border border-hairline bg-elevated text-body font-medium"
+            className="min-h-12 px-4 rounded-xl bg-secondary text-on-secondary border border-strong hover:bg-secondary-hover font-medium flex items-center gap-2"
           >
-            {t('form.back_services')}
+            <ArrowLeft className="w-4 h-4 rtl:rotate-180" />
+            <span>{t('common.back')}</span>
           </button>
         </div>
       </div>
@@ -663,15 +664,6 @@ export const SmartFormScreen: React.FC<{
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
-      <button
-        type="button"
-        onClick={onBack}
-        className="min-h-11 px-3 rounded-xl text-sm font-medium text-body hover:bg-tint inline-flex items-center gap-2"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        <span>{t('form.back_services')}</span>
-      </button>
-
       <div className="bg-card border border-hairline rounded-2xl p-6 sm:p-8 space-y-6">
         <div className="space-y-2">
           <div className="flex items-center justify-between text-xs font-medium text-muted">

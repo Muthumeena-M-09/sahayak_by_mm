@@ -49,6 +49,8 @@ interface AppContextValue {
 
   network: ReturnType<typeof useNetworkAndOfflineQueue>;
   subscribeRealtime: (cb: (event: { type: string; payload: any }) => void) => () => void;
+  accentPalette: 'periwinkle' | 'terracotta';
+  setAccentPalette: (next: 'periwinkle' | 'terracotta') => void;
 }
 
 const AppContext = createContext<AppContextValue | null>(null);
@@ -84,6 +86,19 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const network = useNetworkAndOfflineQueue();
   const listenersRef = useRef<RealtimeListener[]>([]);
+  const [accentPalette, setAccentPaletteState] = useState<'periwinkle' | 'terracotta'>(() => {
+    if (typeof window === 'undefined') return 'periwinkle';
+    return window.localStorage.getItem('sahayak_accent_palette') === 'terracotta'
+      ? 'terracotta'
+      : 'periwinkle';
+  });
+
+  const setAccentPalette = useCallback((next: 'periwinkle' | 'terracotta') => {
+    setAccentPaletteState(next);
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('sahayak_accent_palette', next);
+    }
+  }, []);
 
   const suggestedDeviceLangCode = useMemo(() => {
     if (typeof navigator === 'undefined') return null;
@@ -185,6 +200,19 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return () => mq.removeEventListener('change', applyTheme);
   }, [profile?.textSizeLevel, profile?.theme]);
 
+  useEffect(() => {
+    const html = document.documentElement;
+    if (accentPalette === 'terracotta') {
+      html.setAttribute('data-palette', 'terracotta');
+    } else {
+      html.removeAttribute('data-palette');
+    }
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    if (metaTheme) {
+      metaTheme.setAttribute('content', accentPalette === 'terracotta' ? '#C1785A' : '#898AC4');
+    }
+  }, [accentPalette]);
+
   const apiFetch = useCallback(async <T = any,>(url: string, init: RequestInit = {}): Promise<T> => {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
@@ -201,28 +229,34 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return data as T;
   }, []);
 
-  // Listen to Firebase Auth state changes
+  // Listen to Firebase Auth state changes (in-memory only; immediately exchange for backend session)
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (fbUser) => {
-      if (fbUser) {
+      if (fbUser && !authTokenRef.current?.startsWith('sahayak_session_')) {
         try {
-          const idToken = await fbUser.getIdToken();
-          authTokenRef.current = idToken;
-          setAuthToken(idToken);
+          const idToken = await fbUser.getIdToken(false);
           const me = await fetch('/api/me', {
             headers: { Authorization: `Bearer ${idToken}` },
           });
           if (me.ok) {
             const data = await me.json();
+            const activeToken = data.sessionToken || idToken;
+            authTokenRef.current = activeToken;
+            setAuthToken(activeToken);
             setProfile(data.profile);
             setRoles(data.roles || ['citizen']);
             if (data.profile?.preferredLanguage) {
               setLangCode(data.profile.preferredLanguage);
               setHasChosenLanguage(true);
             }
+            if (data.sessionToken) {
+              // Detach Firebase background STS refresh timer once backend session is active
+              await signOut(auth).catch(() => {});
+            }
           }
-        } catch (err) {
-          console.error('Firebase token sync error:', err);
+        } catch {
+          // If STS refresh API is unavailable or token expired, silently sign out Firebase user
+          await signOut(auth).catch(() => {});
         }
       }
       setIsAuthReady(true);
@@ -232,9 +266,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const signInWithGooglePopup = useCallback(async () => {
     const cred = await signInWithPopup(auth, googleAuthProvider);
-    const idToken = await cred.user.getIdToken();
-    authTokenRef.current = idToken;
-    setAuthToken(idToken);
+    const idToken =
+      (await cred.user.getIdToken(false).catch(() => null)) ||
+      (cred as any)?._tokenResponse?.idToken;
+    if (!idToken) {
+      throw new Error('Could not retrieve authentication token from Google Sign-In.');
+    }
     const res = await fetch('/api/me', {
       headers: { Authorization: `Bearer ${idToken}` },
     });
@@ -243,13 +280,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       throw new Error(err.error || 'Failed to verify Google account.');
     }
     const data = await res.json();
+    const activeToken = data.sessionToken || idToken;
+    authTokenRef.current = activeToken;
+    setAuthToken(activeToken);
+
+    if (data.sessionToken) {
+      // Detach Firebase background STS refresh timer now that server session is issued
+      await signOut(auth).catch(() => {});
+    }
+
     // Persist user's chosen language if they picked one right before signing in
     if (hasChosenLanguage && langCode && data.profile?.preferredLanguage !== langCode) {
       const patchRes = await fetch('/api/me', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${idToken}`,
+          Authorization: `Bearer ${activeToken}`,
         },
         body: JSON.stringify({ preferredLanguage: langCode }),
       });
@@ -390,7 +436,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return () => {
       closedIntentionally = true;
       if (reconnectTimer) clearTimeout(reconnectTimer);
-      ws?.close();
+      if (ws) {
+        if (ws.readyState === WebSocket.CONNECTING) {
+          const pendingWs = ws;
+          pendingWs.onopen = () => pendingWs.close();
+          pendingWs.onerror = () => {};
+        } else if (ws.readyState === WebSocket.OPEN) {
+          ws.close();
+        }
+      }
     };
   }, [profile?.uid, roles]);
 
@@ -499,6 +553,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     refreshLanguages,
     network,
     subscribeRealtime,
+    accentPalette,
+    setAccentPalette,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

@@ -175,51 +175,123 @@ export function useNetworkAndOfflineQueue() {
 
 export function useVoiceAudio(voiceSpeed = 1.0) {
   const [isRecording, setIsRecording] = useState(false);
+  const [recordingSeconds, setRecordingSeconds] = useState(0);
   const [isPlayingTts, setIsPlayingTts] = useState(false);
+  const [playingId, setPlayingId] = useState<string | number | null>(null);
+  const [loadingTtsId, setLoadingTtsId] = useState<string | number | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const startRecording = useCallback(async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    chunksRef.current = [];
-    const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
-      ? 'audio/webm;codecs=opus'
-      : 'audio/webm';
-    const recorder = new MediaRecorder(stream, { mimeType });
-    recorder.ondataavailable = (e) => {
-      if (e.data.size > 0) chunksRef.current.push(e.data);
-    };
-    mediaRecorderRef.current = recorder;
-    recorder.start();
-    setIsRecording(true);
+  const clearTimer = useCallback(() => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
   }, []);
 
+  useEffect(() => {
+    return () => {
+      clearTimer();
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+        mediaRecorderRef.current.stream.getTracks().forEach((t) => t.stop());
+      }
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+    };
+  }, [clearTimer]);
+
+  const startRecording = useCallback(async () => {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      throw new Error('Microphone recording is not supported in this browser.');
+    }
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    chunksRef.current = [];
+
+    const candidateTypes = [
+      'audio/webm;codecs=opus',
+      'audio/webm',
+      'audio/mp4',
+      'audio/ogg;codecs=opus',
+      'audio/ogg',
+    ];
+    let selectedMime = '';
+    if (typeof MediaRecorder !== 'undefined' && typeof MediaRecorder.isTypeSupported === 'function') {
+      selectedMime = candidateTypes.find((t) => MediaRecorder.isTypeSupported(t)) || '';
+    }
+
+    const recorder = selectedMime
+      ? new MediaRecorder(stream, { mimeType: selectedMime })
+      : new MediaRecorder(stream);
+
+    recorder.ondataavailable = (e) => {
+      if (e.data && e.data.size > 0) chunksRef.current.push(e.data);
+    };
+    mediaRecorderRef.current = recorder;
+    recorder.start(250);
+    setRecordingSeconds(0);
+    setIsRecording(true);
+    clearTimer();
+    timerRef.current = setInterval(() => {
+      setRecordingSeconds((s) => s + 1);
+    }, 1000);
+  }, [clearTimer]);
+
+  const cancelRecording = useCallback(() => {
+    clearTimer();
+    const recorder = mediaRecorderRef.current;
+    if (recorder) {
+      recorder.onstop = null;
+      if (recorder.state !== 'inactive') {
+        try {
+          recorder.stop();
+        } catch {
+          // Ignore stop errors
+        }
+      }
+      recorder.stream.getTracks().forEach((t) => t.stop());
+      mediaRecorderRef.current = null;
+    }
+    chunksRef.current = [];
+    setIsRecording(false);
+    setRecordingSeconds(0);
+  }, [clearTimer]);
+
   const stopRecording = useCallback((): Promise<{ base64Audio: string; mimeType: string }> => {
+    clearTimer();
     return new Promise((resolve, reject) => {
       const recorder = mediaRecorderRef.current;
-      if (!recorder) {
+      if (!recorder || recorder.state === 'inactive') {
         setIsRecording(false);
+        setRecordingSeconds(0);
         return reject(new Error('No active recording.'));
       }
       recorder.onstop = () => {
         const mimeType = recorder.mimeType || 'audio/webm';
         const blob = new Blob(chunksRef.current, { type: mimeType });
         recorder.stream.getTracks().forEach((t) => t.stop());
+        mediaRecorderRef.current = null;
         setIsRecording(false);
+        setRecordingSeconds(0);
+
+        if (blob.size === 0) {
+          return reject(new Error('Recorded audio was empty. Please speak for at least 1 second.'));
+        }
 
         const reader = new FileReader();
         reader.onloadend = () => {
           const result = String(reader.result || '');
           const base64Audio = result.includes(',') ? result.split(',')[1] : result;
-          resolve({ base64Audio, mimeType: mimeType.split(';')[0] });
+          resolve({ base64Audio, mimeType: mimeType.split(';')[0] || 'audio/webm' });
         };
         reader.onerror = () => reject(new Error('Failed to read recorded audio.'));
         reader.readAsDataURL(blob);
       };
       recorder.stop();
     });
-  }, []);
+  }, [clearTimer]);
 
   const stopPlayback = useCallback(() => {
     if (audioRef.current) {
@@ -230,18 +302,28 @@ export function useVoiceAudio(voiceSpeed = 1.0) {
       window.speechSynthesis.cancel();
     }
     setIsPlayingTts(false);
+    setPlayingId(null);
+    setLoadingTtsId(null);
   }, []);
 
   const playServerTts = useCallback(
     async (params: {
+      id?: string | number;
       text: string;
       languageName: string;
       localeCode: string;
       languageCode?: string;
       authToken?: string | null;
     }) => {
+      const targetId = params.id ?? 'default';
+      if ((playingId === targetId && isPlayingTts) || loadingTtsId === targetId) {
+        stopPlayback();
+        return;
+      }
+
       stopPlayback();
-      setIsPlayingTts(true);
+      setLoadingTtsId(targetId);
+
       try {
         const endpoint = params.authToken ? '/api/voice/tts' : '/api/public/tts';
         const headers: Record<string, string> = { 'Content-Type': 'application/json' };
@@ -263,30 +345,52 @@ export function useVoiceAudio(voiceSpeed = 1.0) {
         const audio = new Audio(`data:${data.mimeType || 'audio/wav'};base64,${data.audioBase64}`);
         audio.playbackRate = Math.min(2.0, Math.max(0.6, voiceSpeed));
         audioRef.current = audio;
-        audio.onended = () => setIsPlayingTts(false);
-        audio.onerror = () => setIsPlayingTts(false);
+        setLoadingTtsId(null);
+        setPlayingId(targetId);
+        setIsPlayingTts(true);
+        audio.onended = () => {
+          setIsPlayingTts(false);
+          setPlayingId(null);
+        };
+        audio.onerror = () => {
+          setIsPlayingTts(false);
+          setPlayingId(null);
+        };
         await audio.play();
       } catch {
-        // Offline / browser fallback speech synthesis
+        setLoadingTtsId(null);
         if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-          const utter = new SpeechSynthesisUtterance(params.text);
+          const utter = new SpeechSynthesisUtterance(params.text.replace(/[*#_`~>\[\]]/g, ''));
           utter.lang = params.localeCode || 'en-IN';
           utter.rate = voiceSpeed;
-          utter.onend = () => setIsPlayingTts(false);
-          utter.onerror = () => setIsPlayingTts(false);
+          setPlayingId(targetId);
+          setIsPlayingTts(true);
+          utter.onend = () => {
+            setIsPlayingTts(false);
+            setPlayingId(null);
+          };
+          utter.onerror = () => {
+            setIsPlayingTts(false);
+            setPlayingId(null);
+          };
           window.speechSynthesis.speak(utter);
         } else {
           setIsPlayingTts(false);
+          setPlayingId(null);
         }
       }
     },
-    [stopPlayback, voiceSpeed]
+    [isPlayingTts, loadingTtsId, playingId, stopPlayback, voiceSpeed]
   );
 
   return {
     isRecording,
+    recordingSeconds,
     isPlayingTts,
+    playingId,
+    loadingTtsId,
     startRecording,
+    cancelRecording,
     stopRecording,
     playServerTts,
     stopPlayback,

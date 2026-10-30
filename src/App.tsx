@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
+  ArrowLeft,
   Bell,
   Briefcase,
   ChevronLeft,
@@ -70,6 +71,19 @@ const SahayakWorkspace: React.FC = () => {
   const [selectedService, setSelectedService] = useState<ServiceTemplate | null>(null);
   const [selectedAppId, setSelectedAppId] = useState<number | undefined>(undefined);
 
+  interface CitizenRouteSnapshot {
+    screen: CitizenScreen;
+    selectedDomain?: string;
+    selectedService?: ServiceTemplate | null;
+    selectedAppId?: number;
+  }
+
+  const [navHistory, setNavHistory] = useState<CitizenRouteSnapshot[]>([]);
+  const navHistoryRef = useRef<CitizenRouteSnapshot[]>([]);
+  useEffect(() => {
+    navHistoryRef.current = navHistory;
+  }, [navHistory]);
+
   // Adaptive navigation controls
   const [tabletRailExpanded, setTabletRailExpanded] = useState(false);
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
@@ -100,22 +114,77 @@ const SahayakWorkspace: React.FC = () => {
   };
 
   const handleCitizenNavigate = (nextScreen: CitizenScreen, payload?: any) => {
+    const nextDomain = payload?.domain !== undefined ? payload.domain : selectedDomain;
+    const nextAppId = payload?.selectedAppId !== undefined ? payload.selectedAppId : selectedAppId;
+    const nextService =
+      payload?.serviceTemplate !== undefined ? payload.serviceTemplate : selectedService;
+
+    const isSameDestination =
+      nextScreen === screen &&
+      nextDomain === selectedDomain &&
+      nextAppId === selectedAppId &&
+      nextService?.id === selectedService?.id &&
+      !payload?.initialQuestion;
+
+    if (!isSameDestination) {
+      setNavHistory((prev) => [
+        ...prev.slice(-29),
+        {
+          screen,
+          selectedDomain,
+          selectedService,
+          selectedAppId,
+        },
+      ]);
+      if (typeof window !== 'undefined') {
+        window.history.pushState({ sahayakCitizenNav: true }, '');
+      }
+    }
+
     if (payload?.initialQuestion) {
       setPendingQuestion(payload.initialQuestion);
     }
-    if (payload?.domain) {
+    if (payload?.domain !== undefined) {
       setSelectedDomain(payload.domain);
     }
-    if (payload?.selectedAppId) {
+    if (payload?.selectedAppId !== undefined) {
       setSelectedAppId(payload.selectedAppId);
     }
-    if (payload?.serviceTemplate) {
+    if (payload?.serviceTemplate !== undefined) {
       setSelectedService(payload.serviceTemplate);
     }
     setScreen(nextScreen);
     setMobileMoreOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const handleCitizenBack = useCallback(() => {
+    const stack = navHistoryRef.current;
+    if (stack.length > 0) {
+      const prev = stack[stack.length - 1];
+      setNavHistory(stack.slice(0, -1));
+      setScreen(prev.screen);
+      setSelectedDomain(prev.selectedDomain);
+      setSelectedService(prev.selectedService ?? null);
+      setSelectedAppId(prev.selectedAppId);
+      setMobileMoreOpen(false);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    setScreen('home');
+    setMobileMoreOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  useEffect(() => {
+    const onPopState = () => {
+      if (portalMode === 'citizen' && navHistoryRef.current.length > 0) {
+        handleCitizenBack();
+      }
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, [portalMode, handleCitizenBack]);
 
   const handleStickyMicPress = async () => {
     if (network.isWeakNetworkActive || !currentLanguage.sttSupported) {
@@ -214,6 +283,18 @@ const SahayakWorkspace: React.FC = () => {
   ];
 
   const showFloatingMicOnMobile = screen !== 'ask';
+  const canGoBack = navHistory.length > 0 || screen !== 'home';
+  const getScreenLabel = (scr: CitizenScreen, svc?: ServiceTemplate | null) => {
+    if (scr === 'smart_form') {
+      return svc?.title || t('nav.services');
+    }
+    return sidebarItems.find((i) => i.id === scr)?.label || t('app.name');
+  };
+  const previousSnapshot = navHistory.length > 0 ? navHistory[navHistory.length - 1] : null;
+  const previousPageLabel = previousSnapshot
+    ? getScreenLabel(previousSnapshot.screen, previousSnapshot.selectedService)
+    : t('nav.home');
+  const currentPageLabel = getScreenLabel(screen, selectedService);
 
   return (
     <div className="min-h-screen bg-canvas text-body flex flex-col">
@@ -348,16 +429,38 @@ const SahayakWorkspace: React.FC = () => {
         <div className="flex-1 min-w-0 flex flex-col">
           {/* Compact Top Bar (<= 56px on Mobile, 64px on Tablet/Desktop) */}
           <header className="h-14 md:h-16 px-4 sm:px-6 lg:px-8 bg-card border-b border-hairline flex items-center justify-between gap-3 sticky top-0 z-30 pt-safe">
-            <div className="flex items-center gap-3 min-w-0">
-              <button
-                type="button"
-                onClick={() => handleCitizenNavigate('home')}
-                className="xl:hidden font-display text-lg font-bold text-body tracking-tight truncate"
-              >
-                {t('app.name')}
-              </button>
-              <span className="hidden xl:inline font-display text-lg font-bold text-body">
-                {sidebarItems.find((i) => i.id === screen)?.label || t('app.name')}
+            <div className="flex items-center gap-2.5 min-w-0">
+              {canGoBack && (
+                <button
+                  type="button"
+                  onClick={handleCitizenBack}
+                  aria-label={`${t('common.back')} · ${previousPageLabel}`}
+                  className="min-h-11 px-3 rounded-xl bg-secondary text-on-secondary border border-strong hover:bg-secondary-hover text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0"
+                >
+                  <ArrowLeft className="w-4 h-4 rtl:rotate-180 shrink-0" />
+                  <span>{t('common.back')}</span>
+                  <span className="hidden sm:inline text-muted font-normal max-w-[140px] truncate">
+                    · {previousPageLabel}
+                  </span>
+                </button>
+              )}
+
+              {!canGoBack ? (
+                <button
+                  type="button"
+                  onClick={() => handleCitizenNavigate('home')}
+                  className="xl:hidden font-display text-lg font-bold text-primary tracking-tight truncate"
+                >
+                  {t('app.name')}
+                </button>
+              ) : (
+                <span className="xl:hidden font-display text-base sm:text-lg font-bold text-body truncate">
+                  {currentPageLabel}
+                </span>
+              )}
+
+              <span className="hidden xl:inline font-display text-lg font-bold text-body truncate">
+                {currentPageLabel}
               </span>
             </div>
 
@@ -386,10 +489,9 @@ const SahayakWorkspace: React.FC = () => {
               <CitizenAskScreen
                 initialQuestion={pendingQuestion}
                 onConsumeInitialQuestion={() => setPendingQuestion(undefined)}
-                onStartService={(svc) => {
-                  setSelectedService(svc);
-                  setScreen('smart_form');
-                }}
+                onStartService={(svc) =>
+                  handleCitizenNavigate('smart_form', { serviceTemplate: svc })
+                }
                 onNavigate={handleCitizenNavigate}
               />
             )}
@@ -397,10 +499,9 @@ const SahayakWorkspace: React.FC = () => {
             {screen === 'services' && (
               <CitizenServicesScreen
                 initialDomain={selectedDomain}
-                onStartForm={(tpl) => {
-                  setSelectedService(tpl);
-                  setScreen('smart_form');
-                }}
+                onStartForm={(tpl) =>
+                  handleCitizenNavigate('smart_form', { serviceTemplate: tpl })
+                }
                 onAskDomain={(q) => handleCitizenNavigate('ask', { initialQuestion: q })}
               />
             )}
@@ -408,7 +509,7 @@ const SahayakWorkspace: React.FC = () => {
             {screen === 'smart_form' && (
               <SmartFormScreen
                 template={selectedService || services[0]}
-                onBack={() => setScreen('services')}
+                onBack={handleCitizenBack}
                 onCompleted={(appId) =>
                   handleCitizenNavigate('status', { selectedAppId: appId })
                 }
@@ -454,7 +555,7 @@ const SahayakWorkspace: React.FC = () => {
           className={`md:hidden fixed end-4 bottom-20 z-40 min-h-14 min-w-14 px-4 rounded-full shadow-lg flex items-center justify-center gap-2 font-semibold text-sm transition-transform active:scale-95 ${
             stickyVoice.isRecording
               ? 'bg-danger text-on-danger'
-              : 'bg-voice text-on-voice hover:bg-voice-hover'
+              : 'bg-primary text-on-primary hover:bg-primary-hover'
           }`}
         >
           {stickyVoice.isRecording ? (

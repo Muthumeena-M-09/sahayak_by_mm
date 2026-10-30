@@ -383,6 +383,20 @@ export async function createGuestAccountSession(preferredLanguage: string) {
   }
 }
 
+export async function issueBackendSessionForUser(userUid: string) {
+  const rawToken = `sahayak_session_${crypto.randomBytes(32).toString('hex')}`;
+  const tokenHash = hashString(rawToken);
+  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+
+  await db.insert(authSessions).values({
+    tokenHash,
+    userUid,
+    expiresAt,
+  });
+
+  return rawToken;
+}
+
 export async function resolveSessionToken(rawToken: string) {
   try {
     const tokenHash = hashString(rawToken);
