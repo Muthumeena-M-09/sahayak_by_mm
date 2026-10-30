@@ -9,7 +9,8 @@ import React, {
 } from 'react';
 import { onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
 import { auth, googleAuthProvider } from '../lib/firebase.ts';
-import { DEFAULT_UI_STRINGS } from '../db/seedData.ts';
+import { BUNDLED_TRANSLATIONS, DEFAULT_UI_STRINGS } from '../db/seedData.ts';
+import { localizeServiceTemplates } from '../i18n/catalog.ts';
 import { useNetworkAndOfflineQueue } from '../hooks/usePWAAndNetwork.ts';
 import type { LanguageItem, ServiceTemplate, UserProfile } from '../types.ts';
 
@@ -25,6 +26,7 @@ interface AppContextValue {
   hasChosenLanguage: boolean;
   selectLanguage: (code: string) => Promise<void>;
   t: (key: string) => string;
+  tStatus: (rawStatus: string) => string;
   formatDate: (dateInput: string | Date) => string;
   formatNumber: (num: number) => string;
   formatCurrency: (amountInr: number) => string;
@@ -71,7 +73,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [langCode, setLangCode] = useState<string>('en');
   const [hasChosenLanguage, setHasChosenLanguage] = useState<boolean>(false);
   const [uiStrings, setUiStrings] = useState<Record<string, string>>(DEFAULT_UI_STRINGS);
-  const [services, setServices] = useState<ServiceTemplate[]>([]);
+  const [rawServices, setRawServices] = useState<ServiceTemplate[]>([]);
 
   // Store auth token strictly in memory (never in localStorage)
   const [authToken, setAuthToken] = useState<string | null>(null);
@@ -114,7 +116,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       if (res.ok) {
         const data = await res.json();
         if (Array.isArray(data.services)) {
-          setServices(data.services);
+          setRawServices(data.services);
         }
       }
     } catch {
@@ -122,15 +124,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, []);
 
+  const services = useMemo(
+    () => localizeServiceTemplates(rawServices, uiStrings, langCode),
+    [rawServices, uiStrings, langCode]
+  );
+
   // Load initial public registries
   useEffect(() => {
     refreshLanguages();
     refreshServices();
   }, [refreshLanguages, refreshServices]);
 
-  // Load i18n dictionary whenever language changes
+  // Load i18n dictionary whenever language changes (apply bundled strings synchronously in 0ms first)
   useEffect(() => {
     let active = true;
+    const bundled = BUNDLED_TRANSLATIONS[langCode] || {};
+    setUiStrings(langCode === 'en' ? DEFAULT_UI_STRINGS : { ...DEFAULT_UI_STRINGS, ...bundled });
+
     (async () => {
       try {
         const res = await fetch(`/api/public/i18n/${encodeURIComponent(langCode)}`);
@@ -141,7 +151,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           }
         }
       } catch {
-        // Retain fallback dictionary if offline
+        // Retain bundled fallback dictionary if offline
       }
     })();
     return () => {
@@ -310,6 +320,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const selectLanguage = useCallback(
     async (code: string) => {
+      const bundled = BUNDLED_TRANSLATIONS[code] || {};
+      setUiStrings(code === 'en' ? DEFAULT_UI_STRINGS : { ...DEFAULT_UI_STRINGS, ...bundled });
       setLangCode(code);
       setHasChosenLanguage(true);
       if (authTokenRef.current) {
@@ -400,6 +412,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     [uiStrings]
   );
 
+  const tStatus = useCallback(
+    (rawStatus: string): string => {
+      if (!rawStatus) return '';
+      const norm = rawStatus.trim().toLowerCase().replace(/\s+/g, '_');
+      const key = `status_val.${norm}`;
+      const translated = uiStrings[key] || BUNDLED_TRANSLATIONS[langCode]?.[key];
+      if (translated) return translated;
+      return DEFAULT_UI_STRINGS[key] || rawStatus.replace(/_/g, ' ');
+    },
+    [uiStrings, langCode]
+  );
+
   const formatDate = useCallback(
     (dateInput: string | Date): string => {
       const d = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
@@ -455,6 +479,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     hasChosenLanguage,
     selectLanguage,
     t,
+    tStatus,
     formatDate,
     formatNumber,
     formatCurrency,

@@ -35,7 +35,7 @@ export const CitizenStatusScreen: React.FC<{
   onAskAboutApp: (question: string) => void;
   onNavigate: (screen: CitizenScreen) => void;
 }> = ({ selectedAppId, onAskAboutApp, onNavigate }) => {
-  const { t, apiFetch, formatDate, formatNumber, subscribeRealtime } = useApp();
+  const { t, tStatus, apiFetch, formatDate, formatNumber, subscribeRealtime } = useApp();
   const [tab, setTab] = useState<'applications' | 'grievances'>('applications');
   const [apps, setApps] = useState<ApplicationItem[]>([]);
   const [grievances, setGrievances] = useState<GrievanceItem[]>([]);
@@ -88,7 +88,7 @@ export const CitizenStatusScreen: React.FC<{
               tab === 'applications' ? 'bg-primary text-on-primary' : 'text-body hover:bg-tint/40'
             }`}
           >
-            Applications ({formatNumber(apps.length)})
+            {t('status.tab_applications')} ({formatNumber(apps.length)})
           </button>
           <button
             type="button"
@@ -97,7 +97,7 @@ export const CitizenStatusScreen: React.FC<{
               tab === 'grievances' ? 'bg-primary text-on-primary' : 'text-body hover:bg-tint/40'
             }`}
           >
-            Grievances ({formatNumber(grievances.length)})
+            {t('status.tab_grievances')} ({formatNumber(grievances.length)})
           </button>
         </div>
       </div>
@@ -113,7 +113,7 @@ export const CitizenStatusScreen: React.FC<{
               onClick={() => onNavigate('services')}
               className="min-h-12 px-5 rounded-xl bg-primary text-on-primary font-semibold text-sm"
             >
-              Browse Services
+              {t('status.browse_services')}
             </button>
           </div>
         ) : (
@@ -135,7 +135,7 @@ export const CitizenStatusScreen: React.FC<{
                       {app.referenceNumber} · {formatDate(app.submittedAt)}
                     </div>
                     <div className="text-xs font-medium mt-1">
-                      <DomainLabel domain={app.domain} /> · {app.status.replace(/_/g, ' ')}
+                      <DomainLabel domain={app.domain} /> · {tStatus(app.status)}
                     </div>
                   </button>
                 );
@@ -147,7 +147,8 @@ export const CitizenStatusScreen: React.FC<{
                 <div className="flex flex-wrap items-start justify-between gap-4 border-b border-hairline pb-4">
                   <div>
                     <div className="text-xs text-muted font-mono tabular-nums">
-                      {activeApp.referenceNumber} · Submitted {formatDate(activeApp.submittedAt)}
+                      {activeApp.referenceNumber} · {t('status.submitted_on')}{' '}
+                      {formatDate(activeApp.submittedAt)}
                     </div>
                     <h2 className="font-display text-xl font-bold text-body mt-1">
                       {activeApp.serviceTitle}
@@ -158,7 +159,7 @@ export const CitizenStatusScreen: React.FC<{
                     type="button"
                     onClick={() =>
                       onAskAboutApp(
-                        `Please explain the status and next steps for my application ${activeApp.referenceNumber} (${activeApp.serviceTitle}), currently "${activeApp.status}".`
+                        `${t('status.ask_prompt_prefix')} ${activeApp.referenceNumber} (${activeApp.serviceTitle})`
                       )
                     }
                     className="min-h-12 px-4 rounded-xl bg-primary text-on-primary text-sm font-semibold flex items-center gap-2 hover:bg-primary-hover shrink-0"
@@ -171,9 +172,11 @@ export const CitizenStatusScreen: React.FC<{
                 {/* Progress Bar */}
                 <div className="space-y-1.5">
                   <div className="flex justify-between text-xs text-muted font-mono tabular-nums">
-                    <span>Status: {activeApp.status.replace(/_/g, ' ')}</span>
                     <span>
-                      Step {formatNumber(activeApp.currentStep)}/
+                      {t('common.status')}: {tStatus(activeApp.status)}
+                    </span>
+                    <span>
+                      {t('form.step_of')} {formatNumber(activeApp.currentStep)}/
                       {formatNumber(activeApp.totalSteps)}
                     </span>
                   </div>
@@ -190,7 +193,7 @@ export const CitizenStatusScreen: React.FC<{
                 {/* Timeline */}
                 <div className="space-y-4">
                   <h3 className="font-display text-base font-semibold text-body">
-                    Application Timeline
+                    {t('status.timeline_title')}
                   </h3>
                   <ol className="space-y-4">
                     {activeApp.events.map((ev) => (
@@ -199,12 +202,16 @@ export const CitizenStatusScreen: React.FC<{
                         className="p-3.5 rounded-xl bg-elevated border border-hairline space-y-1"
                       >
                         <div className="flex items-center justify-between gap-2">
-                          <span className="font-semibold text-sm text-body">{ev.title}</span>
+                          <span className="font-semibold text-sm text-body">
+                            {tStatus(ev.status) || ev.title}
+                          </span>
                           <span className="text-xs text-muted font-mono tabular-nums">
                             {formatDate(ev.createdAt)}
                           </span>
                         </div>
-                        <p className="text-xs text-muted">{ev.description}</p>
+                        <p className="text-xs text-muted font-mono tabular-nums">
+                          {activeApp.referenceNumber}
+                        </p>
                       </li>
                     ))}
                   </ol>
@@ -215,7 +222,7 @@ export const CitizenStatusScreen: React.FC<{
         )
       ) : grievances.length === 0 ? (
         <div className="p-8 rounded-2xl bg-card border border-hairline space-y-4">
-          <p className="text-base text-muted">No grievances or support requests filed yet.</p>
+          <p className="text-base text-muted">{t('status.no_grievances')}</p>
           <button
             type="button"
             onClick={() => onNavigate('grievance')}
@@ -233,17 +240,19 @@ export const CitizenStatusScreen: React.FC<{
             >
               <div className="flex items-center justify-between text-xs text-muted font-mono tabular-nums">
                 <span>{grv.referenceNumber}</span>
-                <span>SLA Due: {formatDate(grv.slaDueAt)}</span>
+                <span>
+                  {t('status.sla_due')}: {formatDate(grv.slaDueAt)}
+                </span>
               </div>
               <div className="font-display text-lg font-bold text-body">{grv.category}</div>
               <div className="text-xs text-muted">
-                <DomainLabel domain={grv.domain} /> · Status: {grv.status.replace(/_/g, ' ')} ·
-                Priority: {grv.priority}
+                <DomainLabel domain={grv.domain} /> · {t('common.status')}: {tStatus(grv.status)} ·{' '}
+                {t('common.priority')}: {tStatus(grv.priority)}
               </div>
               <p className="text-sm text-body">{grv.description}</p>
               {grv.resolutionNotes && (
                 <div className="p-3 rounded-xl bg-tint text-tint-fg text-xs">
-                  <strong>Resolution Update:</strong> {grv.resolutionNotes}
+                  <strong>{t('status.resolution_update')}:</strong> {grv.resolutionNotes}
                 </div>
               )}
             </div>
@@ -256,7 +265,7 @@ export const CitizenStatusScreen: React.FC<{
 
 // Screen 9: My Documents & DigiLocker
 export const CitizenDocumentsScreen: React.FC = () => {
-  const { t, apiFetch, profile, refreshProfile, formatDate } = useApp();
+  const { t, tStatus, apiFetch, profile, refreshProfile, formatDate } = useApp();
   const [docs, setDocs] = useState<CitizenDocumentItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -332,14 +341,12 @@ export const CitizenDocumentsScreen: React.FC = () => {
           <h1 className="font-display text-2xl sm:text-3xl font-bold text-body">
             {t('docs.title')}
           </h1>
-          <p className="text-sm text-muted">
-            Store verified documents securely for instant form auto-filling and submissions.
-          </p>
+          <p className="text-sm text-muted">{t('docs.subtitle')}</p>
         </div>
 
         {profile?.digilockerLinked ? (
           <div className="text-sm font-medium text-body px-4 py-2.5 rounded-xl bg-tint border border-hairline">
-            DigiLocker Linked ·{' '}
+            {t('docs.digilocker_linked')} ·{' '}
             <span className="font-mono tabular-nums">{profile.digilockerAccountRef}</span>
           </div>
         ) : (
@@ -363,18 +370,18 @@ export const CitizenDocumentsScreen: React.FC = () => {
           <select
             value={docType}
             onChange={(e) => setDocType(e.target.value)}
-            aria-label="Document category"
+            aria-label={t('common.category')}
             className="min-h-12 px-4 rounded-xl bg-elevated border border-hairline text-body text-sm"
           >
-            <option value="identity">Identity Proof</option>
-            <option value="certificate">Income / Residence / Academic Certificate</option>
-            <option value="letter">Official Receipt / Statement</option>
+            <option value="identity">{t('docs.type_identity')}</option>
+            <option value="certificate">{t('docs.type_certificate')}</option>
+            <option value="letter">{t('docs.type_letter')}</option>
           </select>
         </div>
 
         <label className="min-h-12 px-5 rounded-xl bg-primary text-on-primary text-sm font-semibold inline-flex items-center gap-2 cursor-pointer hover:bg-primary-hover">
           <FileUp className="w-4 h-4" />
-          <span>{uploading ? 'Uploading & Verifying...' : 'Upload Document'}</span>
+          <span>{uploading ? t('docs.uploading') : t('docs.upload_btn')}</span>
           <input
             type="file"
             accept="image/*,application/pdf"
@@ -389,7 +396,7 @@ export const CitizenDocumentsScreen: React.FC = () => {
         <div className="h-36 rounded-2xl bg-card border border-hairline animate-pulse" />
       ) : docs.length === 0 ? (
         <div className="p-8 rounded-2xl bg-card border border-hairline text-sm text-muted">
-          No personal documents uploaded yet. Upload an image or PDF above to verify and save it.
+          {t('docs.empty')}
         </div>
       ) : (
         <div className="bg-card border border-hairline rounded-2xl divide-y divide-hairline">
@@ -400,8 +407,13 @@ export const CitizenDocumentsScreen: React.FC = () => {
                 <div className="min-w-0">
                   <div className="font-semibold text-body truncate">{doc.title}</div>
                   <div className="text-xs text-muted mt-0.5">
-                    {doc.docType} · Status:{' '}
-                    <span className="font-medium text-body">{doc.status}</span> ·{' '}
+                    {doc.docType === 'identity'
+                      ? t('docs.type_identity')
+                      : doc.docType === 'certificate'
+                        ? t('docs.type_certificate')
+                        : t('docs.type_letter')}{' '}
+                    · {t('common.status')}:{' '}
+                    <span className="font-medium text-body">{tStatus(doc.status)}</span> ·{' '}
                     <span className="font-mono tabular-nums">{formatDate(doc.createdAt)}</span>
                   </div>
                 </div>
@@ -410,7 +422,7 @@ export const CitizenDocumentsScreen: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleDelete(doc.id)}
-                aria-label={`Delete ${doc.title}`}
+                aria-label={`${t('common.delete')} ${doc.title}`}
                 className="min-h-11 min-w-11 rounded-xl border border-hairline text-danger hover:bg-danger-soft flex items-center justify-center shrink-0"
               >
                 <Trash2 className="w-4 h-4" />
@@ -427,9 +439,9 @@ export const CitizenDocumentsScreen: React.FC = () => {
 export const CitizenGrievanceScreen: React.FC<{
   onSubmitted: () => void;
 }> = ({ onSubmitted }) => {
-  const { t, apiFetch, currentLanguage, profile, network } = useApp();
+  const { t, tStatus, apiFetch, currentLanguage, profile, network } = useApp();
   const [domain, setDomain] = useState('government');
-  const [category, setCategory] = useState('Delayed Application / Service');
+  const [category, setCategory] = useState(() => t('grievance.cat_delayed'));
   const [description, setDescription] = useState('');
   const [docs, setDocs] = useState<CitizenDocumentItem[]>([]);
   const [attachmentId, setAttachmentId] = useState<string>('');
@@ -456,13 +468,14 @@ export const CitizenGrievanceScreen: React.FC<{
             base64Audio: rec.base64Audio,
             mimeType: rec.mimeType,
             languageHint: currentLanguage.englishName,
+            languageCode: currentLanguage.code,
           }),
         });
         if (stt.transcript) {
           setDescription((prev) => (prev ? `${prev} ${stt.transcript}` : stt.transcript));
         }
       } catch (err: any) {
-        setErrorMsg(err.message || 'Voice recording transcription failed.');
+        setErrorMsg(err.message || t('home.err_no_speech'));
       } finally {
         setBusy(false);
       }
@@ -470,7 +483,7 @@ export const CitizenGrievanceScreen: React.FC<{
       try {
         await voice.startRecording();
       } catch {
-        setErrorMsg('Microphone permission unavailable.');
+        setErrorMsg(t('home.err_mic'));
       }
     }
   };
@@ -478,7 +491,7 @@ export const CitizenGrievanceScreen: React.FC<{
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!description.trim()) {
-      setErrorMsg('Please describe your grievance by typing or recording your voice.');
+      setErrorMsg(t('grievance.err_desc'));
       return;
     }
     setErrorMsg(null);
@@ -496,7 +509,7 @@ export const CitizenGrievanceScreen: React.FC<{
       });
       setSubmittedRef(res.grievance.referenceNumber);
     } catch (err: any) {
-      setErrorMsg(err.message || 'Failed to submit grievance.');
+      setErrorMsg(err.message || t('grievance.submit'));
     } finally {
       setBusy(false);
     }
@@ -507,11 +520,11 @@ export const CitizenGrievanceScreen: React.FC<{
       <div className="max-w-xl mx-auto bg-card border border-hairline rounded-2xl p-6 sm:p-8 space-y-5">
         <div className="flex items-center gap-3 text-primary">
           <CheckCircle2 className="w-8 h-8 shrink-0" />
-          <h1 className="font-display text-2xl font-bold text-body">Grievance Registered</h1>
+          <h1 className="font-display text-2xl font-bold text-body">
+            {t('grievance.registered_title')}
+          </h1>
         </div>
-        <p className="text-sm text-muted">
-          Your grievance has been routed to the appropriate resolution desk with an SLA timeline.
-        </p>
+        <p className="text-sm text-muted">{t('grievance.registered_desc')}</p>
         <div className="p-4 rounded-xl bg-tint text-tint-fg font-mono text-xl font-bold tabular-nums">
           {submittedRef}
         </div>
@@ -520,7 +533,7 @@ export const CitizenGrievanceScreen: React.FC<{
           onClick={onSubmitted}
           className="w-full min-h-12 rounded-xl bg-primary text-on-primary font-semibold"
         >
-          Track Grievance Status
+          {t('grievance.track_btn')}
         </button>
       </div>
     );
@@ -532,10 +545,7 @@ export const CitizenGrievanceScreen: React.FC<{
         <h1 className="font-display text-2xl sm:text-3xl font-bold text-body">
           {t('grievance.title')}
         </h1>
-        <p className="text-sm text-muted mt-1">
-          Submit in {currentLanguage.nativeName} by voice or text. Support agents receive an
-          automatic translation and SLA target.
-        </p>
+        <p className="text-sm text-muted mt-1">{t('grievance.subtitle')}</p>
       </div>
 
       {errorMsg && (
@@ -548,40 +558,44 @@ export const CitizenGrievanceScreen: React.FC<{
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-semibold text-body mb-1.5">Domain</label>
+            <label className="block text-sm font-semibold text-body mb-1.5">
+              {t('common.domain')}
+            </label>
             <select
               value={domain}
               onChange={(e) => setDomain(e.target.value)}
               className="w-full min-h-12 px-4 rounded-xl bg-elevated border border-hairline text-body"
             >
-              <option value="government">Government</option>
-              <option value="education">Education</option>
-              <option value="healthcare">Healthcare</option>
-              <option value="banking">Banking</option>
-              <option value="business">Business</option>
-              <option value="customer_support">Customer Support</option>
+              <option value="government">{t('domain.government')}</option>
+              <option value="education">{t('domain.education')}</option>
+              <option value="healthcare">{t('domain.healthcare')}</option>
+              <option value="banking">{t('domain.banking')}</option>
+              <option value="business">{t('domain.business')}</option>
+              <option value="customer_support">{t('domain.customer_support')}</option>
             </select>
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-body mb-1.5">Category</label>
+            <label className="block text-sm font-semibold text-body mb-1.5">
+              {t('common.category')}
+            </label>
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               className="w-full min-h-12 px-4 rounded-xl bg-elevated border border-hairline text-body"
             >
-              <option value="Delayed Application / Service">Delayed Application / Service</option>
-              <option value="Incorrect Record / Billing">Incorrect Record / Billing</option>
-              <option value="Document Rejection Dispute">Document Rejection Dispute</option>
-              <option value="Accessibility / Staff Conduct">Accessibility / Staff Conduct</option>
-              <option value="Urgent Benefit / Relief Request">Urgent Benefit / Relief Request</option>
+              <option value={t('grievance.cat_delayed')}>{t('grievance.cat_delayed')}</option>
+              <option value={t('grievance.cat_billing')}>{t('grievance.cat_billing')}</option>
+              <option value={t('grievance.cat_rejection')}>{t('grievance.cat_rejection')}</option>
+              <option value={t('grievance.cat_conduct')}>{t('grievance.cat_conduct')}</option>
+              <option value={t('grievance.cat_urgent')}>{t('grievance.cat_urgent')}</option>
             </select>
           </div>
         </div>
 
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label className="text-sm font-semibold text-body">Description *</label>
+            <label className="text-sm font-semibold text-body">{t('grievance.desc_label')} *</label>
             {!network.isWeakNetworkActive && (
               <button
                 type="button"
@@ -590,8 +604,14 @@ export const CitizenGrievanceScreen: React.FC<{
                   voice.isRecording ? 'bg-danger text-on-danger' : 'bg-voice text-on-voice'
                 }`}
               >
-                {voice.isRecording ? <Square className="w-3.5 h-3.5" /> : <Mic className="w-3.5 h-3.5" />}
-                <span>{voice.isRecording ? 'Stop Recording' : 'Speak Description'}</span>
+                {voice.isRecording ? (
+                  <Square className="w-3.5 h-3.5" />
+                ) : (
+                  <Mic className="w-3.5 h-3.5" />
+                )}
+                <span>
+                  {voice.isRecording ? t('grievance.stop_recording') : t('grievance.speak_desc')}
+                </span>
               </button>
             )}
           </div>
@@ -599,24 +619,24 @@ export const CitizenGrievanceScreen: React.FC<{
             rows={4}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Describe what happened, reference numbers if any, and what resolution you need..."
+            placeholder={t('grievance.desc_placeholder')}
             className="w-full p-4 rounded-xl bg-elevated border border-hairline text-body placeholder:text-muted"
           />
         </div>
 
         <div>
           <label className="block text-sm font-semibold text-body mb-1.5">
-            Attach Supporting Document (Optional)
+            {t('grievance.attach_label')}
           </label>
           <select
             value={attachmentId}
             onChange={(e) => setAttachmentId(e.target.value)}
             className="w-full min-h-12 px-4 rounded-xl bg-elevated border border-hairline text-body"
           >
-            <option value="">None selected</option>
+            <option value="">{t('grievance.none_selected')}</option>
             {docs.map((d) => (
               <option key={d.id} value={String(d.id)}>
-                {d.title} ({d.status})
+                {d.title} ({tStatus(d.status)})
               </option>
             ))}
           </select>
@@ -628,7 +648,7 @@ export const CitizenGrievanceScreen: React.FC<{
           className="w-full min-h-12 rounded-xl bg-primary text-on-primary font-semibold flex items-center justify-center gap-2 hover:bg-primary-hover disabled:opacity-60"
         >
           <ShieldAlert className="w-5 h-5" />
-          <span>{busy ? 'Submitting...' : t('grievance.submit')}</span>
+          <span>{busy ? t('grievance.submitting') : t('grievance.submit')}</span>
         </button>
       </form>
     </div>
@@ -637,7 +657,7 @@ export const CitizenGrievanceScreen: React.FC<{
 
 // Screen 11: Notifications & Reminders
 export const CitizenNotificationsScreen: React.FC = () => {
-  const { profile, updatePreferences, apiFetch, currentLanguage, formatDate } = useApp();
+  const { t, profile, updatePreferences, apiFetch, currentLanguage, formatDate } = useApp();
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [reminders, setReminders] = useState<ReminderItem[]>([]);
   const [newTitle, setNewTitle] = useState('');
@@ -705,21 +725,21 @@ export const CitizenNotificationsScreen: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <h1 className="font-display text-2xl sm:text-3xl font-bold text-body">
-        Notifications & Deadline Reminders
+        {t('notif.page_title')}
       </h1>
 
       {/* Channel Preferences */}
       <section className="bg-card border border-hairline rounded-2xl p-6 space-y-4">
         <h2 className="font-display text-base font-bold text-body">
-          Delivery Channel Preferences ({currentLanguage.nativeName})
+          {t('notif.channel_prefs')} ({currentLanguage.nativeName})
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {(
             [
-              { key: 'push', label: 'In-App / Push' },
-              { key: 'whatsapp', label: 'WhatsApp' },
-              { key: 'sms', label: 'SMS Text' },
-              { key: 'voiceCall', label: 'Automated Voice Call' },
+              { key: 'push', label: t('notif.ch_push') },
+              { key: 'whatsapp', label: t('notif.ch_whatsapp') },
+              { key: 'sms', label: t('notif.ch_sms') },
+              { key: 'voiceCall', label: t('notif.ch_voice') },
             ] as const
           ).map(({ key, label }) => (
             <button
@@ -742,14 +762,16 @@ export const CitizenNotificationsScreen: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
         {/* Reminders */}
         <section className="bg-card border border-hairline rounded-2xl p-6 space-y-4">
-          <h2 className="font-display text-lg font-bold text-body">Scheduled Reminders</h2>
+          <h2 className="font-display text-lg font-bold text-body">
+            {t('notif.scheduled_reminders')}
+          </h2>
 
           <form onSubmit={handleAddReminder} className="space-y-3 pb-4 border-b border-hairline">
             <input
               type="text"
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
-              placeholder="Reminder title (e.g., Renew certificate)"
+              placeholder={t('notif.reminder_placeholder')}
               className="w-full min-h-12 px-4 rounded-xl bg-elevated border border-hairline text-body text-sm"
             />
             <div className="flex gap-2">
@@ -764,10 +786,10 @@ export const CitizenNotificationsScreen: React.FC = () => {
                 onChange={(e) => setNewChannel(e.target.value)}
                 className="min-h-12 px-3 rounded-xl bg-elevated border border-hairline text-body text-sm"
               >
-                <option value="push">Push</option>
-                <option value="whatsapp">WhatsApp</option>
-                <option value="sms">SMS</option>
-                <option value="voice_call">Voice</option>
+                <option value="push">{t('notif.ch_push')}</option>
+                <option value="whatsapp">{t('notif.ch_whatsapp')}</option>
+                <option value="sms">{t('notif.ch_sms')}</option>
+                <option value="voice_call">{t('notif.ch_voice')}</option>
               </select>
             </div>
             <button
@@ -775,12 +797,12 @@ export const CitizenNotificationsScreen: React.FC = () => {
               className="w-full min-h-11 rounded-xl bg-primary text-on-primary text-sm font-semibold flex items-center justify-center gap-2"
             >
               <CalendarPlus className="w-4 h-4" />
-              <span>Add Reminder</span>
+              <span>{t('home.add_reminder')}</span>
             </button>
           </form>
 
           {reminders.length === 0 ? (
-            <p className="text-sm text-muted">No reminders yet.</p>
+            <p className="text-sm text-muted">{t('notif.no_reminders')}</p>
           ) : (
             <div className="divide-y divide-hairline">
               {reminders.map((r) => (
@@ -794,7 +816,14 @@ export const CitizenNotificationsScreen: React.FC = () => {
                       {r.title}
                     </div>
                     <div className="text-xs text-muted font-mono tabular-nums">
-                      {formatDate(r.dueAt)} · {r.channel.toUpperCase()}
+                      {formatDate(r.dueAt)} ·{' '}
+                      {r.channel === 'push'
+                        ? t('notif.ch_push')
+                        : r.channel === 'whatsapp'
+                          ? t('notif.ch_whatsapp')
+                          : r.channel === 'sms'
+                            ? t('notif.ch_sms')
+                            : t('notif.ch_voice')}
                     </div>
                   </div>
                   <button
@@ -802,7 +831,7 @@ export const CitizenNotificationsScreen: React.FC = () => {
                     onClick={() => handleToggleReminder(r)}
                     className="min-h-10 px-3 rounded-lg border border-hairline text-xs font-medium text-body hover:bg-tint"
                   >
-                    {r.isCompleted ? 'Undo' : 'Done'}
+                    {r.isCompleted ? t('notif.undo') : t('common.done')}
                   </button>
                 </div>
               ))}
@@ -812,9 +841,9 @@ export const CitizenNotificationsScreen: React.FC = () => {
 
         {/* Notifications */}
         <section className="bg-card border border-hairline rounded-2xl p-6 space-y-4">
-          <h2 className="font-display text-lg font-bold text-body">In-App Notifications</h2>
+          <h2 className="font-display text-lg font-bold text-body">{t('notif.in_app_title')}</h2>
           {notifications.length === 0 ? (
-            <p className="text-sm text-muted">No notifications received yet.</p>
+            <p className="text-sm text-muted">{t('notif.no_notifications')}</p>
           ) : (
             <div className="divide-y divide-hairline">
               {notifications.map((n) => (
@@ -838,7 +867,7 @@ export const CitizenNotificationsScreen: React.FC = () => {
                       }}
                       className="text-xs font-medium text-primary underline"
                     >
-                      Mark read
+                      {t('notif.mark_read')}
                     </button>
                   )}
                 </div>
@@ -893,13 +922,17 @@ export const CitizenSettingsScreen: React.FC = () => {
       <div className="bg-card border border-hairline rounded-2xl p-6 space-y-6">
         {/* Profile Name & Linked Accounts */}
         <form onSubmit={handleSaveName} className="space-y-3 pb-6 border-b border-hairline">
-          <label className="block text-sm font-semibold text-body">Profile Name</label>
+          <label className="block text-sm font-semibold text-body">
+            {t('settings.profile_name')}
+          </label>
           <div className="flex gap-2.5">
             <input
               type="text"
               value={nameDraft}
               onChange={(e) => setNameDraft(e.target.value)}
-              placeholder={profile?.isGuest ? 'Guest session' : 'Enter your name'}
+              placeholder={
+                profile?.isGuest ? t('settings.guest_session') : t('auth.name_placeholder')
+              }
               className="flex-1 min-h-12 px-4 rounded-xl bg-elevated border border-hairline text-body"
             />
             <button
@@ -907,12 +940,15 @@ export const CitizenSettingsScreen: React.FC = () => {
               disabled={savingName}
               className="min-h-12 px-5 rounded-xl bg-primary text-on-primary text-sm font-semibold"
             >
-              {savingName ? 'Saving...' : 'Save'}
+              {savingName ? t('common.saving') : t('common.save')}
             </button>
           </div>
           <div className="text-xs text-muted">
-            Account: {profile?.email || profile?.phone || 'Guest Session'}
-            {profile?.digilockerLinked ? ` · DigiLocker (${profile.digilockerAccountRef})` : ''}
+            {t('settings.account_label')}:{' '}
+            {profile?.email || profile?.phone || t('settings.guest_session')}
+            {profile?.digilockerLinked
+              ? ` · ${t('docs.digilocker_linked')} (${profile.digilockerAccountRef})`
+              : ''}
           </div>
           {profile?.isGuest && (
             <button
@@ -920,7 +956,7 @@ export const CitizenSettingsScreen: React.FC = () => {
               onClick={() => signInWithGooglePopup()}
               className="min-h-11 px-4 rounded-xl border border-strong bg-elevated text-body text-xs font-semibold"
             >
-              Link Google Account to Save Across Devices
+              {t('settings.link_google')}
             </button>
           )}
         </form>
@@ -928,7 +964,7 @@ export const CitizenSettingsScreen: React.FC = () => {
         {/* Language */}
         <div className="flex items-center justify-between gap-4 pb-6 border-b border-hairline">
           <div>
-            <div className="font-semibold text-body">Language</div>
+            <div className="font-semibold text-body">{t('settings.language_label')}</div>
             <div className="text-sm text-muted">
               {currentLanguage.nativeName} · {currentLanguage.englishName}
             </div>
@@ -938,7 +974,7 @@ export const CitizenSettingsScreen: React.FC = () => {
             onClick={() => setLangSheetOpen(true)}
             className="min-h-12 px-4 rounded-xl bg-tint text-tint-fg text-sm font-semibold"
           >
-            Change Language
+            {t('settings.change_language')}
           </button>
         </div>
 
@@ -965,13 +1001,13 @@ export const CitizenSettingsScreen: React.FC = () => {
 
         {/* 4-Level Text Size */}
         <div className="space-y-2.5 pb-6 border-b border-hairline">
-          <div className="font-semibold text-body">{t('settings.text_size')} (4 Levels)</div>
+          <div className="font-semibold text-body">{t('settings.text_size')}</div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {[
-              { level: 1, label: '1 · Standard' },
-              { level: 2, label: '2 · Comfortable' },
-              { level: 3, label: '3 · Large' },
-              { level: 4, label: '4 · Extra Large' },
+              { level: 1, label: t('settings.size_1') },
+              { level: 2, label: t('settings.size_2') },
+              { level: 3, label: t('settings.size_3') },
+              { level: 4, label: t('settings.size_4') },
             ].map((item) => (
               <button
                 key={item.level}
@@ -998,13 +1034,17 @@ export const CitizenSettingsScreen: React.FC = () => {
                 key={th}
                 type="button"
                 onClick={() => updatePreferences({ theme: th })}
-                className={`min-h-12 rounded-xl border text-sm font-medium capitalize ${
+                className={`min-h-12 rounded-xl border text-sm font-medium ${
                   (profile?.theme || 'system') === th
                     ? 'bg-primary text-on-primary border-primary'
                     : 'bg-elevated border-hairline text-body'
                 }`}
               >
-                {th}
+                {th === 'system'
+                  ? t('settings.theme_system')
+                  : th === 'light'
+                    ? t('settings.theme_light')
+                    : t('settings.theme_dark')}
               </button>
             ))}
           </div>
@@ -1031,7 +1071,7 @@ export const CitizenSettingsScreen: React.FC = () => {
             onClick={() => logout()}
             className="min-h-12 px-5 rounded-xl border border-strong bg-elevated text-body text-sm font-semibold"
           >
-            Sign Out
+            {t('settings.sign_out')}
           </button>
 
           <button
@@ -1050,28 +1090,24 @@ export const CitizenSettingsScreen: React.FC = () => {
       <ResponsiveSheet
         open={confirmDeleteOpen}
         onClose={() => setConfirmDeleteOpen(false)}
-        title="Confirm Permanent Data Deletion"
+        title={t('settings.confirm_delete_title')}
       >
         <div className="space-y-4">
-          <p className="text-sm text-body leading-relaxed">
-            This permanently deletes your profile, conversations, uploaded personal documents,
-            applications, grievances, notifications, and reminders from PostgreSQL. This action
-            cannot be undone.
-          </p>
+          <p className="text-sm text-body leading-relaxed">{t('settings.confirm_delete_desc')}</p>
           <div className="flex gap-3">
             <button
               type="button"
               onClick={() => setConfirmDeleteOpen(false)}
               className="flex-1 min-h-12 rounded-xl border border-hairline bg-elevated text-body font-medium"
             >
-              Cancel
+              {t('common.cancel')}
             </button>
             <button
               type="button"
               onClick={handlePermanentDelete}
               className="flex-1 min-h-12 rounded-xl bg-danger text-on-danger font-semibold"
             >
-              Delete Everything
+              {t('settings.confirm_delete_btn')}
             </button>
           </div>
         </div>
@@ -1084,17 +1120,16 @@ export const CitizenSettingsScreen: React.FC = () => {
 export const CitizenHelpScreen: React.FC<{
   onNavigate: (screen: CitizenScreen, payload?: any) => void;
 }> = ({ onNavigate }) => {
-  const { currentLanguage, authToken, profile, network } = useApp();
+  const { t, currentLanguage, authToken, profile, network } = useApp();
   const voice = useVoiceAudio(profile?.voiceSpeed || 1.0);
 
-  const guideSummary =
-    'Sahayak lets you speak or type in 23 languages. Ask questions grounded in official documents, scan letters for plain-language explanations and deadline reminders, auto-fill service forms from your IDs, and track applications or grievances with reference numbers.';
+  const guideSummary = t('help.guide_tts_summary');
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <h1 className="font-display text-2xl sm:text-3xl font-bold text-body">
-          Help, Privacy & Weak-Network Mode
+          {t('help.page_title')}
         </h1>
         <button
           type="button"
@@ -1103,13 +1138,14 @@ export const CitizenHelpScreen: React.FC<{
               text: guideSummary,
               languageName: currentLanguage.englishName,
               localeCode: currentLanguage.localeCode,
+              languageCode: currentLanguage.code,
               authToken,
             })
           }
           className="min-h-12 px-4 rounded-xl bg-tint text-tint-fg text-sm font-semibold flex items-center gap-2"
         >
           <Volume2 className="w-4 h-4" />
-          <span>Listen to Guide</span>
+          <span>{t('help.listen_guide')}</span>
         </button>
       </div>
 
@@ -1119,12 +1155,9 @@ export const CitizenHelpScreen: React.FC<{
           <div className="space-y-1">
             <h2 className="font-display text-lg font-bold text-body flex items-center gap-2">
               <WifiOff className="w-5 h-5 text-warm" />
-              <span>Offline / Weak-Connection Text-Only Mode</span>
+              <span>{t('help.offline_title')}</span>
             </h2>
-            <p className="text-sm text-muted">
-              Saves mobile data by disabling audio streaming, serving cached answers offline, and
-              queuing unanswered questions for retry or SMS dispatch.
-            </p>
+            <p className="text-sm text-muted">{t('help.offline_desc')}</p>
           </div>
           <button
             type="button"
@@ -1135,13 +1168,13 @@ export const CitizenHelpScreen: React.FC<{
                 : 'border border-strong bg-elevated text-body'
             }`}
           >
-            {network.manualTextOnlyMode ? 'Active (Disable)' : 'Enable Text-Only'}
+            {network.manualTextOnlyMode ? t('help.disable_text_only') : t('help.enable_text_only')}
           </button>
         </div>
 
         {network.queuedQuestions.length > 0 && (
           <div className="pt-3 border-t border-hairline space-y-2">
-            <div className="text-xs font-semibold text-body">Queued Questions</div>
+            <div className="text-xs font-semibold text-body">{t('help.queued_questions')}</div>
             {network.queuedQuestions.map((q) => (
               <div
                 key={q.id}
@@ -1157,7 +1190,7 @@ export const CitizenHelpScreen: React.FC<{
                     }}
                     className="px-3 py-1.5 rounded-lg bg-primary text-on-primary text-xs font-medium"
                   >
-                    Retry Now
+                    {t('help.retry_now')}
                   </button>
                 </div>
               </div>
@@ -1168,51 +1201,34 @@ export const CitizenHelpScreen: React.FC<{
 
       {/* How to Use */}
       <section className="bg-card border border-hairline rounded-2xl p-6 space-y-4">
-        <h2 className="font-display text-lg font-bold text-body">How to Use Sahayak</h2>
-        <ol className="space-y-3 text-sm text-body">
-          <li>
-            <strong>1. Speak or Type in Your Language:</strong> Switch between any of the 22
-            scheduled Indian languages and English at any time—even mid-conversation.
-          </li>
-          <li>
-            <strong>2. Verified Sources Only:</strong> Sahayak answers strictly from published
-            documents and shows clickable page citations. When no source exists, it connects you
-            with a human support agent.
-          </li>
-          <li>
-            <strong>3. Explain Letters & Set Reminders:</strong> Photograph or upload any notice to
-            hear a plain-language explanation and schedule deadline reminders.
-          </li>
-          <li>
-            <strong>4. Smart Form Auto-Fill:</strong> Upload your ID or certificate during
-            application steps to extract fields automatically, review them, and get a tracking ID.
-          </li>
+        <h2 className="font-display text-lg font-bold text-body">{t('help.how_title')}</h2>
+        <ol className="space-y-3 text-sm text-body leading-relaxed">
+          <li>{t('help.how_1')}</li>
+          <li>{t('help.how_2')}</li>
+          <li>{t('help.how_3')}</li>
+          <li>{t('help.how_4')}</li>
         </ol>
       </section>
 
       {/* Privacy & Human Support */}
       <section className="bg-card border border-hairline rounded-2xl p-6 space-y-4">
-        <h2 className="font-display text-lg font-bold text-body">Privacy Policy & Human Support</h2>
-        <p className="text-sm text-muted leading-relaxed">
-          Your personal applications, documents, conversations, and reminders are strictly isolated
-          to your account. API credentials and AI models run exclusively server-side. You can
-          revoke consent or permanently delete all your data at any time in Settings.
-        </p>
+        <h2 className="font-display text-lg font-bold text-body">{t('help.privacy_title')}</h2>
+        <p className="text-sm text-muted leading-relaxed">{t('help.privacy_desc')}</p>
         <div className="flex flex-wrap gap-3">
           <button
             type="button"
-            onClick={() => onNavigate('ask', { initialQuestion: 'I would like to speak with a human support agent.' })}
+            onClick={() => onNavigate('ask', { initialQuestion: t('help.default_human_q') })}
             className="min-h-12 px-5 rounded-xl bg-primary text-on-primary text-sm font-semibold flex items-center gap-2"
           >
             <Headphones className="w-4 h-4" />
-            <span>Connect to Human Support</span>
+            <span>{t('help.connect_human')}</span>
           </button>
           <a
             href="tel:1800000000"
             className="min-h-12 px-5 rounded-xl border border-strong bg-elevated text-body text-sm font-semibold inline-flex items-center gap-2"
           >
             <Clock className="w-4 h-4" />
-            <span>Helpline Desk (Voice IVR)</span>
+            <span>{t('help.helpline_ivr')}</span>
           </a>
         </div>
       </section>

@@ -6,7 +6,7 @@ import * as dotenv from 'dotenv';
 import { eq } from 'drizzle-orm';
 import { db } from './src/db/index.ts';
 import { conversations, profiles } from './src/db/schema.ts';
-import { DEFAULT_UI_STRINGS } from './src/db/seedData.ts';
+import { BUNDLED_TRANSLATIONS, DEFAULT_UI_STRINGS } from './src/db/seedData.ts';
 import {
   appendMessage,
   computeAdminAnalytics,
@@ -69,12 +69,14 @@ import {
   explainLetterMultimodal,
   extractFormFieldsFromDocument,
   generateGroundedAnswerStream,
+  hasGeminiApiKey,
   parseDocumentText,
   synthesizeSpeechWav,
   transcribeAudioBase64,
   translateTextWithGlossary,
   translateUiStringsBatch,
 } from './src/lib/gemini.ts';
+import { getSarvamApiKey } from './src/lib/sarvam.ts';
 import { requireAuth, requireRole, type AuthRequest } from './src/middleware/auth.ts';
 import { realtimeHub } from './src/server/wsHub.ts';
 
@@ -120,10 +122,14 @@ async function startServer() {
         return res.json({ languageCode: 'en', strings: merged });
       }
 
+      const bundledForLang = BUNDLED_TRANSLATIONS[langCode] || {};
       const cachedRows = await getCachedTranslations(langCode);
-      const existingMap: Record<string, string> = {};
+      const existingMap: Record<string, string> = { ...bundledForLang };
       for (const r of cachedRows) {
-        existingMap[r.translationKey] = r.translatedValue;
+        // Admin-reviewed overrides always win; auto-translated or DB rows fill keys
+        if (r.isReviewed || !existingMap[r.translationKey]) {
+          existingMap[r.translationKey] = r.translatedValue;
+        }
       }
 
       const missingSource: Record<string, string> = {};
@@ -133,7 +139,8 @@ async function startServer() {
         }
       }
 
-      if (Object.keys(missingSource).length > 0 && process.env.GEMINI_API_KEY) {
+      const canTranslate = hasGeminiApiKey() || Boolean(await getSarvamApiKey());
+      if (Object.keys(missingSource).length > 0 && canTranslate) {
         try {
           const glossaryRows = await getGlossaryEntries(langCode);
           const aiTranslated = await translateUiStringsBatch({
@@ -176,13 +183,14 @@ async function startServer() {
 
   app.post('/api/public/tts', async (req, res) => {
     try {
-      const { text, languageName } = req.body || {};
+      const { text, languageName, languageCode } = req.body || {};
       if (!text || typeof text !== 'string') {
         return res.status(400).json({ error: 'Text is required for speech synthesis.' });
       }
       const result = await synthesizeSpeechWav({
         text: text.slice(0, 600),
         languageName: languageName || 'English',
+        languageCode: typeof languageCode === 'string' ? languageCode : undefined,
       });
       res.json(result);
     } catch (error: any) {
@@ -282,11 +290,16 @@ async function startServer() {
 
   app.post('/api/voice/stt', requireAuth, async (req: AuthRequest, res) => {
     try {
-      const { base64Audio, mimeType, languageHint } = req.body || {};
+      const { base64Audio, mimeType, languageHint, languageCode } = req.body || {};
       if (!base64Audio) {
         return res.status(400).json({ error: 'Audio data is required.' });
       }
-      const result = await transcribeAudioBase64({ base64Audio, mimeType, languageHint });
+      const result = await transcribeAudioBase64({
+        base64Audio,
+        mimeType,
+        languageHint,
+        languageCode: typeof languageCode === 'string' ? languageCode : undefined,
+      });
       res.json(result);
     } catch (error: any) {
       console.error('STT error:', error);
@@ -296,11 +309,12 @@ async function startServer() {
 
   app.post('/api/voice/tts', requireAuth, async (req: AuthRequest, res) => {
     try {
-      const { text, languageName } = req.body || {};
+      const { text, languageName, languageCode } = req.body || {};
       if (!text) return res.status(400).json({ error: 'Text is required.' });
       const result = await synthesizeSpeechWav({
         text,
         languageName: languageName || 'English',
+        languageCode: typeof languageCode === 'string' ? languageCode : undefined,
       });
       res.json(result);
     } catch (error: any) {
@@ -487,15 +501,37 @@ async function startServer() {
         reason === 'dispute' ? 'dispute' : reason === 'low_confidence' ? 'low_confidence' : 'user_requested';
 
       const convs = await listUserConversations(req.authContext!.uid);
-      if (!convs.some((c) => c.id === convId)) {
+      const targetConv = convs.find((c) => c.id === convId);
+      if (!targetConv) {
         return res.status(404).json({ error: 'Conversation not found.' });
       }
 
       const updated = await escalateConversationToHuman(convId, validReason);
+      const convLang = (targetConv.languageCode || 'en').split('-')[0];
+      let handoverText =
+        'Conversation transferred to the human support queue. An agent will reply in your language.';
+      if (convLang === 'ta') {
+        handoverText =
+          'உரையாடல் மனித உதவி வரிசைக்கு மாற்றப்பட்டது. ஒரு முகவர் உங்கள் மொழியிலேயே பதிலளிப்பார்.';
+      } else if (convLang !== 'en') {
+        const langs = await listLanguages(true);
+        const langEntry = langs.find((l) => l.code === convLang);
+        const glossary = await getGlossaryEntries(convLang);
+        handoverText = await translateTextWithGlossary({
+          text: handoverText,
+          targetLangCode: convLang,
+          targetLangName: langEntry?.englishName || convLang,
+          glossaryTerms: glossary.map((g) => ({
+            sourceTerm: g.sourceTerm,
+            targetTerm: g.targetTerm,
+          })),
+        }).catch(() => handoverText);
+      }
+
       const sysMsg = await appendMessage({
         conversationId: convId,
         senderRole: 'system',
-        content: 'Conversation transferred to the human support queue. An agent will reply in your language.',
+        content: handoverText,
       });
 
       realtimeHub.broadcastToAdmins('conversation:updated', { conversation: updated });

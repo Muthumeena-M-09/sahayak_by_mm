@@ -74,6 +74,7 @@ export const OnboardingFlow: React.FC = () => {
       text: lang.sampleGreeting,
       languageName: lang.englishName,
       localeCode: lang.localeCode,
+      languageCode: lang.code,
     });
     setPlayingCode(null);
   };
@@ -82,11 +83,11 @@ export const OnboardingFlow: React.FC = () => {
     e.preventDefault();
     setErrorMsg(null);
     if (!consentChecked) {
-      setErrorMsg('Please review and accept the data processing consent checkbox first.');
+      setErrorMsg(t('auth.err_consent'));
       return;
     }
     if (phoneInput.trim().length < 8) {
-      setErrorMsg('Please enter a valid mobile number.');
+      setErrorMsg(t('auth.err_phone'));
       return;
     }
     setBusy(true);
@@ -97,12 +98,12 @@ export const OnboardingFlow: React.FC = () => {
         body: JSON.stringify({ identifier: phoneInput.trim(), channel: 'phone' }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Could not send OTP.');
+      if (!res.ok) throw new Error(data.error || t('auth.err_phone'));
       setOtpSent(true);
       setResendSeconds(30);
       setSandboxHintCode(data.sandboxVerificationCode || null);
     } catch (err: any) {
-      setErrorMsg(err.message || 'Failed to send verification code.');
+      setErrorMsg(err.message || t('auth.err_phone'));
     } finally {
       setBusy(false);
     }
@@ -112,7 +113,7 @@ export const OnboardingFlow: React.FC = () => {
     e.preventDefault();
     setErrorMsg(null);
     if (otpCode.trim().length !== 6) {
-      setErrorMsg('Please enter the 6-digit verification code.');
+      setErrorMsg(t('auth.err_otp'));
       return;
     }
     setBusy(true);
@@ -142,7 +143,7 @@ export const OnboardingFlow: React.FC = () => {
   const handleGoogleSignIn = async () => {
     setErrorMsg(null);
     if (!consentChecked) {
-      setErrorMsg('Please confirm the privacy consent checkbox before signing in.');
+      setErrorMsg(t('auth.err_consent'));
       return;
     }
     setBusy(true);
@@ -180,7 +181,7 @@ export const OnboardingFlow: React.FC = () => {
         <header className="border-b border-hairline bg-card/80 backdrop-blur-xs">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
             <span className="font-display text-xl font-bold text-primary whitespace-nowrap shrink-0">
-              Sahayak
+              {t('app.name')}
             </span>
             <PWAInstallControl compact />
           </div>
@@ -283,7 +284,7 @@ export const OnboardingFlow: React.FC = () => {
                     <button
                       type="button"
                       onClick={(e) => handleListenLanguage(e, lang)}
-                      aria-label={`Listen to ${lang.englishName}`}
+                      aria-label={`${t('lang.listen')} ${lang.nativeName}`}
                       className="min-h-12 px-3 rounded-xl border border-hairline bg-elevated text-body hover:bg-tint flex items-center gap-1.5 text-xs font-medium shrink-0"
                     >
                       <Volume2 className="w-4 h-4 shrink-0" />
@@ -311,7 +312,7 @@ export const OnboardingFlow: React.FC = () => {
             onClick={() => setStep('language')}
             className="min-h-12 px-3.5 rounded-xl border border-hairline bg-card text-body text-sm font-medium hover:bg-tint whitespace-nowrap shrink-0"
           >
-            {currentLanguage.nativeName} · Change
+            {currentLanguage.nativeName} · {t('auth.change_lang')}
           </button>
         </div>
       </header>
@@ -348,13 +349,13 @@ export const OnboardingFlow: React.FC = () => {
             <form onSubmit={handleSendOtp} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-body mb-1.5">
-                  Your Name (optional — used for greeting & forms)
+                  {t('auth.name_label')}
                 </label>
                 <input
                   type="text"
                   value={fullNameInput}
                   onChange={(e) => setFullNameInput(e.target.value)}
-                  placeholder="Enter your name"
+                  placeholder={t('auth.name_placeholder')}
                   className="w-full min-h-12 px-4 rounded-xl bg-elevated border border-hairline text-body placeholder:text-muted"
                 />
               </div>
@@ -381,14 +382,14 @@ export const OnboardingFlow: React.FC = () => {
                 className="w-full min-h-12 rounded-xl bg-primary text-on-primary font-semibold flex items-center justify-center gap-2 hover:bg-primary-hover disabled:opacity-60"
               >
                 <KeyRound className="w-4 h-4" />
-                <span>{busy ? 'Sending...' : t('auth.send_otp')}</span>
+                <span>{busy ? t('auth.sending') : t('auth.send_otp')}</span>
               </button>
             </form>
           ) : (
             <form onSubmit={handleVerifyOtp} className="space-y-4">
               {sandboxHintCode && (
                 <div className="p-3 rounded-xl bg-tint text-tint-fg text-sm">
-                  SMS gateway is currently in Sandbox mode. Verification code:{' '}
+                  {t('auth.sandbox_otp_notice')}{' '}
                   <strong className="font-mono tabular-nums tracking-widest">
                     {sandboxHintCode}
                   </strong>
@@ -416,7 +417,7 @@ export const OnboardingFlow: React.FC = () => {
                 className="w-full min-h-12 rounded-xl bg-primary text-on-primary font-semibold flex items-center justify-center gap-2 hover:bg-primary-hover disabled:opacity-60"
               >
                 <ShieldCheck className="w-5 h-5" />
-                <span>{busy ? 'Verifying...' : t('auth.verify_otp')}</span>
+                <span>{busy ? t('auth.verifying') : t('auth.verify_otp')}</span>
               </button>
 
               <div className="flex items-center justify-between text-sm text-muted">
@@ -428,7 +429,7 @@ export const OnboardingFlow: React.FC = () => {
                   }}
                   className="underline hover:text-body min-h-10"
                 >
-                  Change number
+                  {t('auth.change_number')}
                 </button>
 
                 {resendSeconds > 0 ? (
@@ -450,7 +451,7 @@ export const OnboardingFlow: React.FC = () => {
 
           <div className="relative py-1 flex items-center justify-center">
             <div className="border-t border-hairline w-full" />
-            <span className="bg-card px-3 text-xs text-muted">OR</span>
+            <span className="bg-card px-3 text-xs text-muted">{t('common.or')}</span>
             <div className="border-t border-hairline w-full" />
           </div>
 

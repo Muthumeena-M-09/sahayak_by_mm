@@ -38,6 +38,7 @@ export const CitizenAskScreen: React.FC<{
     profile,
     currentLanguage,
     t,
+    tStatus,
     apiFetch,
     services,
     network,
@@ -144,7 +145,7 @@ export const CitizenAskScreen: React.FC<{
             conversationId: activeConv?.id || 0,
             senderRole: 'assistant',
             senderUid: null,
-            content: `${cached.answer}\n\n(Served from offline cache)`,
+            content: `${cached.answer}\n\n(${t('ask.offline_cached_note')})`,
             translatedContent: null,
             detectedLanguage: currentLanguage.code,
             confidence: 0.9,
@@ -156,9 +157,7 @@ export const CitizenAskScreen: React.FC<{
         ]);
       } else {
         network.enqueueQuestion(trimmed, currentLanguage.code);
-        setErrorBanner(
-          'You are currently offline. Your question has been queued and will be sent when connection returns, or tap "Ask via SMS" above.'
-        );
+        setErrorBanner(t('ask.offline_queued_note'));
       }
       setInput('');
       return;
@@ -263,19 +262,20 @@ export const CitizenAskScreen: React.FC<{
             base64Audio: rec.base64Audio,
             mimeType: rec.mimeType,
             languageHint: currentLanguage.englishName,
+            languageCode: currentLanguage.code,
           }),
         });
         if (stt.transcript) {
           sendQuestion(stt.transcript);
         }
       } catch (err: any) {
-        setErrorBanner(err.message || 'Voice transcription failed.');
+        setErrorBanner(err.message || t('home.err_no_speech'));
       }
     } else {
       try {
         await voice.startRecording();
       } catch {
-        setErrorBanner('Microphone permission is unavailable.');
+        setErrorBanner(t('home.err_mic'));
       }
     }
   };
@@ -327,7 +327,7 @@ export const CitizenAskScreen: React.FC<{
             </h1>
             {activeConv && (
               <p className="text-xs text-muted">
-                Status: {activeConv.status.replace(/_/g, ' ')}
+                {t('common.status')}: {tStatus(activeConv.status)}
                 {activeConv.languageCode ? ` · ${activeConv.languageCode.toUpperCase()}` : ''}
               </p>
             )}
@@ -350,11 +350,11 @@ export const CitizenAskScreen: React.FC<{
                 setActiveConv(null);
                 setMessages([]);
               }}
-              aria-label="New conversation"
+              aria-label={t('ask.new')}
               className="min-h-11 px-3 rounded-xl bg-tint text-tint-fg text-xs font-semibold flex items-center gap-1 whitespace-nowrap shrink-0"
             >
               <Plus className="w-4 h-4" />
-              <span>New</span>
+              <span>{t('ask.new')}</span>
             </button>
           </div>
         </div>
@@ -401,7 +401,7 @@ export const CitizenAskScreen: React.FC<{
                   >
                     {msg.senderRole === 'human_agent' && (
                       <div className="text-xs font-semibold mb-1.5 opacity-80">
-                        Human Support Agent
+                        {t('ask.human_agent_badge')}
                       </div>
                     )}
                     {msg.content}
@@ -429,7 +429,7 @@ export const CitizenAskScreen: React.FC<{
                               <BookOpen className="w-3.5 h-3.5 text-primary shrink-0" />
                               <span className="truncate max-w-[200px]">{cit.documentTitle}</span>
                               <span className="font-mono tabular-nums text-muted">
-                                · p.{cit.pageNumber}
+                                · {t('ask.page')} {cit.pageNumber}
                               </span>
                             </button>
                           ))}
@@ -445,6 +445,7 @@ export const CitizenAskScreen: React.FC<{
                                 text: msg.content,
                                 languageName: currentLanguage.englishName,
                                 localeCode: currentLanguage.localeCode,
+                                languageCode: msg.detectedLanguage || currentLanguage.code,
                                 authToken,
                               })
                             }
@@ -566,7 +567,7 @@ export const CitizenAskScreen: React.FC<{
           <button
             type="submit"
             disabled={isSending || !input.trim()}
-            aria-label="Send"
+            aria-label={t('nav.ask')}
             className="min-h-12 min-w-12 px-4 rounded-xl bg-primary text-on-primary font-semibold flex items-center justify-center hover:bg-primary-hover disabled:opacity-50 shrink-0"
           >
             <Send className="w-5 h-5" />
@@ -579,10 +580,7 @@ export const CitizenAskScreen: React.FC<{
         <div className="bg-card border border-hairline rounded-2xl p-5 space-y-3">
           <h2 className="font-display text-base font-bold text-body">{t('ask.sources')}</h2>
           {allCitationsInThread.length === 0 ? (
-            <p className="text-sm text-muted">
-              Verified knowledge base citations for this conversation will appear here with
-              original document excerpts and page numbers.
-            </p>
+            <p className="text-sm text-muted">{t('ask.sources_empty')}</p>
           ) : (
             <div className="space-y-3">
               {allCitationsInThread.map((c, idx) => (
@@ -592,7 +590,8 @@ export const CitizenAskScreen: React.FC<{
                 >
                   <div className="text-sm font-semibold text-body">{c.documentTitle}</div>
                   <div className="text-xs text-muted font-mono tabular-nums">
-                    Page {c.pageNumber} · Source lang: {c.languageCode.toUpperCase()}
+                    {t('ask.page')} {c.pageNumber} · {t('ask.source_lang')}:{' '}
+                    {c.languageCode.toUpperCase()}
                   </div>
                   <p className="text-xs text-body leading-relaxed">{c.snippet}...</p>
                 </div>
@@ -602,9 +601,9 @@ export const CitizenAskScreen: React.FC<{
         </div>
 
         <div className="bg-card border border-hairline rounded-2xl p-5 space-y-3">
-          <h2 className="font-display text-base font-bold text-body">Recent Conversations</h2>
+          <h2 className="font-display text-base font-bold text-body">{t('ask.recent_threads')}</h2>
           {conversations.length === 0 ? (
-            <p className="text-sm text-muted">No previous conversations yet.</p>
+            <p className="text-sm text-muted">{t('ask.no_threads')}</p>
           ) : (
             <div className="divide-y divide-hairline max-h-64 overflow-y-auto">
               {conversations.map((c) => (
@@ -618,7 +617,7 @@ export const CitizenAskScreen: React.FC<{
                 >
                   <div className="text-sm font-medium truncate">{c.title}</div>
                   <div className="text-xs text-muted mt-0.5">
-                    {formatDate(c.updatedAt)} · {c.status.replace(/_/g, ' ')}
+                    {formatDate(c.updatedAt)} · {tStatus(c.status)}
                   </div>
                 </button>
               ))}
@@ -636,7 +635,7 @@ export const CitizenAskScreen: React.FC<{
         {selectedCitation && (
           <div className="space-y-3">
             <div className="text-xs text-muted font-mono tabular-nums">
-              Page {selectedCitation.pageNumber} · Original Language:{' '}
+              {t('ask.page')} {selectedCitation.pageNumber} · {t('ask.source_lang')}:{' '}
               {selectedCitation.languageCode.toUpperCase()}
             </div>
             <div className="p-4 rounded-xl bg-elevated border border-hairline text-sm text-body leading-relaxed whitespace-pre-wrap">
@@ -650,14 +649,14 @@ export const CitizenAskScreen: React.FC<{
       <ResponsiveSheet
         open={feedbackMsgId !== null}
         onClose={() => setFeedbackMsgId(null)}
-        title="Help us improve this answer"
+        title={t('ask.feedback_title')}
       >
         <div className="space-y-2.5">
           {[
-            'Answer was incomplete or missing steps',
-            'Translation or wording was unclear',
-            'Source document seemed outdated',
-            'Needed direct human support instead',
+            t('ask.fb_incomplete'),
+            t('ask.fb_unclear'),
+            t('ask.fb_outdated'),
+            t('ask.fb_need_human'),
           ].map((reason) => (
             <button
               key={reason}
@@ -734,7 +733,7 @@ export const ExplainLetterScreen: React.FC = () => {
         {
           method: 'POST',
           body: JSON.stringify({
-            title: 'Official Notice Text',
+            title: t('explain.official_doc'),
             rawText: pastedText.trim(),
             targetLanguageCode: currentLanguage.code,
           }),
@@ -745,7 +744,7 @@ export const ExplainLetterScreen: React.FC = () => {
         ...res.explanation,
       });
     } catch (err: any) {
-      setErrorMsg(err.message || 'Could not analyze notice text.');
+      setErrorMsg(err.message || t('explain.subtitle'));
     } finally {
       setBusy(false);
     }
@@ -757,7 +756,9 @@ export const ExplainLetterScreen: React.FC = () => {
       await apiFetch('/api/reminders', {
         method: 'POST',
         body: JSON.stringify({
-          title: result.deadlineLabel || `Deadline: ${result.senderOrAuthority || 'Official Notice'}`,
+          title:
+            result.deadlineLabel ||
+            `${t('explain.detected_deadline')}: ${result.senderOrAuthority || t('explain.official_doc')}`,
           notes: result.plainSummary.slice(0, 200),
           dueAt: result.detectedDeadlineIso,
           channel: 'push',
@@ -767,7 +768,7 @@ export const ExplainLetterScreen: React.FC = () => {
       });
       setReminderSaved(true);
     } catch (err: any) {
-      setErrorMsg(err.message || 'Could not schedule reminder.');
+      setErrorMsg(err.message || t('explain.set_reminder'));
     }
   };
 
@@ -790,7 +791,7 @@ export const ExplainLetterScreen: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <label className="min-h-16 p-4 rounded-2xl bg-primary text-on-primary font-semibold flex items-center justify-center gap-3 cursor-pointer hover:bg-primary-hover">
             <FileUp className="w-5 h-5 shrink-0" />
-            <span>{busy ? 'Scanning & Explaining...' : t('explain.upload_btn')}</span>
+            <span>{busy ? t('explain.scanning') : t('explain.upload_btn')}</span>
             <input
               type="file"
               accept="image/*,application/pdf"
@@ -816,13 +817,13 @@ export const ExplainLetterScreen: React.FC = () => {
 
         <form onSubmit={handleExplainText} className="space-y-3 pt-3 border-t border-hairline">
           <label className="block text-sm font-medium text-body">
-            Or paste text from an SMS, email, or official notice:
+            {t('explain.paste_label')}
           </label>
           <textarea
             rows={3}
             value={pastedText}
             onChange={(e) => setPastedText(e.target.value)}
-            placeholder="Paste official notice text in any language..."
+            placeholder={t('explain.paste_placeholder')}
             className="w-full p-4 rounded-xl bg-elevated border border-hairline text-body placeholder:text-muted"
           />
           <button
@@ -830,7 +831,7 @@ export const ExplainLetterScreen: React.FC = () => {
             disabled={busy || !pastedText.trim()}
             className="min-h-12 px-5 rounded-xl border border-strong bg-elevated text-body text-sm font-semibold hover:bg-tint disabled:opacity-50"
           >
-            Explain in {currentLanguage.nativeName}
+            {t('explain.explain_in')} {currentLanguage.nativeName}
           </button>
         </form>
       </div>
@@ -840,16 +841,16 @@ export const ExplainLetterScreen: React.FC = () => {
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <div className="text-xs text-muted">
-                {result.senderOrAuthority || 'Official Document'}
+                {result.senderOrAuthority || t('explain.official_doc')}
                 {result.referenceNumbers.length > 0 && (
                   <span className="font-mono tabular-nums">
                     {' '}
-                    · Ref: {result.referenceNumbers.join(', ')}
+                    · {result.referenceNumbers.join(', ')}
                   </span>
                 )}
               </div>
               <h2 className="font-display text-xl font-bold text-body mt-1">
-                Plain-Language Explanation ({currentLanguage.nativeName})
+                {t('explain.plain_heading')} ({currentLanguage.nativeName})
               </h2>
             </div>
 
@@ -860,6 +861,7 @@ export const ExplainLetterScreen: React.FC = () => {
                   text: `${result.plainSummary}. ${result.whatYouNeedToDo.join('. ')}`,
                   languageName: currentLanguage.englishName,
                   localeCode: currentLanguage.localeCode,
+                  languageCode: currentLanguage.code,
                   authToken,
                 })
               }
@@ -877,7 +879,7 @@ export const ExplainLetterScreen: React.FC = () => {
           {result.whatYouNeedToDo.length > 0 && (
             <div className="space-y-2.5">
               <h3 className="font-display text-base font-semibold text-body">
-                Recommended Next Steps
+                {t('explain.next_steps')}
               </h3>
               <ul className="space-y-2">
                 {result.whatYouNeedToDo.map((item, i) => (
@@ -893,9 +895,11 @@ export const ExplainLetterScreen: React.FC = () => {
           {result.detectedDeadlineIso && (
             <div className="p-4 rounded-xl bg-danger text-on-danger flex flex-wrap items-center justify-between gap-4">
               <div>
-                <div className="text-xs font-medium opacity-90">Detected Deadline</div>
+                <div className="text-xs font-medium opacity-90">
+                  {t('explain.detected_deadline')}
+                </div>
                 <div className="font-semibold text-base">
-                  {result.deadlineLabel || 'Action Due'} ·{' '}
+                  {result.deadlineLabel || t('explain.action_due')} ·{' '}
                   <span className="font-mono tabular-nums">
                     {formatDate(result.detectedDeadlineIso)}
                   </span>
@@ -904,7 +908,7 @@ export const ExplainLetterScreen: React.FC = () => {
               {reminderSaved ? (
                 <div className="flex items-center gap-1.5 text-sm font-semibold">
                   <Check className="w-4 h-4" />
-                  <span>Reminder Scheduled</span>
+                  <span>{t('explain.reminder_scheduled')}</span>
                 </div>
               ) : (
                 <button
@@ -922,7 +926,7 @@ export const ExplainLetterScreen: React.FC = () => {
           {result.ocrText && (
             <details className="pt-2 border-t border-hairline">
               <summary className="cursor-pointer text-sm font-medium text-muted py-2">
-                View Extracted Original Text (OCR)
+                {t('explain.view_ocr')}
               </summary>
               <pre className="mt-2 p-4 rounded-xl bg-elevated text-xs text-body whitespace-pre-wrap font-sans leading-relaxed">
                 {result.ocrText}

@@ -19,6 +19,7 @@ export const ResponsiveSheet: React.FC<{
   title: string;
   children: React.ReactNode;
 }> = ({ open, onClose, title, children }) => {
+  const { t } = useApp();
   if (!open) return null;
 
   return (
@@ -38,7 +39,7 @@ export const ResponsiveSheet: React.FC<{
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close"
+            aria-label={t('common.close')}
             className="min-h-12 min-w-12 flex items-center justify-center rounded-xl text-muted hover:bg-tint transition-colors"
           >
             <X className="w-5 h-5" />
@@ -92,14 +93,14 @@ export const PWAInstallControl: React.FC<{ compact?: boolean }> = ({ compact = f
           title={t('pwa.install')}
         >
           <div className="space-y-3 text-base text-body">
-            <p>1. Tap the Share icon in your Safari browser toolbar.</p>
-            <p>2. Scroll down and choose Add to Home Screen.</p>
+            <p>{t('pwa.ios_step1')}</p>
+            <p>{t('pwa.ios_step2')}</p>
             <button
               type="button"
               onClick={() => setShowIOSGuide(false)}
               className="mt-4 w-full min-h-12 rounded-xl bg-primary text-on-primary font-medium"
             >
-              Done
+              {t('common.done')}
             </button>
           </div>
         </ResponsiveSheet>
@@ -134,7 +135,7 @@ export const WeakConnectionStrip: React.FC<{
             {t('weak_net.banner')}
             {network.queuedQuestions.length > 0 && (
               <span className="ms-2 font-mono tabular-nums font-semibold">
-                · {formatNumber(network.queuedQuestions.length)} queued
+                · {formatNumber(network.queuedQuestions.length)} {t('weak_net.queued')}
               </span>
             )}
           </span>
@@ -147,7 +148,7 @@ export const WeakConnectionStrip: React.FC<{
               className="min-h-10 px-3 rounded-lg bg-primary text-on-primary text-xs font-medium flex items-center gap-1.5 whitespace-nowrap shrink-0"
             >
               <RefreshCw className="w-3.5 h-3.5" />
-              <span>Retry Queue</span>
+              <span>{t('weak_net.retry_queue')}</span>
             </button>
           )}
           <a
@@ -191,6 +192,7 @@ export const LanguagePickerSheet: React.FC<{
       text: lang.sampleGreeting,
       languageName: lang.englishName,
       localeCode: lang.localeCode,
+      languageCode: lang.code,
       authToken,
     });
     setPlayingCode(null);
@@ -278,13 +280,13 @@ export const DomainLabel: React.FC<{ domain: string }> = ({ domain }) => {
 };
 
 export const LanguageTriggerButton: React.FC<{ onClick: () => void }> = ({ onClick }) => {
-  const { currentLanguage } = useApp();
+  const { currentLanguage, t } = useApp();
   return (
     <button
       type="button"
       onClick={onClick}
       className="min-h-12 px-3.5 rounded-xl border border-hairline bg-card text-body hover:bg-tint transition-colors flex items-center gap-2 text-sm font-medium whitespace-nowrap shrink-0"
-      aria-label="Change language"
+      aria-label={t('settings.change_language')}
     >
       <Globe className="w-4 h-4 shrink-0" />
       <span>{currentLanguage.nativeName}</span>

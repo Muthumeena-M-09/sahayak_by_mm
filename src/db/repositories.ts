@@ -62,31 +62,28 @@ export async function ensureSeedData(): Promise<void> {
         await db.insert(languages).values(SCHEDULED_LANGUAGES).onConflictDoNothing();
       }
 
-      // Seed English baseline UI translations and bundled baseline keys if empty
-      const existingEn = await db
-        .select()
-        .from(uiTranslations)
-        .where(eq(uiTranslations.languageCode, 'en'));
-      if (existingEn.length === 0) {
-        const rows = Object.entries(DEFAULT_UI_STRINGS).map(([key, val]) => ({
-          languageCode: 'en',
-          translationKey: key,
-          translatedValue: val,
-          isAutoTranslated: false,
-          isReviewed: true,
-        }));
-        for (const [langCode, dict] of Object.entries(BUNDLED_TRANSLATIONS)) {
-          for (const [k, v] of Object.entries(dict)) {
-            rows.push({
-              languageCode: langCode,
-              translationKey: k,
-              translatedValue: v,
-              isAutoTranslated: false,
-              isReviewed: true,
-            });
-          }
+      // Idempotently seed any new baseline English & bundled Indic UI translation keys
+      const rows = Object.entries(DEFAULT_UI_STRINGS).map(([key, val]) => ({
+        languageCode: 'en',
+        translationKey: key,
+        translatedValue: val,
+        isAutoTranslated: false,
+        isReviewed: true,
+      }));
+      for (const [langCode, dict] of Object.entries(BUNDLED_TRANSLATIONS)) {
+        for (const [k, v] of Object.entries(dict)) {
+          rows.push({
+            languageCode: langCode,
+            translationKey: k,
+            translatedValue: v,
+            isAutoTranslated: false,
+            isReviewed: true,
+          });
         }
-        await db.insert(uiTranslations).values(rows).onConflictDoNothing();
+      }
+      // Insert in chunks of 400 to stay well within Postgres parameter limits
+      for (let i = 0; i < rows.length; i += 400) {
+        await db.insert(uiTranslations).values(rows.slice(i, i + 400)).onConflictDoNothing();
       }
 
       const existingTemplates = await db.select().from(serviceTemplates);
@@ -1606,26 +1603,39 @@ export async function testIntegrationById(id: number) {
         ...item.headers,
       };
       const secrets = item.authConfigEncrypted || {};
-      if (secrets.bearerToken) {
+      const isSarvamTranslate = item.endpointUrl.includes('api.sarvam.ai/translate');
+      if (secrets.sarvamSubscriptionKey) {
+        reqHeaders['api-subscription-key'] = secrets.sarvamSubscriptionKey;
+      } else if (secrets.bearerToken) {
         reqHeaders.Authorization = `Bearer ${secrets.bearerToken}`;
       } else if (secrets.apiKey) {
         reqHeaders['X-API-Key'] = secrets.apiKey;
       }
 
+      if (isSarvamTranslate || item.adapterType === 'webhook') {
+        reqHeaders['Content-Type'] = 'application/json';
+      }
+
       try {
         const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), 6000);
+        const timer = setTimeout(() => controller.abort(), 8000);
         const res = await fetch(item.endpointUrl, {
-          method: item.adapterType === 'webhook' ? 'POST' : 'GET',
+          method: isSarvamTranslate || item.adapterType === 'webhook' ? 'POST' : 'GET',
           headers: reqHeaders,
-          body:
-            item.adapterType === 'webhook'
+          body: isSarvamTranslate
+            ? JSON.stringify({
+                input: 'Welcome to Sahayak',
+                source_language_code: 'en-IN',
+                target_language_code: 'ta-IN',
+                model: 'sarvam-translate:v1',
+              })
+            : item.adapterType === 'webhook'
               ? JSON.stringify({ event: 'sahayak.health_check', timestamp: new Date().toISOString() })
               : undefined,
           signal: controller.signal,
         });
         clearTimeout(timer);
-        if (res.ok || res.status < 500) {
+        if (res.ok || (!isSarvamTranslate && res.status < 500)) {
           status = 'healthy';
           message = `Live endpoint responded HTTP ${res.status}.`;
         } else {

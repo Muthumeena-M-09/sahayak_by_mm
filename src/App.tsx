@@ -133,6 +133,7 @@ const SahayakWorkspace: React.FC = () => {
             base64Audio: rec.base64Audio,
             mimeType: rec.mimeType,
             languageHint: currentLanguage.englishName,
+            languageCode: currentLanguage.code,
           }),
         });
         if (stt.transcript?.trim()) {
@@ -165,8 +166,8 @@ const SahayakWorkspace: React.FC = () => {
     return (
       <div className="min-h-screen bg-canvas text-body flex items-center justify-center p-6">
         <div className="text-center space-y-2">
-          <div className="font-display text-2xl font-bold text-body">Sahayak</div>
-          <div className="text-sm text-muted">Loading language & session workspace...</div>
+          <div className="font-display text-2xl font-bold text-body">{t('app.name')}</div>
+          <div className="text-sm text-muted">{t('app.loading_workspace')}</div>
         </div>
       </div>
     );
@@ -188,7 +189,7 @@ const SahayakWorkspace: React.FC = () => {
             onClick={() => switchPortal('admin')}
             className="min-h-10 px-3.5 rounded-xl text-xs font-medium text-muted hover:text-body underline"
           >
-            Staff / Admin Console Sign-In
+            {t('app.staff_signin')}
           </button>
         </div>
       </div>
@@ -268,7 +269,7 @@ const SahayakWorkspace: React.FC = () => {
             >
               <ShieldCheck className="w-4 h-4 text-primary shrink-0" />
               <span className="truncate">
-                {isAdminOrStaff ? t('nav.admin') : 'Admin Console'}
+                {isAdminOrStaff ? t('nav.admin') : t('admin.title')}
               </span>
             </button>
           </div>
@@ -331,7 +332,7 @@ const SahayakWorkspace: React.FC = () => {
           <button
             type="button"
             onClick={() => switchPortal('admin')}
-            title="Admin Console"
+            title={t('nav.admin')}
             className={`w-full min-h-12 px-3 rounded-xl border border-hairline bg-elevated text-body flex items-center ${
               tabletRailExpanded ? 'justify-start gap-3' : 'justify-center'
             } text-xs font-semibold hover:bg-tint`}
@@ -370,7 +371,7 @@ const SahayakWorkspace: React.FC = () => {
                 type="button"
                 onClick={() => setLangPickerOpen(true)}
                 className="md:hidden min-h-11 px-3 rounded-xl border border-hairline bg-elevated text-body text-xs font-semibold"
-                aria-label="Change language"
+                aria-label={t('settings.change_language')}
               >
                 {currentLanguage.nativeName}
               </button>
@@ -459,7 +460,7 @@ const SahayakWorkspace: React.FC = () => {
           {stickyVoice.isRecording ? (
             <>
               <Square className="w-5 h-5 shrink-0" />
-              <span>Stop</span>
+              <span>{t('common.stop')}</span>
             </>
           ) : (
             <Mic className="w-6 h-6 shrink-0" />
@@ -504,7 +505,7 @@ const SahayakWorkspace: React.FC = () => {
             }`}
           >
             <MoreHorizontal className="w-5 h-5 shrink-0" />
-            <span>More</span>
+            <span className="truncate max-w-[76px]">{t('common.more')}</span>
           </button>
         </div>
       </nav>

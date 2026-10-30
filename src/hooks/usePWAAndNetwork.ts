@@ -237,6 +237,7 @@ export function useVoiceAudio(voiceSpeed = 1.0) {
       text: string;
       languageName: string;
       localeCode: string;
+      languageCode?: string;
       authToken?: string | null;
     }) => {
       stopPlayback();
@@ -245,6 +246,8 @@ export function useVoiceAudio(voiceSpeed = 1.0) {
         const endpoint = params.authToken ? '/api/voice/tts' : '/api/public/tts';
         const headers: Record<string, string> = { 'Content-Type': 'application/json' };
         if (params.authToken) headers.Authorization = `Bearer ${params.authToken}`;
+        const derivedLangCode =
+          params.languageCode || (params.localeCode ? params.localeCode.split('-')[0] : 'en');
 
         const res = await fetch(endpoint, {
           method: 'POST',
@@ -252,6 +255,7 @@ export function useVoiceAudio(voiceSpeed = 1.0) {
           body: JSON.stringify({
             text: params.text,
             languageName: params.languageName,
+            languageCode: derivedLangCode,
           }),
         });
         if (!res.ok) throw new Error('Server TTS unavailable');

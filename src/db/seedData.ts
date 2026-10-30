@@ -1,4 +1,9 @@
 import type { ServiceFormField, WorkflowStepDef } from './schema.ts';
+import {
+  FULL_BUNDLED_TRANSLATIONS,
+  FULL_DEFAULT_UI_STRINGS,
+  SERVICE_TERM_TRANSLATIONS,
+} from '../i18n/catalog.ts';
 
 export interface SeedLanguage {
   code: string;
@@ -317,187 +322,7 @@ export const SCHEDULED_LANGUAGES: SeedLanguage[] = [
   },
 ];
 
-export const DEFAULT_UI_STRINGS: Record<string, string> = {
-  'app.name': 'Sahayak',
-  'app.tagline': 'Multilingual Assistance & Service Automation',
-  'nav.home': 'Home',
-  'nav.ask': 'Ask',
-  'nav.services': 'Services',
-  'nav.status': 'Status',
-  'nav.documents': 'Documents',
-  'nav.explain': 'Explain Letter',
-  'nav.grievance': 'Grievance',
-  'nav.notifications': 'Reminders',
-  'nav.settings': 'Settings',
-  'nav.help': 'Help',
-  'nav.admin': 'Admin Console',
-  'lang.select_title': 'Choose your language',
-  'lang.select_subtitle': 'Get guidance, form help, and document explanations in your language',
-  'lang.search_placeholder': 'Search language by name or script...',
-  'lang.suggested': 'Suggested from your device',
-  'lang.listen': 'Listen',
-  'lang.continue': 'Continue',
-  'auth.title': 'Verify your identity',
-  'auth.subtitle': 'Sign in or verify your phone to save applications, documents, and reminders securely.',
-  'auth.phone_label': 'Mobile number',
-  'auth.send_otp': 'Send 6-digit OTP',
-  'auth.enter_otp': 'Enter 6-digit verification code',
-  'auth.verify_otp': 'Verify & Continue',
-  'auth.resend_in': 'Resend code in',
-  'auth.resend_now': 'Resend OTP',
-  'auth.google_signin': 'Sign in with Google',
-  'auth.consent_text': 'I consent to Sahayak processing my submitted information and documents solely to assist me with services and status tracking.',
-  'auth.continue_guest': 'Continue as guest',
-  'home.greeting_user': 'Welcome back,',
-  'home.greeting_guest': 'Welcome to Sahayak',
-  'home.hero_prompt': 'How can we help you today?',
-  'home.tap_to_speak': 'Tap to speak',
-  'home.listening': 'Listening... Tap to finish',
-  'home.type_question': 'Type your question in any language...',
-  'home.quick_services': 'Quick actions & domains',
-  'home.active_applications': 'Active applications',
-  'home.upcoming_reminders': 'Upcoming reminders',
-  'home.no_applications': 'No active applications yet. Browse services to start an application.',
-  'home.no_reminders': 'No reminders scheduled. Scan a letter or add a deadline reminder.',
-  'ask.title': 'Ask Sahayak',
-  'ask.empty_title': 'Ask in your own words or voice',
-  'ask.empty_desc': 'Answers are strictly grounded in published official documents. Switch languages anytime.',
-  'ask.sources': 'Verified Sources',
-  'ask.listen_answer': 'Listen to answer',
-  'ask.talk_human': 'Talk to a human',
-  'ask.start_application': 'Start application',
-  'ask.helpful': 'Helpful',
-  'ask.not_helpful': 'Needs improvement',
-  'ask.low_confidence': 'Low confidence — human support available',
-  'domain.government': 'Government',
-  'domain.education': 'Education',
-  'domain.healthcare': 'Healthcare',
-  'domain.banking': 'Banking',
-  'domain.business': 'Business',
-  'domain.customer_support': 'Customer Support',
-  'services.title': 'Browse Services by Domain',
-  'services.start_form': 'Start Smart Form',
-  'services.required_docs': 'Supporting documents',
-  'services.est_days': 'Estimated processing days',
-  'explain.title': 'Explain a Letter or Notice',
-  'explain.subtitle': 'Upload a photo or PDF of any official letter to understand it in plain language.',
-  'explain.upload_btn': 'Upload Image or PDF',
-  'explain.camera_btn': 'Take Photo',
-  'explain.read_aloud': 'Read aloud',
-  'explain.set_reminder': 'Set deadline reminder',
-  'form.step_of': 'Step',
-  'form.upload_autofill': 'Upload document to auto-fill fields',
-  'form.autofilled_tag': 'Auto-filled — please verify',
-  'form.review_submit': 'Review & Submit Application',
-  'form.submitted_ref': 'Application submitted. Reference number:',
-  'status.title': 'My Applications & Grievances',
-  'status.ask_about': 'Ask about this application',
-  'docs.title': 'My Documents',
-  'docs.connect_digilocker': 'Connect DigiLocker',
-  'grievance.title': 'File a Grievance or Request',
-  'grievance.submit': 'Submit Grievance',
-  'settings.title': 'Settings & Privacy',
-  'settings.voice_speed': 'Voice reading speed',
-  'settings.text_size': 'Text size',
-  'settings.theme': 'Appearance',
-  'settings.delete_data': 'Delete my data permanently',
-  'weak_net.banner': 'Offline or weak network — Text-only mode active. Questions will be queued.',
-  'weak_net.ask_sms': 'Ask via SMS',
-  'pwa.install': 'Install Sahayak App',
-};
-
-export const BUNDLED_TRANSLATIONS: Record<string, Record<string, string>> = {
-  hi: {
-    'app.name': 'सहायक',
-    'nav.home': 'होम',
-    'nav.ask': 'पूछें',
-    'nav.services': 'सेवाएँ',
-    'nav.status': 'स्थिति',
-    'nav.documents': 'दस्तावेज़',
-    'nav.explain': 'पत्र समझें',
-    'nav.grievance': 'शिकायत',
-    'nav.notifications': 'रिमाइंडर',
-    'nav.settings': 'सेटिंग्स',
-    'nav.help': 'सहायता',
-    'lang.select_title': 'अपनी भाषा चुनें',
-    'lang.listen': 'सुनें',
-    'lang.continue': 'आगे बढ़ें',
-    'auth.continue_guest': 'अतिथि के रूप में जारी रखें',
-    'home.greeting_user': 'वापसी पर स्वागत है,',
-    'home.greeting_guest': 'सहायक में आपका स्वागत है',
-    'home.hero_prompt': 'आज हम आपकी क्या सहायता कर सकते हैं?',
-    'home.tap_to_speak': 'बोलने के लिए टैप करें',
-    'home.type_question': 'किसी भी भाषा में अपना प्रश्न लिखें...',
-    'ask.talk_human': 'मानव सहायक से बात करें',
-    'ask.listen_answer': 'उत्तर सुनें',
-    'domain.government': 'सरकारी सेवाएँ',
-    'domain.education': 'शिक्षा',
-    'domain.healthcare': 'स्वास्थ्य',
-    'domain.banking': 'बैंकिंग',
-    'domain.business': 'व्यापार',
-    'domain.customer_support': 'ग्राहक सहायता',
-  },
-  ta: {
-    'app.name': 'சஹாயக்',
-    'nav.home': 'முகப்பு',
-    'nav.ask': 'கேளுங்கள்',
-    'nav.services': 'சேவைகள்',
-    'nav.status': 'நிலை',
-    'nav.documents': 'ஆவணங்கள்',
-    'nav.explain': 'கடிதம் விளக்கம்',
-    'nav.grievance': 'குறைதீர்ப்பு',
-    'nav.notifications': 'நினைவூட்டல்',
-    'nav.settings': 'அமைப்புகள்',
-    'nav.help': 'உதவி',
-    'lang.select_title': 'உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்',
-    'lang.listen': 'கேட்க',
-    'lang.continue': 'தொடரவும்',
-    'auth.continue_guest': 'விருந்தினராகத் தொடரவும்',
-    'home.greeting_user': 'நல்வரவு,',
-    'home.greeting_guest': 'சஹாயக்கிற்கு நல்வரவு',
-    'home.hero_prompt': 'இன்று நாங்கள் உங்களுக்கு எப்படி உதவலாம்?',
-    'home.tap_to_speak': 'பேச தட்டவும்',
-    'home.type_question': 'உங்கள் கேள்வியை எந்த மொழியிலும் தட்டச்சு செய்யவும்...',
-    'ask.talk_human': 'மனித உதவியாளரிடம் பேசுங்கள்',
-    'ask.listen_answer': 'பதிலைக் கேளுங்கள்',
-    'domain.government': 'அரசு சேவைகள்',
-    'domain.education': 'கல்வி',
-    'domain.healthcare': 'மருத்துவம்',
-    'domain.banking': 'வங்கி',
-    'domain.business': 'வணிகம்',
-    'domain.customer_support': 'வாடிக்கையாளர் சேவை',
-  },
-  ur: {
-    'app.name': 'سہایک',
-    'nav.home': 'ہوم',
-    'nav.ask': 'پوچھیں',
-    'nav.services': 'خدمات',
-    'nav.status': 'اسٹیٹس',
-    'nav.documents': 'دستاویزات',
-    'nav.explain': 'خط سمجھیں',
-    'nav.grievance': 'شکایت',
-    'nav.notifications': 'یاد دہانی',
-    'nav.settings': 'ترتیبات',
-    'nav.help': 'مدد',
-    'lang.select_title': 'اپنی زبان منتخب کریں',
-    'lang.listen': 'سنیں',
-    'lang.continue': 'آگے بڑھیں',
-    'auth.continue_guest': 'بطور مہمان جاری رکھیں',
-    'home.greeting_user': 'خوش آمدید،',
-    'home.greeting_guest': 'سہایک میں خوش آمدید',
-    'home.hero_prompt': 'آج ہم آپ کی کیا مدد کر سکتے ہیں؟',
-    'home.tap_to_speak': 'بولنے کے لیے ٹیپ کریں',
-    'home.type_question': 'اپنا سوال کسی بھی زبان میں لکھیں...',
-    'ask.talk_human': 'انسانی نمائندے سے بات کریں',
-    'ask.listen_answer': 'جواب سنیں',
-    'domain.government': 'سرکاری خدمات',
-    'domain.education': 'تعلیم',
-    'domain.healthcare': 'صحت',
-    'domain.banking': 'بینکنگ',
-    'domain.business': 'کاروبار',
-    'domain.customer_support': 'کسٹمر سپورٹ',
-  },
-};
+// Built below after NEUTRAL_SERVICE_TEMPLATES so all svc_term.* keys are included automatically
 
 export interface SeedServiceTemplate {
   slug: string;
@@ -678,3 +503,36 @@ export const DEFAULT_INTEGRATIONS = [
     status: 'untested',
   },
 ];
+
+// Build complete DEFAULT_UI_STRINGS + BUNDLED_TRANSLATIONS including every service field/doc/option term
+const serviceTermsSource: Record<string, string> = {};
+for (const tpl of NEUTRAL_SERVICE_TEMPLATES) {
+  serviceTermsSource[`svc.${tpl.slug}.title`] = tpl.title;
+  serviceTermsSource[`svc.${tpl.slug}.desc`] = tpl.description;
+  for (const doc of tpl.requiredDocuments) {
+    serviceTermsSource[`svc_term.${doc}`] = doc;
+  }
+  for (const field of tpl.formSchema) {
+    serviceTermsSource[`svc_term.${field.label}`] = field.label;
+    for (const opt of field.options || []) {
+      serviceTermsSource[`svc_term.${opt}`] = opt;
+    }
+  }
+}
+
+export const DEFAULT_UI_STRINGS: Record<string, string> = {
+  ...serviceTermsSource,
+  ...FULL_DEFAULT_UI_STRINGS,
+};
+
+export const BUNDLED_TRANSLATIONS: Record<string, Record<string, string>> = Object.fromEntries(
+  Object.entries(FULL_BUNDLED_TRANSLATIONS).map(([lang, dict]) => {
+    const extraTerms: Record<string, string> = {};
+    const termLookup = SERVICE_TERM_TRANSLATIONS[lang] || {};
+    for (const [enTerm, localTerm] of Object.entries(termLookup)) {
+      extraTerms[`svc_term.${enTerm}`] = localTerm;
+    }
+    return [lang, { ...extraTerms, ...dict }];
+  })
+);
+

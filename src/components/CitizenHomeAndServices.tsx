@@ -30,8 +30,17 @@ import { DomainLabel } from './SharedUI.tsx';
 export const CitizenHomeScreen: React.FC<{
   onNavigate: (screen: CitizenScreen, payload?: any) => void;
 }> = ({ onNavigate }) => {
-  const { profile, currentLanguage, t, apiFetch, network, formatDate, formatNumber, subscribeRealtime } =
-    useApp();
+  const {
+    profile,
+    currentLanguage,
+    t,
+    tStatus,
+    apiFetch,
+    network,
+    formatDate,
+    formatNumber,
+    subscribeRealtime,
+  } = useApp();
   const [questionText, setQuestionText] = useState('');
   const [transcribing, setTranscribing] = useState(false);
   const [voiceError, setVoiceError] = useState<string | null>(null);
@@ -77,15 +86,16 @@ export const CitizenHomeScreen: React.FC<{
             base64Audio: recorded.base64Audio,
             mimeType: recorded.mimeType,
             languageHint: currentLanguage.englishName,
+            languageCode: currentLanguage.code,
           }),
         });
         if (sttRes.transcript) {
           onNavigate('ask', { initialQuestion: sttRes.transcript });
         } else {
-          setVoiceError('No speech detected. Please speak clearly or type your question.');
+          setVoiceError(t('home.err_no_speech'));
         }
       } catch (err: any) {
-        setVoiceError(err.message || 'Could not process voice input.');
+        setVoiceError(err.message || t('home.err_no_speech'));
       } finally {
         setTranscribing(false);
       }
@@ -93,7 +103,7 @@ export const CitizenHomeScreen: React.FC<{
       try {
         await voice.startRecording();
       } catch {
-        setVoiceError('Microphone permission is unavailable. You can type your question below.');
+        setVoiceError(t('home.err_mic'));
       }
     }
   };
@@ -158,7 +168,7 @@ export const CitizenHomeScreen: React.FC<{
               ) : (
                 <>
                   <Mic className="w-6 h-6 shrink-0" />
-                  <span>{transcribing ? 'Transcribing...' : t('home.tap_to_speak')}</span>
+                  <span>{transcribing ? t('home.transcribing') : t('home.tap_to_speak')}</span>
                 </>
               )}
             </button>
@@ -175,7 +185,7 @@ export const CitizenHomeScreen: React.FC<{
             />
             <button
               type="submit"
-              aria-label="Ask"
+              aria-label={t('nav.ask')}
               className="min-h-14 min-w-14 px-5 rounded-2xl bg-primary text-on-primary font-semibold flex items-center justify-center gap-2 hover:bg-primary-hover shrink-0"
             >
               <Send className="w-5 h-5" />
@@ -195,7 +205,7 @@ export const CitizenHomeScreen: React.FC<{
               <FileSearch className="w-5 h-5 shrink-0" />
               <div>
                 <div className="font-semibold text-base">{t('nav.explain')}</div>
-                <div className="text-xs text-muted">Scan image or PDF · Plain language</div>
+                <div className="text-xs text-muted">{t('home.explain_sub')}</div>
               </div>
             </div>
             <ArrowRight className="w-4 h-4 shrink-0" />
@@ -210,7 +220,7 @@ export const CitizenHomeScreen: React.FC<{
               <ShieldAlert className="w-5 h-5 text-warm shrink-0" />
               <div>
                 <div className="font-semibold text-base">{t('nav.grievance')}</div>
-                <div className="text-xs text-muted">Voice or text · Tracked reference ID</div>
+                <div className="text-xs text-muted">{t('home.grievance_sub')}</div>
               </div>
             </div>
             <ArrowRight className="w-4 h-4 shrink-0" />
@@ -229,7 +239,7 @@ export const CitizenHomeScreen: React.FC<{
             onClick={() => onNavigate('services')}
             className="text-sm font-medium text-primary hover:underline min-h-10 flex items-center gap-1"
           >
-            <span>All {t('nav.services')}</span>
+            <span>{t('home.all_services')}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
@@ -303,7 +313,7 @@ export const CitizenHomeScreen: React.FC<{
                         {formatNumber(app.totalSteps)}
                       </span>
                       <span> · </span>
-                      <span>{app.status.replace(/_/g, ' ')}</span>
+                      <span>{tStatus(app.status)}</span>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-muted shrink-0" />
@@ -323,7 +333,7 @@ export const CitizenHomeScreen: React.FC<{
               onClick={() => onNavigate('notifications')}
               className="text-sm font-medium text-primary hover:underline min-h-10"
             >
-              Manage
+              {t('common.manage')}
             </button>
           </div>
 
@@ -347,7 +357,7 @@ export const CitizenHomeScreen: React.FC<{
                   onClick={() => onNavigate('notifications')}
                   className="min-h-12 px-4 rounded-xl bg-tint text-tint-fg text-sm font-medium"
                 >
-                  Add Reminder
+                  {t('home.add_reminder')}
                 </button>
               </div>
             </div>
@@ -360,7 +370,14 @@ export const CitizenHomeScreen: React.FC<{
                     <div>
                       <div className="font-medium text-body">{rem.title}</div>
                       <div className="text-xs text-muted font-mono tabular-nums mt-0.5">
-                        Due {formatDate(rem.dueAt)} · {rem.channel.toUpperCase()}
+                        {t('home.due')}: {formatDate(rem.dueAt)} ·{' '}
+                        {rem.channel === 'push'
+                          ? t('notif.ch_push')
+                          : rem.channel === 'whatsapp'
+                            ? t('notif.ch_whatsapp')
+                            : rem.channel === 'sms'
+                              ? t('notif.ch_sms')
+                              : t('notif.ch_voice')}
                       </div>
                     </div>
                   </div>
@@ -416,10 +433,7 @@ export const CitizenServicesScreen: React.FC<{
         <h1 className="font-display text-2xl sm:text-3xl font-bold text-body">
           {t('services.title')}
         </h1>
-        <p className="text-base text-muted">
-          Select a service to start guided smart form filling with automatic document field
-          extraction.
-        </p>
+        <p className="text-base text-muted">{t('services.subtitle')}</p>
       </div>
 
       {/* Interactive Segmented Domain Filter */}
@@ -435,7 +449,7 @@ export const CitizenServicesScreen: React.FC<{
                 : 'text-body hover:bg-tint/50'
             }`}
           >
-            {dom === 'all' ? 'All Domains' : <DomainLabel domain={dom} />}
+            {dom === 'all' ? t('common.all_domains') : <DomainLabel domain={dom} />}
           </button>
         ))}
       </div>
@@ -444,13 +458,13 @@ export const CitizenServicesScreen: React.FC<{
         type="search"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Filter services by keyword..."
+        placeholder={t('services.search_placeholder')}
         className="w-full max-w-md min-h-12 px-4 rounded-xl bg-card border border-hairline text-body placeholder:text-muted"
       />
 
       {filtered.length === 0 ? (
         <div className="p-8 rounded-2xl bg-card border border-hairline text-start space-y-2">
-          <p className="font-medium text-body">No services matched your filter.</p>
+          <p className="font-medium text-body">{t('services.no_match')}</p>
           <button
             type="button"
             onClick={() => {
@@ -459,7 +473,7 @@ export const CitizenServicesScreen: React.FC<{
             }}
             className="text-sm text-primary underline min-h-10"
           >
-            Reset filters
+            {t('services.reset_filters')}
           </button>
         </div>
       ) : (
@@ -474,11 +488,11 @@ export const CitizenServicesScreen: React.FC<{
                   <DomainLabel domain={svc.domain} />
                   <span> · </span>
                   <span className="font-mono tabular-nums">
-                    {formatNumber(svc.estimatedDays)} days
+                    {formatNumber(svc.estimatedDays)} {t('services.days')}
                   </span>
                   <span> · </span>
                   <span className="font-mono tabular-nums">
-                    {formatNumber(svc.formSchema.length)} fields
+                    {formatNumber(svc.formSchema.length)} {t('services.fields')}
                   </span>
                 </div>
                 <h2 className="font-display text-xl font-bold text-body">{svc.title}</h2>
@@ -502,10 +516,10 @@ export const CitizenServicesScreen: React.FC<{
                 </button>
                 <button
                   type="button"
-                  onClick={() => onAskDomain(`How do I apply for ${svc.title}?`)}
+                  onClick={() => onAskDomain(`${t('services.ask_prompt_prefix')} ${svc.title}?`)}
                   className="min-h-12 px-4 rounded-xl border border-hairline bg-elevated text-body text-sm font-medium hover:bg-tint/40 whitespace-nowrap shrink-0"
                 >
-                  Ask eligibility & steps
+                  {t('services.ask_eligibility')}
                 </button>
               </div>
             </article>
@@ -563,13 +577,9 @@ export const SmartFormScreen: React.FC<{
       if (res.document?.id) {
         setAttachedDocIds((prev) => [...prev, res.document!.id]);
       }
-      setExtractNotice(
-        extractedKeys.length > 0
-          ? `Auto-extracted ${extractedKeys.length} field(s) from "${file.name}". Please review each highlighted value.`
-          : `Uploaded "${file.name}" (${res.documentSummary}). Fill any remaining fields manually.`
-      );
+      setExtractNotice(extractedKeys.length > 0 ? t('form.extracted_notice') : res.documentSummary);
     } catch (err: any) {
-      setErrorMsg(err.message || 'Could not extract fields from document.');
+      setErrorMsg(err.message || t('form.upload_hint'));
     } finally {
       setExtracting(false);
     }
@@ -580,7 +590,7 @@ export const SmartFormScreen: React.FC<{
   const validateCurrentStep = () => {
     for (const f of fieldsForCurrentStep) {
       if (f.required && !String(values[f.key] || '').trim()) {
-        setErrorMsg(`Please complete required field: "${f.label}"`);
+        setErrorMsg(`${t('form.err_required')} "${f.label}"`);
         return false;
       }
     }
@@ -591,7 +601,7 @@ export const SmartFormScreen: React.FC<{
   const handleSubmitApplication = async () => {
     for (const f of template.formSchema) {
       if (f.required && !String(values[f.key] || '').trim()) {
-        setErrorMsg(`Missing required field: "${f.label}"`);
+        setErrorMsg(`${t('form.err_required')} "${f.label}"`);
         return;
       }
     }
@@ -623,7 +633,9 @@ export const SmartFormScreen: React.FC<{
       <div className="max-w-2xl mx-auto bg-card border border-hairline rounded-2xl p-6 sm:p-8 space-y-6">
         <div className="flex items-center gap-3 text-primary">
           <CheckCircle2 className="w-8 h-8 shrink-0" />
-          <h1 className="font-display text-2xl font-bold text-body">Application Submitted</h1>
+          <h1 className="font-display text-2xl font-bold text-body">
+            {t('form.submitted_title')}
+          </h1>
         </div>
         <p className="text-base text-muted">{t('form.submitted_ref')}</p>
         <div className="p-4 rounded-xl bg-tint text-tint-fg font-mono text-xl font-bold tabular-nums">
@@ -635,14 +647,14 @@ export const SmartFormScreen: React.FC<{
             onClick={() => onCompleted(submittedApp.id)}
             className="min-h-12 px-5 rounded-xl bg-primary text-on-primary font-semibold"
           >
-            Track Application Timeline
+            {t('form.track_timeline')}
           </button>
           <button
             type="button"
             onClick={onBack}
             className="min-h-12 px-4 rounded-xl border border-hairline bg-elevated text-body font-medium"
           >
-            Back to Services
+            {t('form.back_services')}
           </button>
         </div>
       </div>
@@ -657,7 +669,7 @@ export const SmartFormScreen: React.FC<{
         className="min-h-11 px-3 rounded-xl text-sm font-medium text-body hover:bg-tint inline-flex items-center gap-2"
       >
         <ArrowLeft className="w-4 h-4" />
-        <span>Back to Services</span>
+        <span>{t('form.back_services')}</span>
       </button>
 
       <div className="bg-card border border-hairline rounded-2xl p-6 sm:p-8 space-y-6">
@@ -684,14 +696,11 @@ export const SmartFormScreen: React.FC<{
         <div className="p-4 rounded-xl bg-warm-soft border border-hairline flex flex-wrap items-center justify-between gap-4">
           <div className="space-y-0.5">
             <div className="font-semibold text-sm text-body">{t('form.upload_autofill')}</div>
-            <div className="text-xs text-muted">
-              Upload ID card, certificate, or statement (Image or PDF) to extract fields
-              automatically.
-            </div>
+            <div className="text-xs text-muted">{t('form.upload_hint')}</div>
           </div>
           <label className="min-h-12 px-4 rounded-xl bg-primary text-on-primary text-sm font-semibold inline-flex items-center gap-2 cursor-pointer hover:bg-primary-hover shrink-0">
             <FileUp className="w-4 h-4" />
-            <span>{extracting ? 'Extracting...' : 'Choose Document'}</span>
+            <span>{extracting ? t('form.extracting') : t('form.choose_doc')}</span>
             <input
               type="file"
               accept="image/*,application/pdf"
@@ -738,7 +747,7 @@ export const SmartFormScreen: React.FC<{
                     }
                     className="w-full min-h-12 px-4 rounded-xl bg-elevated border border-hairline text-body"
                   >
-                    <option value="">Select an option...</option>
+                    <option value="">{t('form.select_option')}</option>
                     {(field.options || []).map((opt) => (
                       <option key={opt} value={opt}>
                         {opt}
@@ -771,14 +780,14 @@ export const SmartFormScreen: React.FC<{
           {step === totalSteps && (
             <div className="p-4 rounded-xl bg-elevated border border-hairline space-y-3">
               <h3 className="font-display text-base font-semibold text-body">
-                Review Application Summary
+                {t('form.review_summary')}
               </h3>
               <dl className="divide-y divide-hairline text-sm">
                 {template.formSchema.map((f) => (
                   <div key={f.key} className="py-2 flex flex-wrap justify-between gap-2">
                     <dt className="text-muted">
                       {f.label}
-                      {autoFilledKeys.includes(f.key) ? ' · Auto-filled' : ''}
+                      {autoFilledKeys.includes(f.key) ? ` · ${t('form.autofilled_tag')}` : ''}
                     </dt>
                     <dd className="font-medium text-body">{values[f.key] || '—'}</dd>
                   </div>
@@ -795,7 +804,7 @@ export const SmartFormScreen: React.FC<{
             onClick={() => setStep((s) => Math.max(1, s - 1))}
             className="min-h-12 px-5 rounded-xl border border-hairline bg-elevated text-body font-medium disabled:opacity-40"
           >
-            Previous
+            {t('form.previous')}
           </button>
 
           {step < totalSteps ? (
@@ -806,7 +815,7 @@ export const SmartFormScreen: React.FC<{
               }}
               className="min-h-12 px-6 rounded-xl bg-primary text-on-primary font-semibold flex items-center gap-2 hover:bg-primary-hover"
             >
-              <span>Next Step</span>
+              <span>{t('form.next_step')}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           ) : (
@@ -817,7 +826,7 @@ export const SmartFormScreen: React.FC<{
               className="min-h-12 px-6 rounded-xl bg-primary text-on-primary font-semibold flex items-center gap-2 hover:bg-primary-hover disabled:opacity-60"
             >
               <CheckCircle2 className="w-5 h-5" />
-              <span>{submitting ? 'Submitting...' : t('form.review_submit')}</span>
+              <span>{submitting ? t('form.submitting') : t('form.review_submit')}</span>
             </button>
           )}
         </div>
