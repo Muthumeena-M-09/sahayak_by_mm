@@ -1,7 +1,7 @@
 # Sahayak ISL Assist — Phase 1 validation
 
-Reviewed: 2 November 2026. Status: **INCLUDE checkpoint validation authorized;
-camera integration remains gated on validation**.
+Reviewed: 2–3 November 2026. Status: **experimental local camera test implemented;
+production use remains gated on validation**.
 
 ## Recommendation
 
@@ -13,7 +13,8 @@ classifier, an ASL model, or MediaPipe gesture labels for ISL word recognition.
 
 The plan now includes model acquisition, licensing review, conversion and evaluation
 before camera recognition can be enabled. Per the supplied instructions, this is
-the Phase 1 decision point; Phases 2–6 are not implemented yet.
+the original Phase 1 decision point. Later prototype work is recorded in the dated
+follow-up sections below.
 
 ## Existing application integration
 
@@ -172,3 +173,36 @@ mobile latency, legacy extractor compatibility, checkpoint reuse terms, held-out
 ISL accuracy, non-sign rejection and multiple-user evaluation. Do not enable
 recognition until these are resolved. Training on a current landmark contract
 remains the fallback, rather than an unverified claim of compatibility.
+
+## Browser prototype follow-up — 3 November 2026
+
+The user authorized proceeding with the local testing flow. See
+[setup, evaluation and manual tests](isl-testing.md).
+
+Historical [MediaPipe Pose source at commit 39309bed](https://github.com/google-ai-edge/mediapipe/blob/39309bedba255aee2a4f31b29b65609857698ada/mediapipe/python/solutions/pose.py)
+describes upper-body output as 25 points and identifies the same nose-through-hip
+indices 0–24 used today. The prototype maps the first 25 current pose points,
+preserves the original pixel scaling and single-hand wrist assignment, and fixes
+all-missing coordinate columns to zero. This resolves index ordering, not
+equivalence between old and new landmark models. Two-hand ordering and sampling
+speed remain risks. Current model assets and package versions are recorded locally
+in `public/isl/asset-provenance.json` and the npm lockfile.
+
+The [Tasks Web guide](https://developers.google.cn/edge/mediapipe/solutions/vision/hand_landmarker/web_js)
+supports Worker processing. The app uses MediaPipe strictly for landmarks and
+the genuine INCLUDE ONNX model for signs. MediaPipe Tasks module Workers need the
+module WASM loader, with its exported factory restored between independent task
+creations. This was checked with actual Worker startup, frame processing and
+camera cleanup in desktop Chromium. ONNX WASM inference also executes locally.
+
+The first genuine INCLUDE clip sanity check **failed to identify thankyou**:
+the top result was `it` at confidence 0.2265, below the UI threshold and outside
+the supported test subset. See [recorded sample result](isl-browser-evaluation.json).
+No held-out accuracy is claimed. The feature remains default-off and visibly
+experimental; the local test page submits nothing to the backend. It is for
+collecting validation evidence, not citizen deployment. The 15 configured labels
+are dataset-backed candidate words, not a claim of reliable live recognition.
+
+The feature uses the existing chat endpoint for explicitly submitted phrases,
+with `input_mode: "isl"`, no attachments and no sign/biometric analytics. No
+Supabase schema, auth, paid service or external inference endpoint was added.

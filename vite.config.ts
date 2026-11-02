@@ -8,6 +8,7 @@ export default defineConfig(() => {
   const port = Number.parseInt(process.env.PORT || '3000', 10) || 3000;
 
   return {
+    optimizeDeps: { include: ['@mediapipe/tasks-vision', 'onnxruntime-web/wasm'] },
     plugins: [
       react(),
       tailwindcss(),
@@ -53,6 +54,7 @@ export default defineConfig(() => {
           ],
         },
         workbox: {
+          globIgnores: ['isl/**'],
           globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
           navigateFallbackDenylist: [/^\/api\//, /^\/ws/],
           runtimeCaching: [

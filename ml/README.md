@@ -4,7 +4,8 @@
 
 The approved follow-up investigates the genuine ISL 263-class small transformer.
 Research assets and generated models stay in ignored local folders, outside public
-web assets. The app is still not enabled for recognition.
+web assets until explicitly staged with `npm run isl:prepare`. An experimental
+camera screen is now available; see [local testing](../docs/isl-testing.md).
 
 ```powershell
 python ml/fetch_include.py
@@ -68,5 +69,6 @@ The closed-set classifier alone cannot reject unknown signs reliably.
 Before deployment compare ONNX and PyTorch outputs, record artifact hashes,
 measure per-sign precision/recall and false activations, and evaluate with multiple
 ISL users under varied lighting, backgrounds and signing speeds. Keep all camera
-inference on the device. The app currently has no model loader or placement path;
-adding labels here does not enable supported signs in Sahayak.
+inference on the device. The current app loader accepts only the verified INCLUDE
+artifact hash; a newly trained fallback requires a separately validated adapter,
+manifest and preprocessing contract. Adding labels alone does not train new signs.

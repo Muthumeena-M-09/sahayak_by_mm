@@ -9,3 +9,6 @@ coverage/
 
 # Local browser regression-test profile
 .browser-check/
+public/isl/
+test-results/
+playwright-report/
