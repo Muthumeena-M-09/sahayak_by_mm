@@ -1,3 +1,4 @@
+import { SpeechProviderError } from './speech.ts';
 import { ilike } from 'drizzle-orm';
 import { db } from '../db/index.ts';
 import { integrations } from '../db/schema.ts';
@@ -361,6 +362,7 @@ export async function sarvamTranscribeAudio(params: {
     `recording.${ext}`
   );
   formData.append('model', 'saaras:v3');
+  formData.append('mode', 'transcribe');
 
   const sarvamLang = params.languageCode ? toSarvamLangCode(params.languageCode) : null;
   if (sarvamLang) {
@@ -375,14 +377,17 @@ export async function sarvamTranscribeAudio(params: {
       'api-subscription-key': apiKey,
     },
     body: formData,
+    signal: AbortSignal.timeout(15000),
   });
 
   if (!res.ok) {
-    return null;
+    const body = await res.json().catch(() => ({}));
+    const code = res.status === 402 || body?.error?.code === 'insufficient_quota_error' ? 'quota_exhausted' : res.status === 401 || res.status === 403 ? 'credentials_rejected' : res.status === 429 ? 'rate_limited' : 'provider_unavailable';
+    throw new SpeechProviderError('sarvam',res.status,code);
   }
 
   const data = (await res.json()) as { transcript?: string; language_code?: string };
-  if (typeof data.transcript !== 'string') return null;
+  if (typeof data.transcript !== 'string') throw new Error('Invalid Sarvam STT response');
 
   return {
     transcript: data.transcript.trim(),

@@ -63,6 +63,8 @@ export interface ServiceTemplate {
 }
 
 export interface CitationItem {
+  sourceNumber?: number;
+  sourceUrl?: string | null;
   documentId: number;
   documentTitle: string;
   pageNumber: number;
@@ -249,6 +251,7 @@ export interface IntegrationItem {
 }
 
 export type CitizenScreen =
+  | 'centres'
   | 'home'
   | 'ask'
   | 'services'

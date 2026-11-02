@@ -209,7 +209,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
     const metaTheme = document.querySelector('meta[name="theme-color"]');
     if (metaTheme) {
-      metaTheme.setAttribute('content', accentPalette === 'terracotta' ? '#C1785A' : '#898AC4');
+      metaTheme.setAttribute('content', accentPalette === 'terracotta' ? '#7B1E1A' : '#7B1E1A');
     }
   }, [accentPalette]);
 

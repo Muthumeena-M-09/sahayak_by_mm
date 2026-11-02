@@ -1,0 +1,128 @@
+[
+  {
+    "file": "index.html",
+    "hex": 1,
+    "rgb_hsl": 0,
+    "named": 3,
+    "tailwind_color": 3,
+    "gradient": 0,
+    "shadow": 0
+  },
+  {
+    "file": "vite.config.ts",
+    "hex": 2,
+    "rgb_hsl": 0,
+    "named": 0,
+    "tailwind_color": 0,
+    "gradient": 0,
+    "shadow": 0
+  },
+  {
+    "file": "src/App.tsx",
+    "hex": 0,
+    "rgb_hsl": 0,
+    "named": 3,
+    "tailwind_color": 100,
+    "gradient": 0,
+    "shadow": 1
+  },
+  {
+    "file": "src/index.css",
+    "hex": 5,
+    "rgb_hsl": 0,
+    "named": 12,
+    "tailwind_color": 62,
+    "gradient": 2,
+    "shadow": 3
+  },
+  {
+    "file": "src/components/AdminConsole.tsx",
+    "hex": 0,
+    "rgb_hsl": 0,
+    "named": 0,
+    "tailwind_color": 928,
+    "gradient": 0,
+    "shadow": 0
+  },
+  {
+    "file": "src/components/CitizenAskAndExplain.tsx",
+    "hex": 0,
+    "rgb_hsl": 0,
+    "named": 0,
+    "tailwind_color": 279,
+    "gradient": 0,
+    "shadow": 0
+  },
+  {
+    "file": "src/components/CitizenHomeAndServices.tsx",
+    "hex": 0,
+    "rgb_hsl": 0,
+    "named": 0,
+    "tailwind_color": 205,
+    "gradient": 0,
+    "shadow": 0
+  },
+  {
+    "file": "src/components/CitizenRecordsAndSettings.tsx",
+    "hex": 6,
+    "rgb_hsl": 0,
+    "named": 0,
+    "tailwind_color": 368,
+    "gradient": 0,
+    "shadow": 0
+  },
+  {
+    "file": "src/components/OnboardingFlow.tsx",
+    "hex": 0,
+    "rgb_hsl": 0,
+    "named": 0,
+    "tailwind_color": 124,
+    "gradient": 0,
+    "shadow": 0
+  },
+  {
+    "file": "src/components/SharedUI.tsx",
+    "hex": 0,
+    "rgb_hsl": 0,
+    "named": 0,
+    "tailwind_color": 67,
+    "gradient": 0,
+    "shadow": 0
+  },
+  {
+    "file": "src/components/WarliArt.tsx",
+    "hex": 0,
+    "rgb_hsl": 0,
+    "named": 5,
+    "tailwind_color": 0,
+    "gradient": 0,
+    "shadow": 0
+  },
+  {
+    "file": "src/context/AppContext.tsx",
+    "hex": 2,
+    "rgb_hsl": 0,
+    "named": 0,
+    "tailwind_color": 1,
+    "gradient": 0,
+    "shadow": 0
+  },
+  {
+    "file": "src/lib/sarvam.ts",
+    "hex": 0,
+    "rgb_hsl": 0,
+    "named": 0,
+    "tailwind_color": 2,
+    "gradient": 0,
+    "shadow": 0
+  },
+  {
+    "file": "public/icon.svg",
+    "hex": 7,
+    "rgb_hsl": 0,
+    "named": 0,
+    "tailwind_color": 8,
+    "gradient": 0,
+    "shadow": 0
+  }
+]

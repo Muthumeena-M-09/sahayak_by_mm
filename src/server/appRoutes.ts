@@ -1,3 +1,6 @@
+import { registerCentreRoutes } from '../features/centres/routes.ts';
+import { SpeechError } from '../lib/speech.ts';
+import { embedSingleTextWithRetry, EMBEDDING_MODEL, EMBEDDING_DIMENSIONS } from '../lib/embeddings.ts';
 import type { Router } from 'express';
 import type { Server as HttpServer } from 'http';
 import { eq } from 'drizzle-orm';
@@ -6,6 +9,7 @@ import { conversations, profiles } from '../db/schema.ts';
 import { BUNDLED_TRANSLATIONS, DEFAULT_UI_STRINGS } from '../db/seedData.ts';
 import {
   appendMessage,
+  checkDuplicateDocumentUrl,
   computeAdminAnalytics,
   createApplicationSubmission,
   createCitizenGrievance,
@@ -21,7 +25,9 @@ import {
   escalateConversationToHuman,
   executeWorkflowsForEvent,
   getCachedTranslations,
+  getDocumentChunkStats,
   getGlossaryEntries,
+  getKnowledgeDocumentById,
   getMessagesForConversation,
   inviteOrAssignRole,
   issueBackendSessionForUser,
@@ -55,6 +61,7 @@ import {
   testIntegrationById,
   toggleUserReminder,
   updateConversationStatusAdmin,
+  updateDocumentIngestionProgress,
   updateGrievanceAdmin,
   updateProfileSettings,
   upsertLanguageEntry,
@@ -77,16 +84,24 @@ import {
   translateUiStringsBatch,
 } from '../lib/gemini.ts';
 import { getSarvamApiKey } from '../lib/sarvam.ts';
+import { validateSafeUrl } from '../lib/webScraper.ts';
+import { queueIngestionJob, resumePendingIngestionJobs } from '../lib/ingestionWorker.ts';
 import { requireAuth, requireRole, type AuthRequest } from '../middleware/auth.ts';
 import { realtimeHub } from './wsHub.ts';
 
 export function registerAppRoutes(app: Router, httpServer: HttpServer): void {
+  registerCentreRoutes(app);
   // Attach real-time WebSocket hub on same HTTP server (/ws)
   realtimeHub.attach(httpServer);
 
   // Warm baseline seed registries in background without blocking HTTP startup or health probes
   ensureSeedData().catch((err) => {
     console.warn('Background seed warmup deferred:', err?.message || err);
+  });
+
+  // Resume any incomplete ingestion jobs from previous server restarts
+  resumePendingIngestionJobs().catch((err) => {
+    console.warn('Pending ingestion resume deferred:', err?.message || err);
   });
 
   // =========================================================================
@@ -304,7 +319,7 @@ export function registerAppRoutes(app: Router, httpServer: HttpServer): void {
       res.json(result);
     } catch (error: any) {
       console.error('STT error:', error);
-      res.status(500).json({ error: error.message || 'Voice transcription failed.' });
+      res.status(error instanceof SpeechError ? error.status : 503).json({ error: error instanceof SpeechError ? error.message : 'Speech service is temporarily unavailable. Please try again.', code: error instanceof SpeechError ? error.code : 'STT_UNAVAILABLE' });
     }
   });
 
@@ -455,8 +470,7 @@ export function registerAppRoutes(app: Router, httpServer: HttpServer): void {
         })),
       });
 
-      const replyLang =
-        allLangs.find((l) => l.code === analysis.detectedLanguageCode) || fastLang;
+      const replyLang = prefLang; // Selected language controls replies; detection only helps retrieval.
 
       // Cross-lingual pgvector RAG retrieval + full service catalog
       const searchInput = `${analysis.englishSearchQuery}\n${effectiveMessage}`;
@@ -996,68 +1010,74 @@ export function registerAppRoutes(app: Router, httpServer: HttpServer): void {
           rawText,
         } = req.body || {};
 
-        if (!title) return res.status(400).json({ error: 'Document title is required.' });
+        if (!title?.trim()) {
+          return res.status(400).json({ error: 'Document title is required.' });
+        }
 
-        const parsed = await parseDocumentText({
-          base64Data: fileDataBase64,
-          mimeType,
-          rawText,
-          sourceUrl,
-        });
+        const cleanDocType = docType || 'pdf';
+        const cleanSourceUrl = sourceUrl ? String(sourceUrl).trim() : null;
 
-        if (!parsed.extractedText.trim()) {
-          return res.status(400).json({
-            error: 'No readable text could be parsed from the document or URL.',
-          });
+        // SSRF & protocol validation for web links
+        if (cleanDocType === 'web_link' || cleanSourceUrl) {
+          if (!cleanSourceUrl) {
+            return res.status(400).json({ error: 'Source URL is required for web links.' });
+          }
+          try {
+            await validateSafeUrl(cleanSourceUrl);
+          } catch (urlErr: any) {
+            return res.status(400).json({
+              error: `Invalid or unsafe URL: ${urlErr?.message || urlErr}`,
+            });
+          }
+
+          // Duplicate URL check
+          const isDuplicate = await checkDuplicateDocumentUrl(
+            cleanSourceUrl,
+            id ? Number(id) : undefined
+          );
+          if (isDuplicate) {
+            return res.status(409).json({
+              error: 'This URL has already been ingested into the Knowledge Base.',
+            });
+          }
         }
 
         const validStatus =
           status === 'published' ? 'published' : status === 'in_review' ? 'in_review' : 'draft';
 
+        // Determine starting ingestion state
+        const initialStatus =
+          cleanDocType === 'web_link'
+            ? 'fetching'
+            : fileDataBase64
+            ? 'extracting'
+            : rawText
+            ? 'chunking'
+            : validStatus;
+
         const savedDoc = await saveKnowledgeDocument({
           id: id ? Number(id) : undefined,
           ownerUid: req.authContext!.uid,
-          title,
-          docType: docType || 'pdf',
+          title: title.trim(),
+          docType: cleanDocType,
           domain: domain || 'government',
           languageCode: languageCode || 'en',
-          status: validStatus,
-          sourceUrl,
-          mimeType,
-          fileSize,
-          fileDataBase64,
-          rawText: parsed.extractedText,
-          extractedMetadata: { pageCount: parsed.pages.length },
+          status: initialStatus,
+          sourceUrl: cleanSourceUrl || undefined,
+          mimeType: mimeType || 'text/plain',
+          fileSize: fileSize || (rawText ? rawText.length : 0),
+          fileDataBase64: fileDataBase64 || undefined,
+          rawText: rawText || null,
+          extractedMetadata: {
+            queuedAt: new Date().toISOString(),
+            stage: initialStatus,
+          },
         });
 
-        let chunkCount = 0;
-        if (validStatus === 'published') {
-          const chunksToInsert: Array<{
-            chunkIndex: number;
-            pageNumber: number;
-            content: string;
-            embedding: number[];
-          }> = [];
-          let idx = 0;
-          for (const page of parsed.pages) {
-            const segments = page.text.match(/[\s\S]{1,900}(?:\s|$)/g) || [page.text];
-            for (const seg of segments) {
-              const trimmed = seg.trim();
-              if (!trimmed) continue;
-              const emb = await embedText(`${title} (${domain}): ${trimmed}`);
-              chunksToInsert.push({
-                chunkIndex: idx++,
-                pageNumber: page.pageNumber,
-                content: trimmed,
-                embedding: emb,
-              });
-            }
-          }
-          await replaceDocumentChunks(savedDoc.id, chunksToInsert);
-          chunkCount = chunksToInsert.length;
-        } else {
-          await replaceDocumentChunks(savedDoc.id, []);
-        }
+        // Trigger background processing asynchronously without waiting for LLM or scrapers
+        queueIngestionJob(savedDoc.id, {
+          targetStatus: 'stored',
+        });
 
         await recordAuditLog({
           actorUid: req.authContext!.uid,
@@ -1066,13 +1086,62 @@ export function registerAppRoutes(app: Router, httpServer: HttpServer): void {
           action: id ? 'kb.document.updated' : 'kb.document.created',
           entityType: 'document',
           entityId: String(savedDoc.id),
-          details: { title, domain, status: validStatus, chunkCount },
+          details: { title, domain, initialStatus, targetStatus: validStatus },
         });
 
-        res.json({ document: savedDoc, chunkCount });
+        // Return immediately with 202 Accepted so admin UI doesn't time out
+        res.status(202).json({
+          document: savedDoc,
+          status: savedDoc.status,
+          message: 'Ingestion initiated in background. You can track progress live.',
+        });
       } catch (error: any) {
         console.error('KB upload error:', error);
         res.status(500).json({ error: error.message || 'Failed to ingest knowledge document.' });
+      }
+    }
+  );
+
+  app.post(
+    '/api/admin/kb/:id/retry',
+    requireAuth,
+    requireRole(['admin', 'content_editor']),
+    async (req: AuthRequest, res) => {
+      try {
+        const docId = Number(req.params.id);
+        const doc = await getKnowledgeDocumentById(docId);
+        if (!doc) {
+          return res.status(404).json({ error: 'Document not found.' });
+        }
+
+        if (doc.status === 'failed_permanent') {
+          if (!req.body?.verifyConfiguration || (doc.extractedMetadata as any)?.embeddingError?.category !== 'MODEL_CONFIGURATION_ERROR')
+            return res.status(409).json({ error: 'Correct and verify the embedding configuration before resuming.' });
+          // A successful probe is required before a permanent configuration failure may resume.
+          await embedSingleTextWithRetry('Verify document embedding configuration', 1);
+        }
+
+        queueIngestionJob(docId, {
+          resumeOnly: true,
+          targetStatus: 'stored',
+        });
+
+        await recordAuditLog({
+          actorUid: req.authContext!.uid,
+          actorEmail: req.authContext!.email,
+          actorRole: req.authContext!.roles[0],
+          action: 'kb.document.retried',
+          entityType: 'document',
+          entityId: String(docId),
+          details: { title: doc.title },
+        });
+
+        res.json({
+          success: true,
+          message: 'Document ingestion resumed in background.',
+        });
+      } catch (error: any) {
+        res.status(error.httpStatus || 500).json({ error: error.message || 'Failed to resume document ingestion.', embeddingError: error.toJSON?.() });
       }
     }
   );
@@ -1088,45 +1157,31 @@ export function registerAppRoutes(app: Router, httpServer: HttpServer): void {
         const validStatus =
           status === 'published' ? 'published' : status === 'in_review' ? 'in_review' : 'draft';
 
-        const docs = await listKnowledgeDocuments();
-        const target = docs.find((d) => d.id === docId);
+        const target = await getKnowledgeDocumentById(docId);
         if (!target) return res.status(404).json({ error: 'Document not found.' });
 
-        const updated = await saveKnowledgeDocument({
-          id: docId,
-          ownerUid: req.authContext!.uid,
-          title: target.title,
-          docType: target.docType,
-          domain: target.domain,
-          languageCode: target.languageCode,
-          status: validStatus,
-          sourceUrl: target.sourceUrl || undefined,
-          rawText: target.rawText || '',
-        });
-
-        let chunkCount = 0;
-        if (validStatus === 'published' && target.rawText) {
-          const parsed = await parseDocumentText({ rawText: target.rawText });
-          const chunksToInsert = [];
-          let idx = 0;
-          for (const page of parsed.pages) {
-            const segments = page.text.match(/[\s\S]{1,900}(?:\s|$)/g) || [page.text];
-            for (const seg of segments) {
-              const trimmed = seg.trim();
-              if (!trimmed) continue;
-              const emb = await embedText(`${target.title} (${target.domain}): ${trimmed}`);
-              chunksToInsert.push({
-                chunkIndex: idx++,
-                pageNumber: page.pageNumber,
-                content: trimmed,
-                embedding: emb,
-              });
-            }
+        if (validStatus === 'published') {
+          // Check if document has chunks embedded
+          const stats = await getDocumentChunkStats(docId);
+          if (stats.total === 0 || stats.failed > 0 || (target.extractedMetadata as any)?.embeddingModel !== EMBEDDING_MODEL || (target.extractedMetadata as any)?.embeddingDimensions !== EMBEDDING_DIMENSIONS) {
+            return res.status(409).json({ error: 'Complete document processing before review and publication.' });
           }
-          await replaceDocumentChunks(docId, chunksToInsert);
-          chunkCount = chunksToInsert.length;
+          if (target.status !== 'in_review') return res.status(409).json({ error: 'Submit the processed document for review before approving publication.' });
+
+          // Chunks are already fully embedded, just update status
+          await updateDocumentIngestionProgress(docId, {
+            status: 'published',
+            publishedAt: new Date(),
+          });
         } else {
-          await replaceDocumentChunks(docId, []);
+          if (validStatus === 'in_review') {
+            const stats = await getDocumentChunkStats(docId);
+            if (!stats.total || stats.failed || (target.extractedMetadata as any)?.embeddingModel !== EMBEDDING_MODEL || (target.extractedMetadata as any)?.embeddingDimensions !== EMBEDDING_DIMENSIONS) return res.status(409).json({ error: 'Complete processing before review.' });
+          }
+          await updateDocumentIngestionProgress(docId, {
+            status: validStatus,
+            publishedAt: null,
+          });
         }
 
         await recordAuditLog({
@@ -1136,10 +1191,11 @@ export function registerAppRoutes(app: Router, httpServer: HttpServer): void {
           action: `kb.document.${validStatus}`,
           entityType: 'document',
           entityId: String(docId),
-          details: { title: target.title, chunkCount },
+          details: { title: target.title },
         });
 
-        res.json({ document: updated, chunkCount });
+        const updated = await getKnowledgeDocumentById(docId);
+        res.json({ document: updated });
       } catch (error: any) {
         res.status(500).json({ error: error.message || 'Failed to update publication status.' });
       }

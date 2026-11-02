@@ -178,8 +178,8 @@ export const OnboardingFlow: React.FC = () => {
 
   if (step === 'language') {
     return (
-      <div className="min-h-screen bg-canvas text-body flex flex-col">
-        <header className="border-b border-hairline bg-card/80 backdrop-blur-xs">
+      <div className="onboarding min-h-screen bg-canvas text-body flex flex-col">
+        <header className="surface-brown onboarding-header border-b border-hairline bg-card/80 backdrop-blur-xs">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
             <span className="font-display text-xl font-bold text-body whitespace-nowrap shrink-0">
               {t('app.name')}
@@ -188,8 +188,8 @@ export const OnboardingFlow: React.FC = () => {
           </div>
         </header>
 
-        <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 space-y-6">
-          <div className="max-w-2xl space-y-2">
+        <main className="language-main flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 space-y-6">
+          <div className="surface-brown language-hero max-w-2xl space-y-2">
             <h1
               className="font-display text-2xl sm:text-4xl font-bold text-body"
               style={{ textWrap: 'balance' }}
@@ -200,7 +200,7 @@ export const OnboardingFlow: React.FC = () => {
           </div>
 
           {suggestedLang && (
-            <div className="p-4 rounded-2xl bg-tint border border-hairline flex flex-wrap items-center justify-between gap-4">
+            <div className="language-suggestion p-4 rounded-2xl bg-tint border border-hairline flex flex-wrap items-center justify-between gap-4">
               <div>
                 <p className="text-xs font-medium text-tint-fg">{t('lang.suggested')}</p>
                 <p
@@ -237,7 +237,7 @@ export const OnboardingFlow: React.FC = () => {
             </div>
           )}
 
-          <div className="relative max-w-xl">
+          <div className="language-search relative max-w-xl">
             <Search className="w-5 h-5 text-muted absolute start-4 top-3.5 pointer-events-none" />
             <input
               type="search"
@@ -249,7 +249,8 @@ export const OnboardingFlow: React.FC = () => {
             />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="language-divider"></div>
+          <div className="language-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {filteredLanguages.map((lang) => {
               const isSelected = lang.code === currentLanguage.code;
               return (
@@ -257,7 +258,7 @@ export const OnboardingFlow: React.FC = () => {
                   key={lang.code}
                   style={{ fontFamily: lang.fontStack }}
                   dir={lang.direction}
-                  className={`p-4 rounded-2xl border transition-colors flex items-center justify-between gap-3 ${
+                  className={`language-card p-4 rounded-2xl border transition-colors flex items-center justify-between gap-3 ${
                     isSelected
                       ? 'bg-tint border-strong text-tint-fg'
                       : 'bg-card border-hairline text-body hover:bg-tint/40'
@@ -273,7 +274,7 @@ export const OnboardingFlow: React.FC = () => {
                   >
                     <div className="flex items-center gap-2">
                       <span className="text-xl font-bold leading-snug">{lang.nativeName}</span>
-                      {isSelected && <Check className="w-4 h-4 shrink-0" />}
+                      {isSelected && <Check className="w-4 h-4 shrink-0" />}<span className="language-card-figure"></span>
                     </div>
                     <span className="text-xs text-muted mt-0.5">
                       {lang.englishName} · {lang.script}
@@ -296,13 +297,13 @@ export const OnboardingFlow: React.FC = () => {
               );
             })}
           </div>
-        </main>
+        </main><footer className="surface-brown onboarding-footer"><div><p>{t('lang.select_subtitle')}</p></div></footer>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-canvas text-body flex flex-col">
+    <div className="onboarding min-h-screen bg-canvas text-body flex flex-col">
       <header className="border-b border-hairline bg-card/80">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">

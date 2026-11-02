@@ -1,3 +1,5 @@
+import { CentresErrorBoundary } from './features/centres/CentresErrorBoundary.tsx';
+import { centreText } from './features/centres/i18n.ts';
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -49,6 +51,8 @@ import {
 import { AppProvider, useApp } from './context/AppContext.tsx';
 import { useVoiceAudio } from './hooks/usePWAAndNetwork.ts';
 import type { CitizenScreen, ServiceTemplate } from './types.ts';
+
+const CentresScreen = React.lazy(() => import('./features/centres/CentresScreen.tsx').then(module => ({ default: module.CentresScreen })));
 
 const SahayakWorkspace: React.FC = () => {
   const {
@@ -273,6 +277,7 @@ const SahayakWorkspace: React.FC = () => {
     { id: 'home', label: t('nav.home'), icon: Home },
     { id: 'ask', label: t('nav.ask'), icon: MessageSquare },
     { id: 'services', label: t('nav.services'), icon: Briefcase },
+    { id: 'centres', label: centreText(currentLanguage.code,0), icon: HelpCircle },
     { id: 'explain', label: t('nav.explain'), icon: FileSearch },
     { id: 'status', label: t('nav.status'), icon: Clock },
     { id: 'documents', label: t('nav.documents'), icon: FileCheck },
@@ -483,6 +488,7 @@ const SahayakWorkspace: React.FC = () => {
 
           {/* Screen Content */}
           <main className="flex-1 p-4 sm:p-6 lg:p-8 pb-28 md:pb-10 max-w-6xl w-full mx-auto">
+            {screen === 'centres' && <CentresErrorBoundary message={centreText(currentLanguage.code,35)} retryLabel={t('nav.home')} onBack={()=>handleCitizenNavigate('home')}><React.Suspense fallback={<p role="status">{centreText(currentLanguage.code,18)}</p>}><CentresScreen /></React.Suspense></CentresErrorBoundary>}
             {screen === 'home' && <CitizenHomeScreen onNavigate={handleCitizenNavigate} />}
 
             {screen === 'ask' && (

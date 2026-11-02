@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Activity,
+  AlertCircle,
   ArrowDown,
   ArrowLeft,
   ArrowUp,
@@ -15,6 +16,7 @@ import {
   KeyRound,
   Languages,
   Layers,
+  Loader2,
   Lock,
   Mail,
   Menu,
@@ -22,6 +24,7 @@ import {
   Plug,
   Plus,
   RefreshCw,
+  RotateCcw,
   Search,
   Send,
   ShieldAlert,
@@ -170,7 +173,13 @@ const AdminSignInGate: React.FC<{ onBackToCitizen: () => void }> = ({ onBackToCi
     try {
       await signInWithGooglePopup();
     } catch (err: any) {
-      setErrorMsg(err.message || 'Google authentication failed.');
+      if (err?.code === 'auth/unauthorized-domain' || err?.message?.includes('unauthorized-domain')) {
+        setErrorMsg(
+          'Firebase Auth domain is not authorized for localhost on the default project. Please use the "Email Verification Code" option below with your admin email mmuthumeenajan@gmail.com.'
+        );
+      } else {
+        setErrorMsg(err.message || 'Google authentication failed.');
+      }
     } finally {
       setBusy(false);
     }
@@ -246,9 +255,18 @@ const AdminSignInGate: React.FC<{ onBackToCitizen: () => void }> = ({ onBackToCi
         {!otpSent ? (
           <form onSubmit={handleSendEmailOtp} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-body mb-1.5">
-                Authorized Work Email
-              </label>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="block text-xs font-semibold text-body">
+                  Authorized Work Email
+                </label>
+                <button
+                  type="button"
+                  onClick={() => setEmail('mmuthumeenajan@gmail.com')}
+                  className="text-[11px] text-primary hover:underline font-medium"
+                >
+                  Use Admin Email
+                </button>
+              </div>
               <div className="relative">
                 <Mail className="w-4 h-4 text-muted absolute start-3.5 top-4 pointer-events-none" />
                 <input
@@ -256,7 +274,7 @@ const AdminSignInGate: React.FC<{ onBackToCitizen: () => void }> = ({ onBackToCi
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="name@organisation.gov.in"
+                  placeholder="mmuthumeenajan@gmail.com"
                   className="w-full min-h-12 ps-10 pe-4 rounded-xl bg-elevated border border-hairline text-body text-sm"
                 />
               </div>
@@ -358,6 +376,9 @@ interface KbDocRow {
   sourceUrl: string | null;
   fileSize: number | null;
   rawText: string | null;
+  extractedMetadata?: Record<string, any> | null;
+  totalChunks?: number;
+  embeddedChunks?: number;
   publishedAt: string | null;
   updatedAt: string;
 }
@@ -407,6 +428,21 @@ const AdminKnowledgeBaseSection: React.FC<{ canEdit: boolean }> = ({ canEdit }) 
     loadDocs();
   }, [loadDocs]);
 
+  // Auto-refresh when any document is actively being processed by background worker
+  const isAnyProcessing = useMemo(() => {
+    return docs.some((d) =>
+      ['fetching', 'extracting', 'chunking', 'embedding'].includes(d.status)
+    );
+  }, [docs]);
+
+  useEffect(() => {
+    if (!isAnyProcessing) return;
+    const interval = setInterval(() => {
+      loadDocs();
+    }, 2500);
+    return () => clearInterval(interval);
+  }, [isAnyProcessing, loadDocs]);
+
   const handleIngest = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!canEdit) return;
@@ -435,7 +471,7 @@ const AdminKnowledgeBaseSection: React.FC<{ canEdit: boolean }> = ({ canEdit }) 
         throw new Error('Enter a valid public URL to ingest.');
       }
 
-      const res = await apiFetch<{ document: KbDocRow; chunkCount: number }>('/api/admin/kb', {
+      const res = await apiFetch<{ document: KbDocRow; status: string; message?: string }>('/api/admin/kb', {
         method: 'POST',
         body: JSON.stringify({
           title: title.trim(),
@@ -456,9 +492,7 @@ const AdminKnowledgeBaseSection: React.FC<{ canEdit: boolean }> = ({ canEdit }) 
       setSourceUrl('');
       setSelectedFile(null);
       setNotice(
-        res.document.status === 'published'
-          ? `Published "${res.document.title}" and indexed ${res.chunkCount} vector chunks.`
-          : `Saved "${res.document.title}" as ${res.document.status.replace('_', ' ')}.`
+        `Ingestion initiated for "${res.document.title}". Processing content and vector embeddings in background...`
       );
       await loadDocs();
     } catch (err: any) {
@@ -468,12 +502,27 @@ const AdminKnowledgeBaseSection: React.FC<{ canEdit: boolean }> = ({ canEdit }) 
     }
   };
 
+  const handleRetry = async (id: number, verifyConfiguration = false) => {
+    setErrorMsg(null);
+    setNotice(null);
+    try {
+      await apiFetch<{ success: boolean; message: string }>(`/api/admin/kb/${id}/retry`, {
+        method: 'POST',
+        body: JSON.stringify({ verifyConfiguration }),
+      });
+      setNotice('Ingestion resumed in background. Updating live progress...');
+      await loadDocs();
+    } catch (err: any) {
+      setErrorMsg(err.message || 'Could not resume ingestion.');
+    }
+  };
+
   const handleStatusChange = async (id: number, status: 'draft' | 'in_review' | 'published') => {
     setErrorMsg(null);
     setNotice(null);
     setBusy(true);
     try {
-      const res = await apiFetch<{ document: KbDocRow; chunkCount: number }>(
+      const res = await apiFetch<{ document: KbDocRow; message?: string }>(
         `/api/admin/kb/${id}/status`,
         {
           method: 'POST',
@@ -481,9 +530,10 @@ const AdminKnowledgeBaseSection: React.FC<{ canEdit: boolean }> = ({ canEdit }) 
         }
       );
       setNotice(
-        status === 'published'
-          ? `Published "${res.document.title}" (${res.chunkCount} vector chunks active for citizen RAG).`
-          : `Moved "${res.document.title}" to ${status.replace('_', ' ')} (removed from live answers).`
+        res.message ||
+          (status === 'published'
+            ? `Published "${res.document.title}" (live in citizen RAG).`
+            : `Moved "${res.document.title}" to ${status.replace('_', ' ')}.`)
       );
       await loadDocs();
     } catch (err: any) {
@@ -727,7 +777,7 @@ const AdminKnowledgeBaseSection: React.FC<{ canEdit: boolean }> = ({ canEdit }) 
                 className="w-full min-h-12 rounded-xl bg-primary text-on-primary font-semibold text-sm hover:bg-primary-hover disabled:opacity-60"
               >
                 {busy
-                  ? 'Parsing, Chunking & Embedding...'
+                  ? 'Initiating Ingestion...'
                   : publishStatus === 'published'
                     ? 'Ingest & Publish to Knowledge Base'
                     : 'Save Document'}
@@ -738,16 +788,27 @@ const AdminKnowledgeBaseSection: React.FC<{ canEdit: boolean }> = ({ canEdit }) 
           {/* Document Table */}
           <div className="bg-card border border-hairline rounded-2xl overflow-hidden">
             <div className="px-6 py-4 border-b border-hairline flex items-center justify-between">
-              <h2 className="font-display text-base font-bold text-body">
-                Repository ({formatNumber(docs.length)})
-              </h2>
+              <div className="flex items-center gap-2">
+                <h2 className="font-display text-base font-bold text-body">
+                  Repository ({formatNumber(docs.length)})
+                </h2>
+                {isAnyProcessing && (
+                  <span className="flex items-center gap-1.5 text-xs text-primary font-medium">
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    Live processing...
+                  </span>
+                )}
+              </div>
               <span className="text-xs text-muted">
                 Published: {formatNumber(docs.filter((d) => d.status === 'published').length)}
               </span>
             </div>
 
             {loading ? (
-              <div className="p-6 text-sm text-muted">Loading documents...</div>
+              <div className="p-6 text-sm text-muted flex items-center gap-2">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Loading documents...
+              </div>
             ) : docs.length === 0 ? (
               <div className="p-8 text-sm text-muted">
                 Knowledge base is currently empty. Upload or paste an official document above and
@@ -755,62 +816,159 @@ const AdminKnowledgeBaseSection: React.FC<{ canEdit: boolean }> = ({ canEdit }) 
               </div>
             ) : (
               <div className="divide-y divide-hairline">
-                {docs.map((doc) => (
-                  <div key={doc.id} className="p-5 space-y-3">
-                    <div className="flex flex-wrap items-start justify-between gap-3">
-                      <div className="space-y-1 min-w-0">
-                        <div className="font-semibold text-base text-body">{doc.title}</div>
-                        <div className="text-xs text-muted">
-                          <DomainLabel domain={doc.domain} /> · {doc.docType.toUpperCase()} · Lang:{' '}
-                          <span className="font-mono">{doc.languageCode.toUpperCase()}</span> ·
-                          Updated{' '}
-                          <span className="font-mono tabular-nums">
-                            {formatDate(doc.updatedAt)}
-                          </span>
+                {docs.map((doc) => {
+                  const isProcessing = ['fetching', 'extracting', 'chunking', 'embedding'].includes(doc.status);
+                  const canRetry = doc.status !== 'failed_permanent' && (doc.status === 'failed_retryable' || (!isProcessing && (doc.totalChunks || 0) > (doc.embeddedChunks || 0)));
+                  const charCount = doc.extractedMetadata?.characterCount || doc.rawText?.length || 0;
+
+                  return (
+                    <div key={doc.id} className="p-5 space-y-3">
+                      <div className="flex flex-wrap items-start justify-between gap-3">
+                        <div className="space-y-1 min-w-0 flex-1">
+                          <div className="font-semibold text-base text-body">{doc.title}</div>
+                          <div className="text-xs text-muted flex flex-wrap items-center gap-x-2 gap-y-1">
+                            <DomainLabel domain={doc.domain} />
+                            <span>·</span>
+                            <span>{doc.docType.toUpperCase()}</span>
+                            <span>·</span>
+                            <span>Lang: <span className="font-mono">{doc.languageCode.toUpperCase()}</span></span>
+                            <span>·</span>
+                            <span>Updated <span className="font-mono tabular-nums">{formatDate(doc.updatedAt)}</span></span>
+                            {charCount > 0 && (
+                              <>
+                                <span>·</span>
+                                <span className="font-mono">{formatNumber(charCount)} chars</span>
+                              </>
+                            )}
+                            {doc.totalChunks !== undefined && doc.totalChunks > 0 && (
+                              <>
+                                <span>·</span>
+                                <span className={`font-mono font-medium ${doc.embeddedChunks === doc.totalChunks ? 'text-emerald-600 dark:text-emerald-400' : 'text-primary'}`}>
+                                  Vectors: {doc.embeddedChunks || 0} / {doc.totalChunks} chunks
+                                </span>
+                              </>
+                            )}
+                          </div>
+                          {doc.sourceUrl && (
+                            <div className="text-xs">
+                              <a
+                                href={doc.sourceUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-primary hover:underline font-mono break-all inline-flex items-center gap-1"
+                              >
+                                {doc.sourceUrl}
+                              </a>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Status Badge */}
+                        <div className="shrink-0">
+                          {isProcessing ? (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20">
+                              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                              {doc.status === 'fetching'
+                                ? 'Fetching URL...'
+                                : doc.status === 'extracting'
+                                ? 'Extracting Text...'
+                                : doc.status === 'chunking'
+                                ? 'Chunking Content...'
+                                : `Embedding (${doc.embeddedChunks || 0}/${doc.totalChunks || 0})...`}
+                            </span>
+                          ) : doc.status === 'published' ? (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20">
+                              <CheckCircle2 className="w-3.5 h-3.5" />
+                              Published
+                            </span>
+                          ) : doc.status === 'stored' ? (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-700 dark:text-sky-300 border border-sky-500/20">
+                              <Check className="w-3.5 h-3.5" />
+                              Stored
+                            </span>
+                          ) : doc.status === 'failed_retryable' ? (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/20">
+                              <AlertCircle className="w-3.5 h-3.5" />
+                              Failed (Retryable)
+                            </span>
+                          ) : doc.status === 'failed_permanent' ? (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-red-500/10 text-red-700 dark:text-red-300 border border-red-500/20">
+                              <ShieldAlert className="w-3.5 h-3.5" />
+                              Failed
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-elevated border border-hairline text-body">
+                              {doc.status.replace('_', ' ').toUpperCase()}
+                            </span>
+                          )}
                         </div>
                       </div>
 
-                      <div className="text-xs font-mono uppercase font-semibold text-body">
-                        {doc.status.replace('_', ' ')}
-                      </div>
+                      {/* Error or Stage Failure Alert Banner */}
+                      {doc.extractedMetadata?.lastError && (
+                        <div className="p-3 rounded-xl bg-danger/10 border border-danger/20 text-xs text-danger font-medium flex items-start gap-2">
+                          <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                          <div className="flex-1 break-words">
+                            {String(doc.extractedMetadata.lastError)}
+                          </div>
+                        </div>
+                      )}
+
+                      {canEdit && (
+                        <div className="flex flex-wrap items-center justify-between gap-2 pt-2">
+                          <div className="flex flex-wrap items-center gap-2">
+                            {doc.status === 'failed_permanent' && doc.extractedMetadata?.embeddingError?.category === 'MODEL_CONFIGURATION_ERROR' && (
+                              <button type="button" disabled={busy || isProcessing} onClick={() => handleRetry(doc.id, true)}
+                                className="min-h-10 px-3 rounded-lg text-xs font-semibold border border-hairline">
+                                Verify configuration and resume
+                              </button>
+                            )}
+                            {canRetry && (
+                              <button
+                                type="button"
+                                disabled={busy || isProcessing}
+                                onClick={() => handleRetry(doc.id)}
+                                className="min-h-10 px-3.5 rounded-lg text-xs font-semibold bg-primary text-on-primary hover:bg-primary-hover disabled:opacity-50 flex items-center gap-1.5"
+                              >
+                                <RotateCcw className="w-3.5 h-3.5" />
+                                Resume / Retry Ingestion
+                              </button>
+                            )}
+
+                            {(['draft', 'in_review', 'published'] as const).map((st) => (
+                              <button
+                                key={st}
+                                type="button"
+                                disabled={busy || isProcessing || doc.status === st || doc.status === 'failed_permanent' || (st !== 'draft' && (!(doc.totalChunks || 0) || doc.totalChunks !== doc.embeddedChunks)) || (st === 'published' && doc.status !== 'in_review')}
+                                onClick={() => handleStatusChange(doc.id, st)}
+                                className={`min-h-10 px-3 rounded-lg text-xs font-semibold border transition-colors ${
+                                  doc.status === st
+                                    ? 'bg-primary text-on-primary border-primary'
+                                    : 'bg-elevated border-hairline text-body hover:bg-tint disabled:opacity-50'
+                                }`}
+                              >
+                                {st === 'published'
+                                  ? 'Publish'
+                                  : st === 'in_review'
+                                    ? 'In Review'
+                                    : 'Draft'}
+                              </button>
+                            ))}
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => handleDelete(doc.id)}
+                            aria-label={`Delete ${doc.title}`}
+                            className="min-h-10 min-w-10 rounded-lg border border-hairline text-danger hover:bg-danger-soft flex items-center justify-center"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      )}
                     </div>
-
-                    {canEdit && (
-                      <div className="flex flex-wrap items-center justify-between gap-2 pt-2">
-                        <div className="flex flex-wrap items-center gap-2">
-                          {(['draft', 'in_review', 'published'] as const).map((st) => (
-                            <button
-                              key={st}
-                              type="button"
-                              disabled={busy || doc.status === st}
-                              onClick={() => handleStatusChange(doc.id, st)}
-                              className={`min-h-10 px-3 rounded-lg text-xs font-semibold border transition-colors ${
-                                doc.status === st
-                                  ? 'bg-primary text-on-primary border-primary'
-                                  : 'bg-elevated border-hairline text-body hover:bg-tint'
-                              }`}
-                            >
-                              {st === 'published'
-                                ? 'Publish'
-                                : st === 'in_review'
-                                  ? 'In Review'
-                                  : 'Draft'}
-                            </button>
-                          ))}
-                        </div>
-
-                        <button
-                          type="button"
-                          onClick={() => handleDelete(doc.id)}
-                          aria-label={`Delete ${doc.title}`}
-                          className="min-h-10 min-w-10 rounded-lg border border-hairline text-danger hover:bg-danger-soft flex items-center justify-center"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>

@@ -1052,7 +1052,7 @@ export const CitizenSettingsScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Main Color Palette (#898AC4 Default vs #C1785A Alternative) */}
+        {/* Main color palette controls (labels retained for compatibility) */}
         <div className="space-y-2.5 pb-6 border-b border-hairline">
           <div className="font-semibold text-body">Main Color</div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -1068,7 +1068,7 @@ export const CitizenSettingsScreen: React.FC = () => {
               <span className="truncate">Periwinkle · #898AC4</span>
               <span
                 aria-hidden="true"
-                className="w-5 h-5 rounded-md border border-black/15 bg-[#898AC4] shrink-0"
+                className="w-5 h-5 rounded-md border border-black/15 bg-[#7B1E1A] shrink-0"
               />
             </button>
             <button
@@ -1083,7 +1083,7 @@ export const CitizenSettingsScreen: React.FC = () => {
               <span className="truncate">Terracotta · #C1785A</span>
               <span
                 aria-hidden="true"
-                className="w-5 h-5 rounded-md border border-black/15 bg-[#C1785A] shrink-0"
+                className="w-5 h-5 rounded-md border border-black/15 bg-[#FBF6EC] shrink-0"
               />
             </button>
           </div>

@@ -83,10 +83,14 @@ const apiRouter = express.Router();
 
 const distPath = path.join(__dirname, 'dist');
 const distIndexHtml = path.join(distPath, 'index.html');
+const isDev =
+  process.env.npm_lifecycle_event === 'dev' ||
+  process.env.NODE_ENV === 'development';
 const isProduction =
-  process.env.NODE_ENV === 'production' ||
-  process.env.npm_lifecycle_event === 'start' ||
-  (process.env.NODE_ENV !== 'development' && fs.existsSync(distIndexHtml));
+  !isDev &&
+  (process.env.NODE_ENV === 'production' ||
+    process.env.npm_lifecycle_event === 'start' ||
+    fs.existsSync(distIndexHtml));
 
 function withTimeout<T>(promise: Promise<T>, timeoutMs: number, label: string): Promise<T> {
   return new Promise<T>((resolve, reject) => {
@@ -136,6 +140,11 @@ app.use('/api', async (_req, res, next) => {
 
 app.use(apiRouter);
 
+// API misses must not fall through to the frontend HTML response.
+app.use('/api', (_req, res) => {
+  res.status(404).json({ error: 'API endpoint not found. Restart the backend if it was recently updated.' });
+});
+
 if (isProduction) {
   app.use(express.static(distPath));
   app.use((req, res, next) => {
@@ -175,8 +184,9 @@ if (isProduction) {
 
 // Bind 0.0.0.0:$PORT immediately so Cloud Run startup probes succeed in milliseconds
 httpServer.listen(PORT, HOST, () => {
+  const localUrl = `http://localhost:${PORT}`;
   console.log(
-    `Sahayak server listening on http://${HOST}:${PORT} (mode=${isProduction ? 'production' : 'development'}, startupTimeoutMs=${STARTUP_TIMEOUT_MS})`
+    `Sahayak server listening at:\n  ➜ Local:   ${localUrl}\n  ➜ Network: http://127.0.0.1:${PORT}\n  (mode=${isProduction ? 'production' : 'development'}, startupTimeoutMs=${STARTUP_TIMEOUT_MS})`
   );
 });
 

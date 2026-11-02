@@ -204,7 +204,7 @@ export function useVoiceAudio(voiceSpeed = 1.0) {
   }, [clearTimer]);
 
   const startRecording = useCallback(async () => {
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       throw new Error('Microphone recording is not supported in this browser.');
     }
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -222,15 +222,23 @@ export function useVoiceAudio(voiceSpeed = 1.0) {
       selectedMime = candidateTypes.find((t) => MediaRecorder.isTypeSupported(t)) || '';
     }
 
-    const recorder = selectedMime
-      ? new MediaRecorder(stream, { mimeType: selectedMime })
-      : new MediaRecorder(stream);
+    let recorder: MediaRecorder;
+    try {
+      recorder = selectedMime ? new MediaRecorder(stream, { mimeType: selectedMime }) : new MediaRecorder(stream);
+    } catch (error) {
+      stream.getTracks().forEach((track) => track.stop());
+      throw error;
+    }
 
     recorder.ondataavailable = (e) => {
       if (e.data && e.data.size > 0) chunksRef.current.push(e.data);
     };
     mediaRecorderRef.current = recorder;
-    recorder.start(250);
+    try { recorder.start(250); } catch (error) {
+      recorder.stream.getTracks().forEach((track) => track.stop());
+      mediaRecorderRef.current = null;
+      throw error;
+    }
     setRecordingSeconds(0);
     setIsRecording(true);
     clearTimer();

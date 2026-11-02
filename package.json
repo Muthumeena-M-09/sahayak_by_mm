@@ -7,17 +7,24 @@
     "node": ">=22.6.0"
   },
   "scripts": {
-    "dev": "tsx server.ts",
+    "dev": "tsx watch server.ts",
     "build": "vite build",
-    "start": "node server.ts",
+    "start": "tsx server.ts",
     "preview": "vite preview --host 0.0.0.0",
-    "clean": "rm -rf dist server.js",
-    "lint": "tsc --noEmit"
+    "clean": "node -e \"const fs = require('fs'); ['dist', 'server.js', 'drizzle'].forEach(p => fs.rmSync(p, { recursive: true, force: true }))\"",
+    "lint": "tsc --noEmit",
+    "db:setup": "tsx src/db/setup.ts",
+    "db:push": "drizzle-kit push --config=src/db/drizzle.config.ts",
+    "db:studio": "drizzle-kit studio --config=src/db/drizzle.config.ts",
+    "db:generate": "drizzle-kit generate --config=src/db/drizzle.config.ts"
   },
   "dependencies": {
     "@google/genai": "^2.32.0",
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.118.0",
     "@tailwindcss/vite": "^4.3.3",
     "@vitejs/plugin-react": "^6.1.1",
+    "cheerio": "^1.2.0",
     "dotenv": "^17.2.3",
     "drizzle-orm": "^0.45.4",
     "express": "^4.21.2",
@@ -42,7 +49,7 @@
     "@types/ws": "^8.18.2",
     "autoprefixer": "^10.4.21",
     "drizzle-kit": "^0.31.11",
-    "esbuild": "^0.25.0",
+    "esbuild": "^0.28.2",
     "tsx": "^4.21.0",
     "typescript": "^7.0.2"
   }

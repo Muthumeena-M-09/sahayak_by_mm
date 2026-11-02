@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
-  <rect width="512" height="512" rx="112" fill="#898AC4"/>
-  <circle cx="256" cy="256" r="164" stroke="#F6E7BC" stroke-opacity="0.34" stroke-width="12"/>
-  <path d="M168 276C168 220 206 176 256 176C306 176 344 220 344 276" stroke="#F6E7BC" stroke-width="28" stroke-linecap="round"/>
-  <circle cx="256" cy="144" r="26" fill="#F6E7BC"/>
-  <rect x="234" y="236" width="44" height="92" rx="22" fill="#0F1026"/>
-  <path d="M204 282C204 310.719 227.281 334 256 334C284.719 334 308 310.719 308 282" stroke="#F6E7BC" stroke-width="20" stroke-linecap="round"/>
-  <path d="M256 334V372M220 372H292" stroke="#0F1026" stroke-width="20" stroke-linecap="round"/>
+  <rect width="512" height="512" rx="112" fill="#7B1E1A"/>
+  <circle cx="256" cy="256" r="164" stroke="#FBF6EC" stroke-opacity="0.34" stroke-width="12"/>
+  <path d="M168 276C168 220 206 176 256 176C306 176 344 220 344 276" stroke="#FBF6EC" stroke-width="28" stroke-linecap="round"/>
+  <circle cx="256" cy="144" r="26" fill="#FBF6EC"/>
+  <rect x="234" y="236" width="44" height="92" rx="22" fill="#FBF6EC"/>
+  <path d="M204 282C204 310.719 227.281 334 256 334C284.719 334 308 310.719 308 282" stroke="#FBF6EC" stroke-width="20" stroke-linecap="round"/>
+  <path d="M256 334V372M220 372H292" stroke="#FBF6EC" stroke-width="20" stroke-linecap="round"/>
 </svg>

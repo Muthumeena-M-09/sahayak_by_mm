@@ -269,6 +269,8 @@ export const CitizenAskScreen: React.FC<{
     const controller = new AbortController();
     abortControllerRef.current = controller;
 
+    let streamFinished = false;
+    let userMessageSaved = false;
     const handleSseFrame = (frame: string) => {
       const dataLine = frame
         .split('\n')
@@ -278,6 +280,7 @@ export const CitizenAskScreen: React.FC<{
       try {
         const event = JSON.parse(jsonStr);
         if (event.type === 'meta' && event.userMessage) {
+          userMessageSaved = true;
           if (event.conversationId && !activeConv) {
             setActiveConv((prev) =>
               prev || {
@@ -304,6 +307,7 @@ export const CitizenAskScreen: React.FC<{
         } else if (event.type === 'delta' && event.text) {
           setStreamingText((prev) => prev + event.text);
         } else if (event.type === 'done') {
+          streamFinished = true;
           setStreamingText('');
           if (event.conversation) {
             setActiveConv(event.conversation);
@@ -322,6 +326,8 @@ export const CitizenAskScreen: React.FC<{
           }
           loadConversations();
         } else if (event.type === 'error') {
+          streamFinished = true;
+          setStreamingText('');
           setErrorBanner(event.error || 'Assistant failed to respond.');
         }
       } catch {
@@ -369,10 +375,11 @@ export const CitizenAskScreen: React.FC<{
           handleSseFrame(frame);
         }
       }
+      if (!streamFinished) throw new Error('Connection interrupted before the answer was saved. Please retry.');
     } catch (err: any) {
       if (err?.name !== 'AbortError') {
         setErrorBanner(err.message || 'Failed to send question.');
-        network.enqueueQuestion(trimmed, currentLanguage.code);
+        if (!userMessageSaved && !navigator.onLine) network.enqueueQuestion(trimmed, currentLanguage.code);
       }
     } finally {
       setIsSending(false);
@@ -694,7 +701,7 @@ export const CitizenAskScreen: React.FC<{
                               className="min-h-10 px-3 py-1.5 rounded-lg bg-elevated border border-hairline text-xs font-medium text-body hover:bg-tint flex items-center gap-1.5"
                             >
                               <BookOpen className="w-3.5 h-3.5 text-primary shrink-0" />
-                              <span className="truncate max-w-[200px]">{cit.documentTitle}</span>
+                              <span className="truncate max-w-[200px]">{cit.sourceNumber ? `[SOURCE ${cit.sourceNumber}] ` : ''}{cit.documentTitle}</span>
                               <span className="font-mono tabular-nums text-muted">
                                 · {t('ask.page')} {cit.pageNumber}
                               </span>
@@ -1097,6 +1104,11 @@ export const CitizenAskScreen: React.FC<{
             <div className="p-4 rounded-xl bg-elevated border border-hairline text-sm text-body leading-relaxed whitespace-pre-wrap">
               {selectedCitation.snippet}
             </div>
+            {selectedCitation.sourceUrl && /^https?:\/\//i.test(selectedCitation.sourceUrl) && (
+              <a href={selectedCitation.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-primary underline break-all">
+                {selectedCitation.sourceUrl}
+              </a>
+            )}
           </div>
         )}
       </ResponsiveSheet>
@@ -1235,6 +1247,7 @@ export const ExplainLetterScreen: React.FC = () => {
           {t('explain.title')}
         </h1>
         <p className="text-base text-muted">{t('explain.subtitle')}</p>
+
       </div>
 
       {errorMsg && (

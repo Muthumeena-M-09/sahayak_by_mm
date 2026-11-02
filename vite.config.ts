@@ -26,8 +26,8 @@ export default defineConfig(() => {
           short_name: 'Sahayak',
           description:
             'Multilingual AI assistance, document explanation, form filling, grievance support, and status tracking in 23 languages.',
-          theme_color: '#898AC4',
-          background_color: '#F6E7BC',
+          theme_color: '#7B1E1A',
+          background_color: '#FBF6EC',
           display: 'standalone',
           start_url: '/',
           scope: '/',
@@ -109,7 +109,7 @@ export default defineConfig(() => {
     ],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
+        '@': path.resolve(import.meta.dirname || process.cwd(), '.'),
       },
     },
     server: {

@@ -1,0 +1,306 @@
+[
+  {
+    "code": "ariyalur",
+    "nameEn": "Ariyalur",
+    "nameTa": "அரியலூர்",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "chengalpattu",
+    "nameEn": "Chengalpattu",
+    "nameTa": "செங்கல்பட்டு",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "chennai",
+    "nameEn": "Chennai",
+    "nameTa": "சென்னை",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "coimbatore",
+    "nameEn": "Coimbatore",
+    "nameTa": "கோயம்புத்தூர்",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "cuddalore",
+    "nameEn": "Cuddalore",
+    "nameTa": "கடலூர்",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "dharmapuri",
+    "nameEn": "Dharmapuri",
+    "nameTa": "தருமபுரி",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "dindigul",
+    "nameEn": "Dindigul",
+    "nameTa": "திண்டுக்கல்",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "erode",
+    "nameEn": "Erode",
+    "nameTa": "ஈரோடு",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "kallakurichi",
+    "nameEn": "Kallakurichi",
+    "nameTa": "கள்ளக்குறிச்சி",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "kancheepuram",
+    "nameEn": "Kancheepuram",
+    "nameTa": "காஞ்சிபுரம்",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "karur",
+    "nameEn": "Karur",
+    "nameTa": "கரூர்",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "krishnagiri",
+    "nameEn": "Krishnagiri",
+    "nameTa": "கிருஷ்ணகிரி",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "madurai",
+    "nameEn": "Madurai",
+    "nameTa": "மதுரை",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "mayiladuthurai",
+    "nameEn": "Mayiladuthurai",
+    "nameTa": "மயிலாடுதுறை",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "nagapattinam",
+    "nameEn": "Nagapattinam",
+    "nameTa": "நாகப்பட்டினம்",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "kanyakumari",
+    "nameEn": "Kanyakumari",
+    "nameTa": "கன்னியாகுமரி",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "namakkal",
+    "nameEn": "Namakkal",
+    "nameTa": "நாமக்கல்",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "perambalur",
+    "nameEn": "Perambalur",
+    "nameTa": "பெரம்பலூர்",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "pudukkottai",
+    "nameEn": "Pudukkottai",
+    "nameTa": "புதுக்கோட்டை",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "ramanathapuram",
+    "nameEn": "Ramanathapuram",
+    "nameTa": "இராமநாதபுரம்",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "ranipet",
+    "nameEn": "Ranipet",
+    "nameTa": "இராணிப்பேட்டை",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "salem",
+    "nameEn": "Salem",
+    "nameTa": "சேலம்",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "sivaganga",
+    "nameEn": "Sivaganga",
+    "nameTa": "சிவகங்கை",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "tenkasi",
+    "nameEn": "Tenkasi",
+    "nameTa": "தென்காசி",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "thanjavur",
+    "nameEn": "Thanjavur",
+    "nameTa": "தஞ்சாவூர்",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "theni",
+    "nameEn": "Theni",
+    "nameTa": "தேனி",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "tiruvallur",
+    "nameEn": "Tiruvallur",
+    "nameTa": "திருவள்ளூர்",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "tiruvarur",
+    "nameEn": "Tiruvarur",
+    "nameTa": "திருவாரூர்",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "thoothukudi",
+    "nameEn": "Thoothukudi",
+    "nameTa": "தூத்துக்குடி",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "tiruchirappalli",
+    "nameEn": "Tiruchirappalli",
+    "nameTa": "திருச்சிராப்பள்ளி",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "tirunelveli",
+    "nameEn": "Tirunelveli",
+    "nameTa": "திருநெல்வேலி",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "tirupathur",
+    "nameEn": "Tirupathur",
+    "nameTa": "திருப்பத்தூர்",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "tiruppur",
+    "nameEn": "Tiruppur",
+    "nameTa": "திருப்பூர்",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "tiruvannamalai",
+    "nameEn": "Tiruvannamalai",
+    "nameTa": "திருவண்ணாமலை",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "nilgiris",
+    "nameEn": "Nilgiris",
+    "nameTa": "நீலகிரி",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "vellore",
+    "nameEn": "Vellore",
+    "nameTa": "வேலூர்",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "viluppuram",
+    "nameEn": "Viluppuram",
+    "nameTa": "விழுப்புரம்",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  },
+  {
+    "code": "virudhunagar",
+    "nameEn": "Virudhunagar",
+    "nameTa": "விருதுநகர்",
+    "latitude": null,
+    "longitude": null,
+    "sourceUrl": "https://lokbhavan.tn.gov.in/districts-of-tamil-nadu/"
+  }
+]

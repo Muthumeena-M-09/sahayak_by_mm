@@ -1,0 +1,282 @@
+diff --git a/index.html b/index.html
+index 4aff882..00f257a 100644
+--- a/index.html
++++ b/index.html
+@@ -15,7 +15,7 @@
+     />
+     <meta property="og:type" content="website" />
+     <meta name="twitter:card" content="summary_large_image" />
+-    <meta name="theme-color" content="#898AC4" />
++    <meta name="theme-color" content="#7B1E1A" />
+     <meta name="mobile-web-app-capable" content="yes" />
+     <meta name="apple-mobile-web-app-capable" content="yes" />
+     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+@@ -30,6 +30,10 @@
+     />
+   </head>
+   <body>
++    <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
++      <symbol id="w" viewBox="0 0 40 60"><g fill="currentColor" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="20" cy="7" r="5" stroke="none"/><polygon points="8,15 32,15 20,30" stroke="none"/><polygon points="20,30 8,46 32,46" stroke="none"/><path d="M10 17L2 29M30 17L38 25M14 46L8 58M26 46L34 56" fill="none"/></g></symbol>
++      <pattern id="lat" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0H8M0 0V8" stroke="currentColor" stroke-width="2.2" fill="none"/></pattern>
++    </defs></svg>
+     <div id="root"></div>
+     <script type="module" src="/src/main.tsx"></script>
+   </body>
+diff --git a/src/App.tsx b/src/App.tsx
+index 5fe4f8f..30d855d 100644
+--- a/src/App.tsx
++++ b/src/App.tsx
+@@ -235,7 +235,7 @@ const SahayakWorkspace: React.FC = () => {
+     return (
+       <div className="min-h-screen bg-canvas text-body flex items-center justify-center p-6">
+         <div className="text-center space-y-2">
+-          <div className="font-display text-2xl font-bold text-body">{t('app.name')}</div>
++          <div className="font-display text-2xl font-bold text-body"><svg className="warli-logo" width="22" height="33" viewBox="0 0 40 60" aria-hidden="true"><use href="#w" /></svg>{t('app.name')}</div>
+           <div className="text-sm text-muted">{t('app.loading_workspace')}</div>
+         </div>
+       </div>
+@@ -354,7 +354,7 @@ const SahayakWorkspace: React.FC = () => {
+               </span>
+             </button>
+           </div>
+-        </aside>
++        <svg className="warli-hut" viewBox="0 0 260 150" aria-hidden="true"><polygon points="70,10 190,10 230,100 30,100" fill="url(#lat)" stroke="currentColor" strokeWidth="3"/><use href="#w" x="2" y="88" width="36" height="54"/><use href="#w" x="222" y="88" width="36" height="54"/><path d="M0 146H260" stroke="currentColor" strokeWidth="3"/></svg></aside>
+ 
+         {/* ===================================================================
+             TABLET COLLAPSIBLE SIDE RAIL (768px - 1199px)
+@@ -479,7 +479,7 @@ const SahayakWorkspace: React.FC = () => {
+                 {currentLanguage.nativeName}
+               </button>
+             </div>
+-          </header>
++          <svg className="warli-strip" viewBox="0 0 1200 60" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><path d="M0 58H1200" stroke="currentColor" strokeWidth="2" opacity=".6" /><use href="#w" x="6" y="14" width="26" height="40" /><use href="#w" x="56" y="10" width="26" height="40" /><use href="#w" x="106" y="14" width="26" height="40" /><use href="#w" x="156" y="10" width="26" height="40" /><use href="#w" x="206" y="14" width="26" height="40" /><use href="#w" x="256" y="10" width="26" height="40" /><use href="#w" x="306" y="14" width="26" height="40" /><use href="#w" x="356" y="10" width="26" height="40" /><use href="#w" x="406" y="14" width="26" height="40" /><use href="#w" x="456" y="10" width="26" height="40" /><use href="#w" x="506" y="14" width="26" height="40" /><use href="#w" x="556" y="10" width="26" height="40" /><use href="#w" x="606" y="14" width="26" height="40" /><use href="#w" x="656" y="10" width="26" height="40" /><use href="#w" x="706" y="14" width="26" height="40" /><use href="#w" x="756" y="10" width="26" height="40" /><use href="#w" x="806" y="14" width="26" height="40" /><use href="#w" x="856" y="10" width="26" height="40" /><use href="#w" x="906" y="14" width="26" height="40" /><use href="#w" x="956" y="10" width="26" height="40" /><use href="#w" x="1006" y="14" width="26" height="40" /><use href="#w" x="1056" y="10" width="26" height="40" /><use href="#w" x="1106" y="14" width="26" height="40" /><use href="#w" x="1156" y="10" width="26" height="40" /></svg></header>
+ 
+           {/* Screen Content */}
+           <main className="flex-1 p-4 sm:p-6 lg:p-8 pb-28 md:pb-10 max-w-6xl w-full mx-auto">
+diff --git a/src/index.css b/src/index.css
+index 3979bdb..ea9b231 100644
+--- a/src/index.css
++++ b/src/index.css
+@@ -1,137 +1,48 @@
++@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Mukta:wght@400;600&display=swap");
+ @import "tailwindcss";
+ @custom-variant dark (&:where(.dark, .dark *));
+-
+ :root {
+-  /* Sahayak Brand Palette — Main #898AC4 (Periwinkle Indigo) & Secondary #F6E7BC (Warm Cream) */
+-  --brand-primary: #898AC4;
+-  --brand-primary-hover: #7879B8;
+-  --brand-secondary: #F6E7BC;
+-  --brand-secondary-hover: #EED9A1;
+-
+-  /* Semantic Light Theme Tokens (60% calm cool-ivory canvas, 30% crisp cards, 10% #898AC4 accent) */
+-  --surface-canvas: #F8F8FC;
+-  --surface-card: #FFFFFF;
+-  --surface-elevated: #F1F2F9;
+-  --surface-tint: #F6E7BC;
+-  --surface-tint-hover: #EED9A1;
+-  --surface-tint-solid: #F6E7BC;
+-
+-  --text-body: #18192C;
+-  --text-muted: #555774;
+-  --text-tint-fg: #18192C;
+-
+-  --action-primary: #898AC4;
+-  --action-primary-hover: #7879B8;
+-  --action-on-primary: #0F1026;
+-
+-  --action-secondary: #F6E7BC;
+-  --action-secondary-hover: #EED9A1;
+-  --action-on-secondary: #18192C;
+-
+-  --accent-voice: #F6E7BC;
+-  --accent-voice-hover: #EED9A1;
+-  --accent-on-voice: #18192C;
+-
+-  --accent-warm: #5D5FA3;
+-  --accent-warm-soft: rgba(246, 231, 188, 0.65);
+-
+-  --status-danger: #B42318;
+-  --status-danger-soft: rgba(180, 35, 24, 0.12);
+-  --status-on-danger: #FFFFFF;
+-
+-  --border-hairline: rgba(24, 25, 44, 0.12);
+-  --border-strong: rgba(137, 138, 196, 0.58);
+-  --focus-ring: #898AC4;
+-
+-  --app-font-stack: 'DM Sans', 'Plus Jakarta Sans', sans-serif;
+-  font-size: 16px;
++ --red:#7B1E1A; --cream:#FBF6EC; --green:#3E5F4E;
++ --bg:var(--cream); --ink:var(--red); --panel:var(--cream);
++ --band:var(--green); --band-ink:var(--cream); --hero:var(--red); --hero-ink:var(--cream);
++ --line:color-mix(in srgb,var(--red) 28%,transparent);
++ --brand-primary:var(--red); --brand-primary-hover:var(--green);
++ --brand-secondary:var(--cream); --brand-secondary-hover:var(--cream);
++ --surface-canvas:var(--bg); --surface-card:var(--panel); --surface-elevated:var(--panel);
++ --surface-tint:var(--panel); --surface-tint-hover:var(--panel); --surface-tint-solid:var(--panel);
++ --text-body:var(--ink); --text-muted:var(--ink); --text-tint-fg:var(--ink);
++ --action-primary:var(--red); --action-primary-hover:var(--green); --action-on-primary:var(--cream);
++ --action-secondary:var(--panel); --action-secondary-hover:var(--panel); --action-on-secondary:var(--ink);
++ --accent-voice:var(--red); --accent-voice-hover:var(--green); --accent-on-voice:var(--cream);
++ --accent-warm:var(--ink); --accent-warm-soft:color-mix(in srgb,var(--red) 12%,transparent);
++ --status-danger:var(--ink); --status-danger-soft:var(--panel); --status-on-danger:var(--bg);
++ --border-hairline:var(--line); --border-strong:var(--ink); --focus-ring:var(--ink);
++ --app-font-stack:'Mukta','Segoe UI',system-ui,sans-serif;
++ font-size:16px;
+ }
+-
+-.dark {
+-  --surface-canvas: #121320;
+-  --surface-card: #1A1B2E;
+-  --surface-elevated: #23253D;
+-  --surface-tint: rgba(246, 231, 188, 0.14);
+-  --surface-tint-hover: rgba(246, 231, 188, 0.24);
+-  --surface-tint-solid: #F6E7BC;
+-
+-  --text-body: #F3F4FA;
+-  --text-muted: #A6A8C4;
+-  --text-tint-fg: #F6E7BC;
+-
+-  --action-primary: #898AC4;
+-  --action-primary-hover: #9C9DD2;
+-  --action-on-primary: #0F1026;
+-
+-  --action-secondary: #F6E7BC;
+-  --action-secondary-hover: #EED9A1;
+-  --action-on-secondary: #18192C;
+-
+-  --accent-voice: #F6E7BC;
+-  --accent-voice-hover: #EED9A1;
+-  --accent-on-voice: #18192C;
+-
+-  --accent-warm: #898AC4;
+-  --accent-warm-soft: rgba(137, 138, 196, 0.18);
+-
+-  --status-danger: #DC2626;
+-  --status-danger-soft: rgba(220, 38, 38, 0.24);
+-  --status-on-danger: #FFFFFF;
+-
+-  --border-hairline: rgba(243, 244, 250, 0.13);
+-  --border-strong: rgba(137, 138, 196, 0.58);
+-  --focus-ring: #F6E7BC;
+-}
+-
+-/* Optional Live Palette Preview: Warm Terracotta (#C1785A) + Secondary (#F6E7BC) */
+-html[data-palette="terracotta"] {
+-  --brand-primary: #C1785A;
+-  --brand-primary-hover: #AE674A;
+-
+-  --surface-canvas: #FBF8F2;
+-  --surface-card: #FFFFFF;
+-  --surface-elevated: #F5EFE4;
+-
+-  --text-body: #241712;
+-  --text-muted: #654F46;
+-  --text-tint-fg: #241712;
+-
+-  --action-primary: #C1785A;
+-  --action-primary-hover: #AE674A;
+-  --action-on-primary: #1C100B;
+-
+-  --action-on-secondary: #241712;
+-  --accent-on-voice: #241712;
+-
+-  --accent-warm: #9E593D;
+-  --border-hairline: rgba(36, 23, 18, 0.12);
+-  --border-strong: rgba(193, 120, 90, 0.52);
+-  --focus-ring: #C1785A;
++.dark { --bg:var(--green); --ink:var(--cream); --panel:var(--green); --band:var(--red); --line:color-mix(in srgb,var(--cream) 30%,transparent); color-scheme:dark; }
++@media(prefers-color-scheme:dark){
++ :root:not([data-theme="light"]):not(:has(.light)) { --bg:var(--green); --ink:var(--cream); --panel:var(--green); --band:var(--red); --line:color-mix(in srgb,var(--cream) 30%,transparent); color-scheme:dark; }
+ }
+-
+-html.dark[data-palette="terracotta"] {
+-  --surface-canvas: #171210;
+-  --surface-card: #211A17;
+-  --surface-elevated: #2C221E;
+-
+-  --text-body: #FAF4EC;
+-  --text-muted: rgba(246, 231, 188, 0.72);
+-  --text-tint-fg: #F6E7BC;
+-
+-  --action-primary: #C1785A;
+-  --action-primary-hover: #CF886B;
+-  --action-on-primary: #1C100B;
+-
+-  --action-on-secondary: #241712;
+-  --accent-on-voice: #241712;
+-
+-  --accent-warm: #C1785A;
+-  --accent-warm-soft: rgba(193, 120, 90, 0.18);
+-  --border-hairline: rgba(246, 231, 188, 0.14);
+-  --border-strong: rgba(193, 120, 90, 0.55);
+-  --focus-ring: #F6E7BC;
++@theme {
++ --color-*: initial;
++ --color-transparent:transparent; --color-current:currentColor;
++--color-amber-300:var(--ink);
++--color-amber-500:var(--ink);
++--color-amber-700:var(--ink);
++--color-black:var(--ink);
++--color-emerald-300:var(--ink);
++--color-emerald-400:var(--ink);
++--color-emerald-500:var(--ink);
++--color-emerald-600:var(--ink);
++--color-emerald-700:var(--ink);
++--color-red-300:var(--ink);
++--color-red-500:var(--ink);
++--color-red-700:var(--ink);
++--color-sky-300:var(--ink);
++--color-sky-500:var(--ink);
++--color-sky-700:var(--ink);
+ }
+-
+ /* 4-level scalable typography for accessibility */
+ html[data-text-scale="1"] { font-size: 16px; }
+ html[data-text-scale="2"] { font-size: 17.5px; }
+@@ -172,7 +83,7 @@ html[data-text-scale="4"] { font-size: 21px; }
+   --color-hairline: var(--border-hairline);
+   --color-strong: var(--border-strong);
+ 
+-  --font-display: 'Plus Jakarta Sans', var(--app-font-stack);
++  --font-display: 'Fraunces', var(--app-font-stack);
+   --font-sans: var(--app-font-stack);
+   --font-mono: 'IBM Plex Mono', monospace;
+ }
+@@ -217,3 +128,36 @@ html[data-text-scale="4"] { font-size: 21px; }
+ .pt-safe {
+   padding-top: env(safe-area-inset-top, 0px);
+ }
++
++/* Theme-only overrides; existing component classes and selectors are preserved. */
++@layer base {
++ body { line-height:1.6; }
++ h1,h2,h3,h4,h5,h6 { font-family:'Fraunces',Georgia,serif; font-weight:700; line-height:1.15; }
++ p { max-inline-size:75ch; }
++ a { color:inherit; } a:hover { text-decoration:underline; }
++ :focus-visible { outline:3px solid currentColor; outline-offset:3px; }
++ input,textarea,select,table { background:var(--panel); color:var(--ink); border:2px solid var(--ink); border-radius:5px; }
++}
++[class*="shadow"] { box-shadow:none !important; text-shadow:none !important; }
++[class*="backdrop-blur"] { backdrop-filter:none !important; }
++[class*="bg-gradient"], [class*="bg-linear"] { background-image:none !important; }
++[class*="rounded"]:not(.rounded-full) { border-radius:5px; }
++.bg-card { border:2px solid var(--ink); }
++button.bg-primary,button.bg-voice { border:2px solid var(--red); }
++button.bg-primary:hover,button.bg-voice:hover { background:var(--green); border-color:var(--green); }
++button.bg-secondary { border:2px solid currentColor; background:transparent; }
++header { --text-body:var(--cream); --text-muted:var(--cream); --action-primary:var(--cream); --action-on-primary:var(--red); background:var(--hero) !important; color:var(--hero-ink); }
++aside,footer { --text-body:var(--cream); --text-muted:var(--cream); --surface-card:var(--band); --surface-elevated:var(--band); --surface-tint:var(--band); --text-tint-fg:var(--cream); --border-hairline:var(--cream); background:var(--band) !important; color:var(--band-ink); }
++.warli-logo { display:inline-block; vertical-align:middle; margin-inline-end:8px; flex-shrink:0; }
++header:has(.warli-strip) { padding-bottom:30px; height:auto; min-height:90px; }
++.warli-strip { position:absolute; bottom:0; inset-inline:0; width:100%; height:28px; color:var(--cream); pointer-events:none; }
++.warli-hut { width:100%; max-width:160px; height:94px; margin:16px auto; color:var(--cream); pointer-events:none; }
++@media(max-width:400px){ header { column-gap:6px !important; padding-inline:10px !important; } }
++@media(prefers-reduced-motion:reduce){ *,*::before,*::after { animation:none !important; transition:none !important; } }
++
++/* Preserve the existing palette controls while restricting their swatches. */
++[class*="bg-[#898AC4]"] { background-color:var(--red) !important; }
++[class*="bg-[#C1785A]"] { background-color:var(--green) !important; }
++header button.bg-primary { background:var(--cream); color:var(--red); }
++header button.bg-primary:hover { background:var(--green); color:var(--cream); }
++.text-danger { border-inline-start:3px double currentColor; padding-inline-start:8px; }

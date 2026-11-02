@@ -1,0 +1,151 @@
+{
+  "files": [
+    {
+      "file": "index.html",
+      "hex": 1,
+      "rgb_hsl": 0,
+      "named": 0,
+      "tailwind_color": 0,
+      "gradient": 0,
+      "shadow": 0
+    },
+    {
+      "file": "vite.config.ts",
+      "hex": 2,
+      "rgb_hsl": 0,
+      "named": 0,
+      "tailwind_color": 0,
+      "gradient": 0,
+      "shadow": 0
+    },
+    {
+      "file": "src/App.tsx",
+      "hex": 0,
+      "rgb_hsl": 0,
+      "named": 0,
+      "tailwind_color": 100,
+      "gradient": 0,
+      "shadow": 1
+    },
+    {
+      "file": "src/index.css",
+      "hex": 2,
+      "rgb_hsl": 0,
+      "named": 17,
+      "tailwind_color": 90,
+      "gradient": 4,
+      "shadow": 6
+    },
+    {
+      "file": "src/components/AdminConsole.tsx",
+      "hex": 0,
+      "rgb_hsl": 0,
+      "named": 0,
+      "tailwind_color": 928,
+      "gradient": 0,
+      "shadow": 0
+    },
+    {
+      "file": "src/components/CitizenAskAndExplain.tsx",
+      "hex": 0,
+      "rgb_hsl": 0,
+      "named": 0,
+      "tailwind_color": 279,
+      "gradient": 0,
+      "shadow": 0
+    },
+    {
+      "file": "src/components/CitizenHomeAndServices.tsx",
+      "hex": 0,
+      "rgb_hsl": 0,
+      "named": 0,
+      "tailwind_color": 205,
+      "gradient": 0,
+      "shadow": 0
+    },
+    {
+      "file": "src/components/CitizenRecordsAndSettings.tsx",
+      "hex": 4,
+      "rgb_hsl": 0,
+      "named": 0,
+      "tailwind_color": 368,
+      "gradient": 0,
+      "shadow": 0
+    },
+    {
+      "file": "src/components/OnboardingFlow.tsx",
+      "hex": 0,
+      "rgb_hsl": 0,
+      "named": 0,
+      "tailwind_color": 124,
+      "gradient": 0,
+      "shadow": 0
+    },
+    {
+      "file": "src/components/SharedUI.tsx",
+      "hex": 0,
+      "rgb_hsl": 0,
+      "named": 0,
+      "tailwind_color": 67,
+      "gradient": 0,
+      "shadow": 0
+    },
+    {
+      "file": "src/context/AppContext.tsx",
+      "hex": 2,
+      "rgb_hsl": 0,
+      "named": 0,
+      "tailwind_color": 1,
+      "gradient": 0,
+      "shadow": 0
+    },
+    {
+      "file": "src/lib/sarvam.ts",
+      "hex": 0,
+      "rgb_hsl": 0,
+      "named": 0,
+      "tailwind_color": 2,
+      "gradient": 0,
+      "shadow": 0
+    },
+    {
+      "file": "public/icon.svg",
+      "hex": 7,
+      "rgb_hsl": 0,
+      "named": 0,
+      "tailwind_color": 8,
+      "gradient": 0,
+      "shadow": 0
+    }
+  ],
+  "totals": {
+    "hex": 18,
+    "rgb_hsl": 0,
+    "named": 17,
+    "tailwind_color": 2172,
+    "gradient": 4,
+    "shadow": 7
+  },
+  "exceptions": [
+    {
+      "file": "src/components/CitizenRecordsAndSettings.tsx",
+      "line": 1068,
+      "literal": "#898AC4",
+      "reason": "Existing visible settings label preserved as requested"
+    },
+    {
+      "file": "src/components/CitizenRecordsAndSettings.tsx",
+      "line": 1083,
+      "literal": "#C1785A",
+      "reason": "Existing visible settings label preserved as requested"
+    }
+  ],
+  "generatedCssHexColors": [
+    "#0000",
+    "#0000001a",
+    "#7b1e1a",
+    "#fbf6ec",
+    "#fff"
+  ],
+  "libraryExceptions": "Dormant Tailwind ring/shadow defaults: #fff, #0000001a; transparent #0000. Runtime ring-offset overridden and shadows disabled."
+}

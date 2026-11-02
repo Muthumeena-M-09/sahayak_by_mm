@@ -1,0 +1,563 @@
+[
+  {
+    "id": "welfare-ariyalur",
+    "districtCode": "ariyalur",
+    "name": "District Backward Classes and Minorities Welfare Office — Ariyalur",
+    "address": "DBCWO, Ariyalur District Collectorate, Ariyalur, Tamil Nadu",
+    "type": "welfare",
+    "phone": "04329-255305, 228225",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.058Z"
+  },
+  {
+    "id": "welfare-chengalpattu",
+    "districtCode": "chengalpattu",
+    "name": "District Backward Classes and Minorities Welfare Office — Chengalpattu",
+    "address": "DBCWO, Chengalpattu District Collectorate, Chengalpattu, Tamil Nadu",
+    "type": "welfare",
+    "phone": "044-27427412",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.211Z"
+  },
+  {
+    "id": "welfare-chennai",
+    "districtCode": "chennai",
+    "name": "District Backward Classes and Minorities Welfare Office — Chennai",
+    "address": "DBCWO, Chennai District Collectorate, Chennai, Tamil Nadu",
+    "type": "welfare",
+    "phone": "044-25241002",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.211Z"
+  },
+  {
+    "id": "welfare-coimbatore",
+    "districtCode": "coimbatore",
+    "name": "District Backward Classes and Minorities Welfare Office — Coimbatore",
+    "address": "DBCWO, Coimbatore District Collectorate, Coimbatore, Tamil Nadu",
+    "type": "welfare",
+    "phone": "0422-2300404",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.212Z"
+  },
+  {
+    "id": "welfare-cuddalore",
+    "districtCode": "cuddalore",
+    "name": "District Backward Classes and Minorities Welfare Office — Cuddalore",
+    "address": "DBCWO, Cuddalore District Collectorate, Cuddalore, Tamil Nadu",
+    "type": "welfare",
+    "phone": "04142-230495",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.212Z"
+  },
+  {
+    "id": "welfare-dharmapuri",
+    "districtCode": "dharmapuri",
+    "name": "District Backward Classes and Minorities Welfare Office — Dharmapuri",
+    "address": "DBCWO, Dharmapuri District Collectorate, Dharmapuri, Tamil Nadu",
+    "type": "welfare",
+    "phone": "84342-231861",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.212Z"
+  },
+  {
+    "id": "welfare-dindigul",
+    "districtCode": "dindigul",
+    "name": "District Backward Classes and Minorities Welfare Office — Dindigul",
+    "address": "DBCWO, Dindigul District Collectorate, Dindigul, Tamil Nadu",
+    "type": "welfare",
+    "phone": "0451-2460561",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.213Z"
+  },
+  {
+    "id": "welfare-erode",
+    "districtCode": "erode",
+    "name": "District Backward Classes and Minorities Welfare Office — Erode",
+    "address": "DBCWO, Erode District Collectorate, Erode, Tamil Nadu",
+    "type": "welfare",
+    "phone": "0424-2260255",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.213Z"
+  },
+  {
+    "id": "welfare-kallakurichi",
+    "districtCode": "kallakurichi",
+    "name": "District Backward Classes and Minorities Welfare Office — Kallakurichi",
+    "address": "DBCWO, Kallakurichi District Collectorate, Kallakurichi, Tamil Nadu",
+    "type": "welfare",
+    "phone": "",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.214Z"
+  },
+  {
+    "id": "welfare-kancheepuram",
+    "districtCode": "kancheepuram",
+    "name": "District Backward Classes and Minorities Welfare Office — Kancheepuram",
+    "address": "DBCWO, Kancheepuram District Collectorate, Kancheepuram, Tamil Nadu",
+    "type": "welfare",
+    "phone": "044-27236588",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.214Z"
+  },
+  {
+    "id": "welfare-kanyakumari",
+    "districtCode": "kanyakumari",
+    "name": "District Backward Classes and Minorities Welfare Office — Kanyakumari",
+    "address": "DBCWO, Kanniyakumari District Collectorate, Kanyakumari, Tamil Nadu",
+    "type": "welfare",
+    "phone": "04652-236729",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.214Z"
+  },
+  {
+    "id": "welfare-karur",
+    "districtCode": "karur",
+    "name": "District Backward Classes and Minorities Welfare Office — Karur",
+    "address": "DBCWO, Karur District Collectorate, Karur, Tamil Nadu",
+    "type": "welfare",
+    "phone": "04324-255305",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.214Z"
+  },
+  {
+    "id": "welfare-krishnagiri",
+    "districtCode": "krishnagiri",
+    "name": "District Backward Classes and Minorities Welfare Office — Krishnagiri",
+    "address": "DBCWO, Krishnagiri District Collectorate, Krishnagiri, Tamil Nadu",
+    "type": "welfare",
+    "phone": "04343-235655",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.214Z"
+  },
+  {
+    "id": "welfare-madurai",
+    "districtCode": "madurai",
+    "name": "District Backward Classes and Minorities Welfare Office — Madurai",
+    "address": "DBCWO, Madurai District Collectorate, Madurai, Tamil Nadu",
+    "type": "welfare",
+    "phone": "0452-2529054",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.214Z"
+  },
+  {
+    "id": "welfare-nagapattinam",
+    "districtCode": "nagapattinam",
+    "name": "District Backward Classes and Minorities Welfare Office — Nagapattinam",
+    "address": "DBCWO, Nagapattinam District Collectorate, Nagapattinam, Tamil Nadu",
+    "type": "welfare",
+    "phone": "04365-251562",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.214Z"
+  },
+  {
+    "id": "welfare-namakkal",
+    "districtCode": "namakkal",
+    "name": "District Backward Classes and Minorities Welfare Office — Namakkal",
+    "address": "DBCWO, Namakkal District Collectorate, Namakkal, Tamil Nadu",
+    "type": "welfare",
+    "phone": "04286-280193",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.215Z"
+  },
+  {
+    "id": "welfare-nilgiris",
+    "districtCode": "nilgiris",
+    "name": "District Backward Classes and Minorities Welfare Office — Nilgiris",
+    "address": "DBCWO, Nilgiris District Collectorate, Nilgiris, Tamil Nadu",
+    "type": "welfare",
+    "phone": "0423-2440340",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.215Z"
+  },
+  {
+    "id": "welfare-perambalur",
+    "districtCode": "perambalur",
+    "name": "District Backward Classes and Minorities Welfare Office — Perambalur",
+    "address": "DBCWO, Perambalur District Collectorate, Perambalur, Tamil Nadu",
+    "type": "welfare",
+    "phone": "04328-224555",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.215Z"
+  },
+  {
+    "id": "welfare-pudukkottai",
+    "districtCode": "pudukkottai",
+    "name": "District Backward Classes and Minorities Welfare Office — Pudukkottai",
+    "address": "DBCWO, Pudukottai District Collectorate, Pudukkottai, Tamil Nadu",
+    "type": "welfare",
+    "phone": "04322-227555",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.215Z"
+  },
+  {
+    "id": "welfare-ramanathapuram",
+    "districtCode": "ramanathapuram",
+    "name": "District Backward Classes and Minorities Welfare Office — Ramanathapuram",
+    "address": "DBCWO, Ramanathapuram District Collectorate, Ramanathapuram, Tamil Nadu",
+    "type": "welfare",
+    "phone": "04567-231288",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.215Z"
+  },
+  {
+    "id": "welfare-ranipet",
+    "districtCode": "ranipet",
+    "name": "District Backward Classes and Minorities Welfare Office — Ranipet",
+    "address": "DBCWO, Ranipet District Collectorate, Kellis Road, Ranipet, Ranipet, Tamil Nadu",
+    "type": "welfare",
+    "phone": "",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.215Z"
+  },
+  {
+    "id": "welfare-salem",
+    "districtCode": "salem",
+    "name": "District Backward Classes and Minorities Welfare Office — Salem",
+    "address": "DBCWO, Salem District Collectorate, Salem, Tamil Nadu",
+    "type": "welfare",
+    "phone": "0427-2451333",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.215Z"
+  },
+  {
+    "id": "welfare-thanjavur",
+    "districtCode": "thanjavur",
+    "name": "District Backward Classes and Minorities Welfare Office — Thanjavur",
+    "address": "DBCWO, Thanjavur District Collectorate, Thanjavur, Tamil Nadu",
+    "type": "welfare",
+    "phone": "04362-278415",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.216Z"
+  },
+  {
+    "id": "welfare-theni",
+    "districtCode": "theni",
+    "name": "District Backward Classes and Minorities Welfare Office — Theni",
+    "address": "DBCWO, Theni District Collectorate, Theni, Tamil Nadu",
+    "type": "welfare",
+    "phone": "04546-254960",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.216Z"
+  },
+  {
+    "id": "welfare-thoothukudi",
+    "districtCode": "thoothukudi",
+    "name": "District Backward Classes and Minorities Welfare Office — Thoothukudi",
+    "address": "DBCWO, Thoothukudi District Collectorate, Thoothukudi, Tamil Nadu",
+    "type": "welfare",
+    "phone": "0461-2341378",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.216Z"
+  },
+  {
+    "id": "welfare-tirunelveli",
+    "districtCode": "tirunelveli",
+    "name": "District Backward Classes and Minorities Welfare Office — Tirunelveli",
+    "address": "DBCWO, Tirunelveli District Collectorate, Tirunelveli, Tamil Nadu",
+    "type": "welfare",
+    "phone": "0462-2500141",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.216Z"
+  },
+  {
+    "id": "welfare-tiruppur",
+    "districtCode": "tiruppur",
+    "name": "District Backward Classes and Minorities Welfare Office — Tiruppur",
+    "address": "DBCWO, Tiruppur District Collectorate, Tiruppur, Tamil Nadu",
+    "type": "welfare",
+    "phone": "0421-2971130",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.216Z"
+  },
+  {
+    "id": "welfare-tiruvallur",
+    "districtCode": "tiruvallur",
+    "name": "District Backward Classes and Minorities Welfare Office — Tiruvallur",
+    "address": "DBCWO, Tiruvallur District Collectorate, Tiruvallur, Tamil Nadu",
+    "type": "welfare",
+    "phone": "044-27661888",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.216Z"
+  },
+  {
+    "id": "welfare-tiruvannamalai",
+    "districtCode": "tiruvannamalai",
+    "name": "District Backward Classes and Minorities Welfare Office — Tiruvannamalai",
+    "address": "DBCWO, Tiruvannamalai District Collectorate, Tiruvannamalai, Tamil Nadu",
+    "type": "welfare",
+    "phone": "04175-232206",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.217Z"
+  },
+  {
+    "id": "welfare-tiruvarur",
+    "districtCode": "tiruvarur",
+    "name": "District Backward Classes and Minorities Welfare Office — Tiruvarur",
+    "address": "DBCWO, Tiruvarur District Collectorate, Tiruvarur, Tamil Nadu",
+    "type": "welfare",
+    "phone": "04366-220519",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.217Z"
+  },
+  {
+    "id": "welfare-vellore",
+    "districtCode": "vellore",
+    "name": "District Backward Classes and Minorities Welfare Office — Vellore",
+    "address": "DBCWO, Vellore District Collectorate, Vellore, Tamil Nadu",
+    "type": "welfare",
+    "phone": "044-27661888",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.217Z"
+  },
+  {
+    "id": "welfare-viluppuram",
+    "districtCode": "viluppuram",
+    "name": "District Backward Classes and Minorities Welfare Office — Viluppuram",
+    "address": "DBCWO, Villupuram District Collectorate, Viluppuram, Tamil Nadu",
+    "type": "welfare",
+    "phone": "04146-223264/222011",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.217Z"
+  },
+  {
+    "id": "welfare-virudhunagar",
+    "districtCode": "virudhunagar",
+    "name": "District Backward Classes and Minorities Welfare Office — Virudhunagar",
+    "address": "DBCWO, Virudhunagar District Collectorate, Virudhunagar, Tamil Nadu",
+    "type": "welfare",
+    "phone": "04562-252709",
+    "latitude": null,
+    "longitude": null,
+    "hours": null,
+    "services": [
+      "scholarship_guidance"
+    ],
+    "requiredDocuments": [],
+    "sourceUrl": "https://www.tabcedco.tn.gov.in/WEB/EN/DIST/DBCMWO",
+    "verifiedAt": "2026-11-02T10:52:00.217Z"
+  }
+]

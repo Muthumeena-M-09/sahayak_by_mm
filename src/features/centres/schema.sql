@@ -1,0 +1,17 @@
+BEGIN;
+CREATE SCHEMA IF NOT EXISTS help_location;
+REVOKE ALL ON SCHEMA help_location FROM PUBLIC;
+CREATE TABLE IF NOT EXISTS help_location.districts (code text PRIMARY KEY, data jsonb NOT NULL);
+CREATE TABLE IF NOT EXISTS help_location.centres (id text PRIMARY KEY, district_code text NOT NULL REFERENCES help_location.districts(code), active boolean NOT NULL DEFAULT true, verified_at timestamptz NOT NULL, data jsonb NOT NULL);
+CREATE INDEX IF NOT EXISTS centres_district_active ON help_location.centres(district_code) WHERE active;
+CREATE TABLE IF NOT EXISTS help_location.preferences (user_uid text PRIMARY KEY REFERENCES public.profiles(uid) ON DELETE CASCADE, district_code text NOT NULL REFERENCES help_location.districts(code), source text NOT NULL CHECK(source IN ('manual','gps','approximate')), consent_at timestamptz NOT NULL DEFAULT now());
+CREATE TABLE IF NOT EXISTS help_location.reports (centre_id text NOT NULL REFERENCES help_location.centres(id) ON DELETE CASCADE, session_hash text NOT NULL, user_uid text NOT NULL REFERENCES public.profiles(uid) ON DELETE CASCADE, status text NOT NULL CHECK(status IN ('busy','quiet','closed')), reported_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY(centre_id, session_hash));
+CREATE INDEX IF NOT EXISTS reports_expiry ON help_location.reports(reported_at);
+CREATE TABLE IF NOT EXISTS help_location.holidays (district_code text NOT NULL REFERENCES help_location.districts(code), day date NOT NULL, label text NOT NULL, PRIMARY KEY(district_code,day));
+ALTER TABLE help_location.districts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE help_location.centres ENABLE ROW LEVEL SECURITY;
+ALTER TABLE help_location.preferences ENABLE ROW LEVEL SECURITY;
+ALTER TABLE help_location.reports ENABLE ROW LEVEL SECURITY;
+ALTER TABLE help_location.holidays ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON ALL TABLES IN SCHEMA help_location FROM PUBLIC;
+COMMIT;

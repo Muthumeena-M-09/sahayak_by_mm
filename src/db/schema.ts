@@ -20,6 +20,8 @@ export interface NotificationChannelPrefs {
 }
 
 export interface CitationItem {
+  sourceNumber?: number;
+  sourceUrl?: string | null;
   documentId: number;
   documentTitle: string;
   pageNumber: number;
