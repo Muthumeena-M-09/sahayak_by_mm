@@ -1,5 +1,10 @@
 # OpenHands INCLUDE checkpoint audit
 
+Follow-up completed 2026-11-03: [ST-GCN and BiLSTM comparison](openhands-stgcn-audit.md)
+tests both models on the same 24 genuine clips. The single-clip result is ST-GCN
+6/24 and BiLSTM 0/24; batched BiLSTM results change drastically. ST-GCN export and
+ONNX CPU parity now pass using an isolated, user-approved ONNX installation.
+
 Date: 2026-11-02. **Real inference executes locally, but the tested BiLSTM is not
 approved for Sahayak recognition.** No app, environment configuration or frontend
 dependencies were changed. No training or dependency installation was performed.

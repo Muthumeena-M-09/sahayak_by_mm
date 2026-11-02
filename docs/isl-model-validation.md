@@ -2,6 +2,12 @@
 
 Reviewed 2026-11-02. Decision: **hold Phase 2 pending model validation**.
 
+ST-GCN follow-up completed 2026-11-03: [multi-class audit and comparison](openhands-stgcn-audit.md).
+On a preselected 24-clip/12-class single-clip panel, ST-GCN scored 6/24 and BiLSTM
+0/24. ST-GCN ONNX CPU parity passed on all 24 real sequences. Neither model is
+approved for integration; these sample scores are not overall model accuracy.
+The report proposes a small custom temporal ISL classifier; no training has begun.
+
 Follow-up: the authorized [OpenHands checkpoint audit](openhands-include-audit.md)
 downloaded the real BiLSTM weights and ran Windows CPU inference on one genuine
 INCLUDE pose sample. Execution succeeded, but Hello was misclassified as Season.

@@ -11,8 +11,13 @@ Phase 1 findings and the proposed integration are in
 models exist, but no model is yet validated for this application's browser runtime.
 The [OpenHands audit](docs/openhands-include-audit.md) includes reproducible local
 Windows inference: the released BiLSTM executed but misclassified a genuine Hello
-sample as Season. It is not approved for integration; ONNX export remains blocked
-by a missing dependency. Re-run locally with `python ml/openhands-audit/infer.py`.
+sample as Season. Re-run locally with `python ml/openhands-audit/infer.py`.
+The [ST-GCN comparison](docs/openhands-stgcn-audit.md) tests both real checkpoints
+on 24 clips across 12 ISL classes: ST-GCN recognized 6/24, BiLSTM 0/24 individually.
+These are small diagnostic scores, not overall accuracy. ST-GCN ONNX export and
+CPU parity passed with a separately approved local ONNX installation. Neither
+model is approved for integration. Browser runtime testing was deferred by choice;
+the report proposes a small custom temporal classifier without starting training.
 Camera/recognition UI and the proposed default-off `VITE_ENABLE_ISL_ASSIST` feature
 flag are pending the requested model decision; setting that variable now has no
 effect. Existing Text/Voice behavior is unchanged.
