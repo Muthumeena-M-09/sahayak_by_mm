@@ -1,0 +1,363 @@
+{
+  "samples": 35,
+  "accuracy": 0.9142857142857143,
+  "signer_independent": false,
+  "onnx_pytorch_parity": true,
+  "parity_max_abs_error": 5.7220458984375e-06,
+  "onnx_total_ms": 6.73079997068271,
+  "onnx_ms_per_clip": 0.1923085705909346,
+  "unknown_rejection": "not measurable: no verified negative examples",
+  "predictions": [
+    {
+      "actual": "48.Hello",
+      "predicted": "48.Hello",
+      "confidence": 0.9999971389770508
+    },
+    {
+      "actual": "48.Hello",
+      "predicted": "48.Hello",
+      "confidence": 0.9766718149185181
+    },
+    {
+      "actual": "48.Hello",
+      "predicted": "48.Hello",
+      "confidence": 0.9998902082443237
+    },
+    {
+      "actual": "48.Hello",
+      "predicted": "48.Hello",
+      "confidence": 0.9998620748519897
+    },
+    {
+      "actual": "55.Thankyou",
+      "predicted": "55.Thankyou",
+      "confidence": 0.9754992723464966
+    },
+    {
+      "actual": "55.Thankyou",
+      "predicted": "55.Thankyou",
+      "confidence": 0.9772053360939026
+    },
+    {
+      "actual": "55.Thankyou",
+      "predicted": "55.Thankyou",
+      "confidence": 0.9481046199798584
+    },
+    {
+      "actual": "55.Thankyou",
+      "predicted": "55.Thankyou",
+      "confidence": 0.9633895754814148
+    },
+    {
+      "actual": "41.Letter",
+      "predicted": "42.Paper",
+      "confidence": 0.9927754402160645
+    },
+    {
+      "actual": "41.Letter",
+      "predicted": "41.Letter",
+      "confidence": 0.9323922395706177
+    },
+    {
+      "actual": "41.Letter",
+      "predicted": "41.Letter",
+      "confidence": 0.977117657661438
+    },
+    {
+      "actual": "42.Paper",
+      "predicted": "42.Paper",
+      "confidence": 0.7644716501235962
+    },
+    {
+      "actual": "42.Paper",
+      "predicted": "42.Paper",
+      "confidence": 0.8675515055656433
+    },
+    {
+      "actual": "42.Paper",
+      "predicted": "42.Paper",
+      "confidence": 0.7160066962242126
+    },
+    {
+      "actual": "87.Doctor",
+      "predicted": "35.Bank",
+      "confidence": 0.5069993138313293
+    },
+    {
+      "actual": "87.Doctor",
+      "predicted": "35.Bank",
+      "confidence": 0.8929816484451294
+    },
+    {
+      "actual": "87.Doctor",
+      "predicted": "87.Doctor",
+      "confidence": 0.9265159964561462
+    },
+    {
+      "actual": "24.School",
+      "predicted": "24.School",
+      "confidence": 0.7816548943519592
+    },
+    {
+      "actual": "24.School",
+      "predicted": "24.School",
+      "confidence": 0.9995704293251038
+    },
+    {
+      "actual": "24.School",
+      "predicted": "24.School",
+      "confidence": 0.8493672013282776
+    },
+    {
+      "actual": "24.School",
+      "predicted": "24.School",
+      "confidence": 0.8818483352661133
+    },
+    {
+      "actual": "30.Hospital",
+      "predicted": "30.Hospital",
+      "confidence": 0.9998581409454346
+    },
+    {
+      "actual": "30.Hospital",
+      "predicted": "30.Hospital",
+      "confidence": 0.9999716281890869
+    },
+    {
+      "actual": "30.Hospital",
+      "predicted": "30.Hospital",
+      "confidence": 0.9999598264694214
+    },
+    {
+      "actual": "30.Hospital",
+      "predicted": "30.Hospital",
+      "confidence": 0.9998939037322998
+    },
+    {
+      "actual": "35.Bank",
+      "predicted": "35.Bank",
+      "confidence": 0.9273728728294373
+    },
+    {
+      "actual": "35.Bank",
+      "predicted": "35.Bank",
+      "confidence": 0.8889038562774658
+    },
+    {
+      "actual": "35.Bank",
+      "predicted": "35.Bank",
+      "confidence": 0.9644572734832764
+    },
+    {
+      "actual": "35.Bank",
+      "predicted": "35.Bank",
+      "confidence": 0.9132990837097168
+    },
+    {
+      "actual": "3.Medicine",
+      "predicted": "3.Medicine",
+      "confidence": 0.9364532828330994
+    },
+    {
+      "actual": "3.Medicine",
+      "predicted": "3.Medicine",
+      "confidence": 0.9478170871734619
+    },
+    {
+      "actual": "3.Medicine",
+      "predicted": "3.Medicine",
+      "confidence": 0.6397115588188171
+    },
+    {
+      "actual": "4.Money",
+      "predicted": "4.Money",
+      "confidence": 0.9610143899917603
+    },
+    {
+      "actual": "4.Money",
+      "predicted": "4.Money",
+      "confidence": 0.8570353388786316
+    },
+    {
+      "actual": "4.Money",
+      "predicted": "4.Money",
+      "confidence": 0.9154461026191711
+    }
+  ],
+  "per_sign": {
+    "48.Hello": {
+      "samples": 4,
+      "accuracy": 1.0
+    },
+    "55.Thankyou": {
+      "samples": 4,
+      "accuracy": 1.0
+    },
+    "24.School": {
+      "samples": 4,
+      "accuracy": 1.0
+    },
+    "30.Hospital": {
+      "samples": 4,
+      "accuracy": 1.0
+    },
+    "4.Money": {
+      "samples": 3,
+      "accuracy": 1.0
+    },
+    "3.Medicine": {
+      "samples": 3,
+      "accuracy": 1.0
+    },
+    "87.Doctor": {
+      "samples": 3,
+      "accuracy": 0.3333333333333333
+    },
+    "35.Bank": {
+      "samples": 4,
+      "accuracy": 1.0
+    },
+    "42.Paper": {
+      "samples": 3,
+      "accuracy": 1.0
+    },
+    "41.Letter": {
+      "samples": 3,
+      "accuracy": 0.6666666666666666
+    }
+  },
+  "labels": [
+    "48.Hello",
+    "55.Thankyou",
+    "24.School",
+    "30.Hospital",
+    "4.Money",
+    "3.Medicine",
+    "87.Doctor",
+    "35.Bank",
+    "42.Paper",
+    "41.Letter"
+  ],
+  "confusion_true_rows_predicted_columns": [
+    [
+      4,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      4,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      4,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      4,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      3,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      3,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      2,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      4,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      3,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      2
+    ]
+  ]
+}

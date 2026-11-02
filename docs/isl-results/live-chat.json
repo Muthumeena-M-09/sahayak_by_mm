@@ -1,0 +1,11 @@
+{
+  "date": "2026-11-03",
+  "healthStatus": 200,
+  "authenticatedGuestRequestAccepted": true,
+  "inputMode": "isl",
+  "chatHttpStatus": 200,
+  "sseEventTypes": ["meta", "error"],
+  "error": "Answer generation is temporarily unavailable. Please retry.",
+  "answerReceived": false,
+  "cameraDataSent": false
+}

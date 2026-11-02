@@ -1,5 +1,10 @@
 # Sahayak ISL Assist: Phase 1 validation
 
+Implementation follow-up (2026-11-03): a new custom classifier is trained and
+passes real ONNX Runtime Web/Worker parity. See [implementation](isl-implementation.md)
+and [evaluation](isl-evaluation.md). Live recognition remains disabled; the older
+audit decisions below describe research checkpoints, not this new model.
+
 Reviewed 2026-11-02. Decision: **hold Phase 2 pending model validation**.
 
 ST-GCN follow-up completed 2026-11-03: [multi-class audit and comparison](openhands-stgcn-audit.md).

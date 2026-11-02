@@ -1,0 +1,2874 @@
+{
+  "language": "ISL",
+  "source": "https://zenodo.org/records/6674324/files/INCLUDE.zip?download=1",
+  "license": "CC-BY-4.0",
+  "attribution": "INCLUDE: Sridhar, Ganesan, Kumar, Khapra (ACM MM 2020); poses: Gokul NC and Prem Selvaraj, OpenHands",
+  "source_verified": true,
+  "audited": false,
+  "signer_independent": false,
+  "label_review": "source labels/recordings verified structurally; human linguistic review pending",
+  "unknown_examples": 0,
+  "labels": [
+    "48.Hello",
+    "55.Thankyou",
+    "24.School",
+    "30.Hospital",
+    "4.Money",
+    "3.Medicine",
+    "87.Doctor",
+    "35.Bank",
+    "42.Paper",
+    "41.Letter"
+  ],
+  "preprocessing_config": {
+    "id": "holistic75-shoulder-v1",
+    "frames": 32,
+    "landmarks": 75,
+    "channels": 3,
+    "features": 225,
+    "minimum_shoulder_distance": 0.001,
+    "ordering": "pose33,leftHand21,rightHand21",
+    "mirrored": false
+  },
+  "records": [
+    {
+      "clip_id": "14839379d4ba5c2f4a70d0b6b8e25619096e7ec9b131039dc9b96172d602fc42",
+      "path": "Home/42. Paper/MVI_4932.MOV",
+      "member": "Pose_Signs/Home/42. Paper/MVI_4932.pkl",
+      "label": "42.Paper",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "bf3c03e7c7237bee2ee73b474b9ce6fcfc205be84c33e877b4cd6f2d816a1d76",
+      "frames": 63,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "1c57e3c7b47e294de065ffb1126778506f5d89adf1f90f97512020b1acf5b11b",
+      "path": "Home/42. Paper/MVI_8826.MP4",
+      "member": "Pose_Signs/Home/42. Paper/MVI_8826.pkl",
+      "label": "42.Paper",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "ed77152acb7bbfc9dca55570328abec33f349d3c6237700c211293674d1d9e5a",
+      "frames": 75,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "b699d11dd10759dcda162e4dc128cb6434bf448f2294a64fcb47094c2c63f62e",
+      "path": "Home/42. Paper/MVI_8827.MP4",
+      "member": "Pose_Signs/Home/42. Paper/MVI_8827.pkl",
+      "label": "42.Paper",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "78f643333a85647f3d63200ed992bdb871635ebdbdeadcb608dd8216317bd735",
+      "frames": 72,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "7308af7065be3b8df6323be9ff5245b91d31a17cb11925709ddb1a84531b1398",
+      "path": "Home/42. Paper/MVI_4933.MOV",
+      "member": "Pose_Signs/Home/42. Paper/MVI_4933.pkl",
+      "label": "42.Paper",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "03af3ea02fe885a70c9112ecd1aa283bdb0fdd2a86bbe18a325ceaea118b4a0f",
+      "frames": 66,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "e5e594849c0850beff5bce3d93d47e3813663ef661ca58bd4e7015a4603ffb6f",
+      "path": "Home/42. Paper/MVI_9057.MP4",
+      "member": "Pose_Signs/Home/42. Paper/MVI_9057.pkl",
+      "label": "42.Paper",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "1c11a98350a5989b9cec3e8705502216f07dc9ef1fa35a934944936e5ccaa6c4",
+      "frames": 75,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "4fe42350deec62e14b57146dadf30d479821d80f5cd36bf928f5db15dd816db0",
+      "path": "Home/42. Paper/MVI_4934.MOV",
+      "member": "Pose_Signs/Home/42. Paper/MVI_4934.pkl",
+      "label": "42.Paper",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "55f024ac382f7804e31d56ff87f1f359bc6cb3c950753e85e74631108a692efc",
+      "frames": 50,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "7100133eaf24a1f520dfc355bba4efc58653acde78b602b9832e6f07d3420292",
+      "path": "Home/42. Paper/MVI_4421.MOV",
+      "member": "Pose_Signs/Home/42. Paper/MVI_4421.pkl",
+      "label": "42.Paper",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "cff045972b9e190ed03f2906fc4cbf812ecdb098ccb79610ac8462af8d1c85dd",
+      "frames": 57,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "6ae859385b5232c6857fb8f632fabdfa17a25ff875730aaa252e18bbfadabc41",
+      "path": "Home/42. Paper/MVI_4420.MOV",
+      "member": "Pose_Signs/Home/42. Paper/MVI_4420.pkl",
+      "label": "42.Paper",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "9c6c7f20df7bd22c10c01c6649b40055192091045c81720248a8b5ab1f19401b",
+      "frames": 56,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "6f2265c3994c31bc274667e35901630b775db2ad5041b77cc06203b9c3594bd0",
+      "path": "Home/42. Paper/MVI_9058.MP4",
+      "member": "Pose_Signs/Home/42. Paper/MVI_9058.pkl",
+      "label": "42.Paper",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "32b8a166d7f82dd8f9f3fb5595ba97f95a0d68ef938028d63bbd4fda3665075c",
+      "frames": 72,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "27129e268ee4c685acf020e68da2e91eab68bd2d198a098ddd8d9b4ecefdac20",
+      "path": "Home/42. Paper/MVI_8829.MP4",
+      "member": "Pose_Signs/Home/42. Paper/MVI_8829.pkl",
+      "label": "42.Paper",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "423181a264c6303b6e980d527bd2971eadd2fb82e8523b9be17de30109181ca8",
+      "frames": 68,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "ba385c20f5fc247e34266b74806c5df5c8c51c79b2fb2b0f1473bb457371d3b3",
+      "path": "Home/42. Paper/MVI_8828.MP4",
+      "member": "Pose_Signs/Home/42. Paper/MVI_8828.pkl",
+      "label": "42.Paper",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "e76ec183565d75a25caefaf21c038209652bedfbefb3c3bb2f651a2a0032bc33",
+      "frames": 62,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "500cb3295a5d37486aa602248b37ae5ee72c859d571962c0e47f35cf1cb848a3",
+      "path": "Home/41. Letter/MVI_8825.MP4",
+      "member": "Pose_Signs/Home/41. Letter/MVI_8825.pkl",
+      "label": "41.Letter",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "d5775ca788456df2b440edd0580c8d4bb180eb9e512885c47529178525442c2f",
+      "frames": 74,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "3f5a1c7af8795c00589a1c5c59fdf64cfb7f52033816c6ee2c340d4665915fba",
+      "path": "Home/41. Letter/MVI_8824.MP4",
+      "member": "Pose_Signs/Home/41. Letter/MVI_8824.pkl",
+      "label": "41.Letter",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "2a94d97e200bcff6a251661b39efc70dbf35fbf1db18c8c2782d263a3c6e3a45",
+      "frames": 72,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "93d12032b17a26e4311d7299d0ec166226fdbd7f5bd4852a9e49aaae80256354",
+      "path": "Home/41. Letter/MVI_4930.MOV",
+      "member": "Pose_Signs/Home/41. Letter/MVI_4930.pkl",
+      "label": "41.Letter",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "ab16c568d4af807c67030b1fa4bbc70ca2ed80db4af3ea7f40ed03f92f869b14",
+      "frames": 52,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "61be2b3ac7e1c9c306759ba9a887f8830715c42f4607f7761e106dff3cd4d6a1",
+      "path": "Home/41. Letter/MVI_9056.MP4",
+      "member": "Pose_Signs/Home/41. Letter/MVI_9056.pkl",
+      "label": "41.Letter",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "c6c4a87840dc49e559e84dc1d3dd9a580c91fafce6ceca0c93bb6d83811ddaa2",
+      "frames": 76,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "781323d781379df9fceaabdea43f1c716d3cce417ac9b56424536ba5f76aaf6f",
+      "path": "Home/41. Letter/MVI_8822.MP4",
+      "member": "Pose_Signs/Home/41. Letter/MVI_8822.pkl",
+      "label": "41.Letter",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "68d21f268425b781ef552babc83a02493340f234fe31b7426070c8f243f8a045",
+      "frames": 83,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "40120e2197db776bd4e9052dfdfbdf224021ea3696798d5ee31d57b0fefd9ae1",
+      "path": "Home/41. Letter/MVI_9055.MP4",
+      "member": "Pose_Signs/Home/41. Letter/MVI_9055.pkl",
+      "label": "41.Letter",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "9a9c459a70d85c339c42608bc049efd5f9e9a61424b1fb1a984967db7375a828",
+      "frames": 74,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "df9e938c1e5fbf5f9a805027d63ec0ff1bebfd558a1175f00a968773b88c1e89",
+      "path": "Home/41. Letter/MVI_9054.MP4",
+      "member": "Pose_Signs/Home/41. Letter/MVI_9054.pkl",
+      "label": "41.Letter",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "59ce91f71fc30d772de4e715345daa038dda71e987a0a7c0f2c62121e9686eb7",
+      "frames": 75,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "92175170aa6ea00f8669035a4d9e12cf3fdf2a17c9eccaac017623d56636105e",
+      "path": "Home/41. Letter/MVI_4416.MOV",
+      "member": "Pose_Signs/Home/41. Letter/MVI_4416.pkl",
+      "label": "41.Letter",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "16d57ebe16446cf26e371b2cbbc03959126b8129ffb0d479e3a49c4eb211f4e5",
+      "frames": 64,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "8848bb2e789f0c23be56dc7572eb009bd8e9a9bf43d059382acd124b7f3b83d1",
+      "path": "Home/41. Letter/MVI_4418.MOV",
+      "member": "Pose_Signs/Home/41. Letter/MVI_4418.pkl",
+      "label": "41.Letter",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "049c5c97528650d810c7c45d8ccf5c11365e3892b5a880cf335ebcee62881c82",
+      "frames": 68,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "ef533ec570c6900fa4f710356c7159542a9a1cc74fa25e05f2c4cbce75fa7093",
+      "path": "Home/41. Letter/MVI_4419.MOV",
+      "member": "Pose_Signs/Home/41. Letter/MVI_4419.pkl",
+      "label": "41.Letter",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "28854d11000dfa5265eed67c2f6a9a8513bb494abf4459d768f4512965e3cbb5",
+      "frames": 64,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "6bc52a5ed65b4fa1fac0616058be31879e74148ef62f555b579580cc32a9c69e",
+      "path": "Home/41. Letter/MVI_4929.MOV",
+      "member": "Pose_Signs/Home/41. Letter/MVI_4929.pkl",
+      "label": "41.Letter",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "7f0160e53d3cdcccceebdb65362afa0b14470ff844cc307e40e8fa55cdab722f",
+      "frames": 50,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "e7279e65810e1d8b3c5e61cead867ef319abf76b4d0a9730857c99b33af61695",
+      "path": "Places/30. Hospital/MVI_3482.MOV",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3482.pkl",
+      "label": "30.Hospital",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "da7f9e95df0df96e0cf874a9a464943a182f926b9655f90fcdf4387481255530",
+      "frames": 63,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "c756f7ecea29a5d10370f4fdb59fa3a8b8f11e7cbdc9ee623c849476975781c5",
+      "path": "Places/30. Hospital/MVI_3318.MOV",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3318.pkl",
+      "label": "30.Hospital",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "8fa9d1fa801551aeb725bf617f28c8a4dc20cfb61411ac5b05f2ac30eed8d7b5",
+      "frames": 72,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "007eb852a35a894a9482516e2b53b7f5f8b4c852496ae390c59bb5b4751f615a",
+      "path": "Places/30. Hospital/MVI_3641.MOV",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3641.pkl",
+      "label": "30.Hospital",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "1fc2ec8556b8e994623235f26e6ee9a13b8d8d75bd7f210167d7dafdb587c53d",
+      "frames": 58,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "15e343edcdd0d3e4d99abc77fc10e642f7faaf265b27844c52b961b39dc5da4c",
+      "path": "Places/30. Hospital/MVI_3480.MOV",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3480.pkl",
+      "label": "30.Hospital",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "cb3065026c839edf1a57913dca0230b59bb0b0150959c45d731047472b2f684b",
+      "frames": 66,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "9b68f133c3f77266bdc6c17b05c3c326b837903350fb44e2c26034dd3c1496a7",
+      "path": "Places/30. Hospital/MVI_3397.MOV",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3397.pkl",
+      "label": "30.Hospital",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "e7771506be7cc9b9cecb13d6ff41a4cdad56edd3afd23e2da0f641e066e68ba2",
+      "frames": 78,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "aa22784c80f16c2f32b10e8baf952027e3a16cfe528f421906331eb309ac5e73",
+      "path": "Places/30. Hospital/MVI_3563.MOV",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3563.pkl",
+      "label": "30.Hospital",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "44bce13c7a20a87a322ab592748acd17b2829f2f95ec6fb187bf8dd464feb6ba",
+      "frames": 65,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "88db8094b8ade7c5c18139f47aba695a47957eb0c569bbe41567af625d83e528",
+      "path": "Places/30. Hospital/MVI_3562.MOV",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3562.pkl",
+      "label": "30.Hospital",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "8dfe1887408172f4291810633c4bb49dc1e3af3685e023452b19bfe33730de60",
+      "frames": 59,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "cf9209515ce6088de55fa3c2cd1c4124a8a691a0ae04e8b9ec1cda1021d4c3cc",
+      "path": "Places/30. Hospital/MVI_3560.MOV",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3560.pkl",
+      "label": "30.Hospital",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "691ff823119b0b5606722a3d105a2d1ace9eb3115085787844aee83986244a4d",
+      "frames": 59,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "a51300f9f74fa725b444c81d6210f4ff2b3e3d16609121768f7e669bba509f98",
+      "path": "Places/30. Hospital/MVI_3400.MOV",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3400.pkl",
+      "label": "30.Hospital",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "1d70d4fcdc8a6ee27cc469394983002adfc9b2bd1089b7ca3197230cc21baab9",
+      "frames": 71,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "9422c120af1e2f2afa29de90a6b4aa5e427936a1740b9972fd7ddf1c2f53e824",
+      "path": "Places/30. Hospital/MVI_3399.MOV",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3399.pkl",
+      "label": "30.Hospital",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "8f2ed28ce856bf0cddeea5fa5cc1297db9164657bd7108c9303f27ad2e5f00ff",
+      "frames": 65,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "6e473784989fc5462cab05db2cf52f46532cc08ceb457be616cea417e04002d2",
+      "path": "Places/30. Hospital/MVI_3398.MOV",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3398.pkl",
+      "label": "30.Hospital",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "5acce8d44cecd5ceabd3fb346449291507d0ecf85df9669c7c81ac62c0d9ff10",
+      "frames": 70,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "327ed38ce720d94f26664ee563cebde64d8291624c3148ab793da4462f8d8b13",
+      "path": "Places/30. Hospital/MVI_3561.MOV",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3561.pkl",
+      "label": "30.Hospital",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "745cd661d8be525d6265c5db82aa617c4e9ac792d17644e1b5b16e3cd8d080d4",
+      "frames": 56,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "370fe622952cac78d99d6e1e9d25fb1668d9cc3ec520317b442ff3ada9df89b8",
+      "path": "Places/30. Hospital/MVI_3638.MOV",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3638.pkl",
+      "label": "30.Hospital",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "250fe5c765f017a33248a077cce0b130a671cd57fb78bee09952c4f09fd2bb93",
+      "frames": 65,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "6e4530feef9486c8df410939816b2f11607b00f897d0c5e5e24dc20a1560d362",
+      "path": "Places/30. Hospital/MVI_3315.MOV",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3315.pkl",
+      "label": "30.Hospital",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "363b46b76c04129ff3b131e692e6c1477979df925d0810d426a504bf4ef61285",
+      "frames": 81,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "6fca835ba6d4c4752207d4050d1668dbbe7180ec19a0e2f9ad80e778f27d740b",
+      "path": "Places/30. Hospital/MVI_3317.MOV",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3317.pkl",
+      "label": "30.Hospital",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "f56f08c5407f56a3470d3a0ad65ddafba3a673d34a33796ddaec31af84ff7913",
+      "frames": 71,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "122c2063de542e44b01eacaf2b88a148dfc7522c9f9290791abf8dcc17e05594",
+      "path": "Places/30. Hospital/MVI_3316.MOV",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3316.pkl",
+      "label": "30.Hospital",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "3a1a0ef3f3993bbc2320924742ed775ca4915a884e3d4662f5d94bcbb372d96d",
+      "frames": 75,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "602b902907414f69575d7be406065ddc682bc376fcf2dadcb00a882f6891987d",
+      "path": "Places/35. Bank/MVI_3335.MOV",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3335.pkl",
+      "label": "35.Bank",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "76ae0f181176683a6a13794c8b80c52e8f82c08134c0049588b492b7478458f4",
+      "frames": 74,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "ab7379f69fb552b47fb052520336cd38ef64deee95fc59a828564a77edf4cc00",
+      "path": "Places/35. Bank/MVI_3336.MOV",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3336.pkl",
+      "label": "35.Bank",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "15d39c5a44d7bda7fa9f55885cc13282c469b76e7725bc566847eb3d012a3304",
+      "frames": 63,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "593b5f0443d16a6197ca16f92d9196b10c38c0fc878070bdc5479682c9710e7c",
+      "path": "Places/35. Bank/MVI_3337.MOV",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3337.pkl",
+      "label": "35.Bank",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "beebd27a16017ed2ff1751e4bb68fac1a2bfe2a89949949c3dc933fff91e5868",
+      "frames": 62,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "f84374d0dfd6bf25d0cbcddd2ba3864a5e2de0724ac59f573ca39fa5316c8ec2",
+      "path": "Places/35. Bank/MVI_3581.MOV",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3581.pkl",
+      "label": "35.Bank",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "08ee3d7994afbd3bc20c14746b35716ee0fd5d3fb4cdd64daa6670736a2c3a99",
+      "frames": 50,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "067b1256c2e2fc202e63fd5e9b6a8329484bb449a2d411fa1ec9cd87fd99f283",
+      "path": "Places/35. Bank/MVI_3423.MOV",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3423.pkl",
+      "label": "35.Bank",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "b780c952600aa91ed219cf0f7a896127d588018ef4844afbc9020d94d4da55a8",
+      "frames": 70,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "d572d834939de493afb1215ad5f7a799a31e7896855e04027eadeb47db4c0743",
+      "path": "Places/35. Bank/MVI_3582.MOV",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3582.pkl",
+      "label": "35.Bank",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "94df37c29c56e0b520d725b0aa4a9abf3bdfacf8dfda05e569ee30dc887f8da1",
+      "frames": 51,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "a5d872dd8c0b0dc0b887122ef5ff9a0f047f156ae7913ba04e587c5da5b999cf",
+      "path": "Places/35. Bank/MVI_3583.MOV",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3583.pkl",
+      "label": "35.Bank",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "78750427259416975d0ed22fe42c7f27cbd670bce0a208059240f5dcff39466b",
+      "frames": 45,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "599bb81faf5ca7fed4a83d1fc1fb00327b263a3bc7485e681d6ba028e27a2c03",
+      "path": "Places/35. Bank/MVI_3419.MOV",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3419.pkl",
+      "label": "35.Bank",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "a16c93c1afb1ad36425df2098ca25268bb5f1c408f6b58b4c584043395b53f8e",
+      "frames": 82,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "5ee911a85501b9806271ebce0796d926411b13046321f0344626c88295bb1f04",
+      "path": "Places/35. Bank/MVI_3584.MOV",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3584.pkl",
+      "label": "35.Bank",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "2a8e782cf73b40f3eb3ac961a92c6d2a9ea32b71c9f0483fc8e526752b93a352",
+      "frames": 50,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "3bb1abd3b96484734b18d0bf82e897d24192741f40b977fbba02fc98044fc415",
+      "path": "Places/35. Bank/Extra/MVI_3420.MOV",
+      "member": "Pose_Signs/Places/35. Bank/Extra/MVI_3420.pkl",
+      "label": "35.Bank",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "930ed3977fe77028b634741ec5e10cc406f04424e8c0b01c30531503b29d0bf4",
+      "frames": 66,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "e198e2ed44660298ad8beabae69cb6efe14959b51699f9289941621280b267c5",
+      "path": "Places/35. Bank/Extra/MVI_3339.MOV",
+      "member": "Pose_Signs/Places/35. Bank/Extra/MVI_3339.pkl",
+      "label": "35.Bank",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "14ff4c4f5aa07a51f6850246fe47812992fdba4222d87fa0206dc12bd1513e1e",
+      "frames": 63,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "b25917cf6560cf64ea981b804c3b1130bb40882eda730891b4ef92541d1d5614",
+      "path": "Places/35. Bank/MVI_3662.MOV",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3662.pkl",
+      "label": "35.Bank",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "b14d296a5079220aa948707c55b9989f747098774011b56e67eafa4270ce664f",
+      "frames": 43,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "a85d5c9b99c0ac5c7fbb804bb735ec4525505faf3af14e5e5ac6c5f402dcfe9f",
+      "path": "Places/35. Bank/MVI_3501.MOV",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3501.pkl",
+      "label": "35.Bank",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "b168fbab6431a7842a70699081afb2bd15cff82b6b0499e43e955052daca0366",
+      "frames": 41,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "e610cc63759990207e9451f220f499b1a81426f0731a0742b9b1fb28d50e903b",
+      "path": "Places/35. Bank/MVI_3503.MOV",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3503.pkl",
+      "label": "35.Bank",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "ecdb6be04585d8f5c9b5b75b4bc8f27041dbbbe558faf414767f788de6b10248",
+      "frames": 45,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "0bf981e1fb59b2ab2e0d05b8abba2ed616aa7b687a92268d90b11ae616bd5be3",
+      "path": "Places/35. Bank/MVI_3661.MOV",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3661.pkl",
+      "label": "35.Bank",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "1a941df1ec8db5e0b973a44d54f5bc116defeb77976db94f4f079ae0ad420efd",
+      "frames": 44,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "895efc429a268e6a5b9a2c0c5d8b4424858e9a6c03c2a304478f8df4f9b4643b",
+      "path": "Places/35. Bank/MVI_3338.MOV",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3338.pkl",
+      "label": "35.Bank",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "f453644d2e0e050c1aebdd63759b2edc9db626f96e43032a9649390ff8e135fc",
+      "frames": 63,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "a9ff009edc027edb2a047142f2a8576d61f38ade82bc8a02824ba1fc0cc9322b",
+      "path": "Places/35. Bank/MVI_3502.MOV",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3502.pkl",
+      "label": "35.Bank",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "1b25cccecf616188ef75b8059f0b0c6657ead3f2b3aa46be917d7d4d27ca5432",
+      "frames": 48,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "c4f0074a8fe4b85642936d725ad16fef4a6890d03e2e6c6e1d6f7a41d5afa37c",
+      "path": "Places/35. Bank/MVI_3664.MOV",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3664.pkl",
+      "label": "35.Bank",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "b28466b1df6f1fd793d08006c719c4f38e2313f901ede428f4353e2b487150cc",
+      "frames": 47,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "86667622bc64090dee6407ea8e23e0bbebb5e197b8836d6284bf04a85190ef9c",
+      "path": "Places/24. School/MVI_3535.MOV",
+      "member": "Pose_Signs/Places/24. School/MVI_3535.pkl",
+      "label": "24.School",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "c2f794de0cc994dd493f772a5a027b616d86d56bb5933487dba17e7b63494cae",
+      "frames": 55,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "0a4a3617a0f9ce7e43eadd4db364260c67273ac96ab16184e474fa70da38518f",
+      "path": "Places/24. School/MVI_3290.MOV",
+      "member": "Pose_Signs/Places/24. School/MVI_3290.pkl",
+      "label": "24.School",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "d8afaf078248a2b094ed105289f4d93c9f59d8a5a5e73a6eb1f3de10e31b2ee3",
+      "frames": 72,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "becaaba238cdabaaabe5d31df197edeb23d1a07a042169ab65cd447c798ee98b",
+      "path": "Places/24. School/MVI_3291.MOV",
+      "member": "Pose_Signs/Places/24. School/MVI_3291.pkl",
+      "label": "24.School",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "935d6816a236f27580c9a33e71abff9ff01e46128a27b558701fbc173d6518a8",
+      "frames": 69,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "c68219afcef42259590a1718d69e5adc67a7dd310b65108d90ea003c759cb5ae",
+      "path": "Places/24. School/MVI_3293.MOV",
+      "member": "Pose_Signs/Places/24. School/MVI_3293.pkl",
+      "label": "24.School",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "3feb269c2bcee895089ca1e638ed3b1a5dafb8878fdb80a356df81d6ff1c154c",
+      "frames": 72,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "072e84ab5dc3867338d0c194ff3159bf55132b98393a2e6084aa6d022a94797b",
+      "path": "Places/24. School/MVI_3456.MOV",
+      "member": "Pose_Signs/Places/24. School/MVI_3456.pkl",
+      "label": "24.School",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "015a559d3dc09cfe8e37d5de29bce98307b61b16f67250f775a98cccbf04f8f6",
+      "frames": 47,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "48bba9124708adc2854277f614e26a192700b6841c8c9863264c722ac137f4cb",
+      "path": "Places/24. School/MVI_3457.MOV",
+      "member": "Pose_Signs/Places/24. School/MVI_3457.pkl",
+      "label": "24.School",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "de127adbbe8374c65014f6e1a7a2f9943a3a2177e88b3bfbffafabfbad88cee3",
+      "frames": 51,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "a5d540bb0a483146d9d9e938247b9cedf5a1f9a6a5cf419d1afeb36d9ca948f7",
+      "path": "Places/24. School/MVI_3371.MOV",
+      "member": "Pose_Signs/Places/24. School/MVI_3371.pkl",
+      "label": "24.School",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "d5047c5434bf1128569a5f07313851b464bdc8be4e52ec3f34c300c5cb08b3ce",
+      "frames": 75,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "446ce7fe53f52db2f9dc21b8f2aa3b7a7b4cd6b3fc1cd0900b5597b9ddfca3dc",
+      "path": "Places/24. School/MVI_3614.MOV",
+      "member": "Pose_Signs/Places/24. School/MVI_3614.pkl",
+      "label": "24.School",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "2dc624ab978a12702a27aa05259ef4ff6d15a7097dcaba84db3b025fb28a7f1f",
+      "frames": 56,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "ea87f5420b1a11e9eb1f3be7e28fbb284d7221bc83a0f40c7e65e6b07617a9ef",
+      "path": "Places/24. School/MVI_3372.MOV",
+      "member": "Pose_Signs/Places/24. School/MVI_3372.pkl",
+      "label": "24.School",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "c346802a934cb8949930f38c362b0c65dac764414eedafc5376781fbe17f238c",
+      "frames": 61,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "cb24a68ace4fa243fa404f7e78ba131f353fd33600601f5faa4ecf5813a5bdb7",
+      "path": "Places/24. School/MVI_3616.MOV",
+      "member": "Pose_Signs/Places/24. School/MVI_3616.pkl",
+      "label": "24.School",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "b525e72f37d1fa6ae89702a4b883f687d237e4e4549da0affc5f955800e9b536",
+      "frames": 46,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "3363f85b1d82738564b96fd727a2f629bf81b10f5b85358b9cbd5399e8ba91e6",
+      "path": "Places/24. School/MVI_3617.MOV",
+      "member": "Pose_Signs/Places/24. School/MVI_3617.pkl",
+      "label": "24.School",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "ae14095bbbddb0d63d7165f213cb6ef7916e6ed846da56011e26ee21459509a5",
+      "frames": 49,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "1d66a3b67ebccd37bec0db2e084caa428de242fb03176365389bd9cbc750cf8c",
+      "path": "Places/24. School/MVI_3373.MOV",
+      "member": "Pose_Signs/Places/24. School/MVI_3373.pkl",
+      "label": "24.School",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "1790f9bf2f18ab782ce84ab92dd92913c8c926ed28b2c02cd51ea16be935fb47",
+      "frames": 66,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "efce0290daca59f3167edb76f1a1467d8eca9b6f319492bf5fa3503e7e3525f7",
+      "path": "Places/24. School/MVI_3374.MOV",
+      "member": "Pose_Signs/Places/24. School/MVI_3374.pkl",
+      "label": "24.School",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "08ee747f49f4af9e6b15eea9a885138bfd4576ed84cd70c4ea43de856f752941",
+      "frames": 66,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "4eae1a753ecd80cb4a27af352f55ea867b5de22ba54b63c1eb1d6ce8c8b25efc",
+      "path": "Places/24. School/MVI_3459.MOV",
+      "member": "Pose_Signs/Places/24. School/MVI_3459.pkl",
+      "label": "24.School",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "96aad1fefa6eb1f9ab3516be3e872a2386e03d8ab6aa3cdade0f06cb93d90408",
+      "frames": 56,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "4ae6be00c9c2d314745689d0ac7ce0b2f9b7e42aa2aa6a28efcc9f39373ab666",
+      "path": "Places/24. School/MVI_3458.MOV",
+      "member": "Pose_Signs/Places/24. School/MVI_3458.pkl",
+      "label": "24.School",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "6d38ca17e0755894ae630de359c2d20456aef1b98b05229228fe3b7f0d8869a6",
+      "frames": 55,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "2d46174721a4ae0bad677f3af366b003eefa200f1505413a5ce1dfbc171b5615",
+      "path": "Places/24. School/MVI_3538.MOV",
+      "member": "Pose_Signs/Places/24. School/MVI_3538.pkl",
+      "label": "24.School",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "094dbcf31e920570c7a30999a67d99278d5f00f8941a7e93bcec3e9d8fba774d",
+      "frames": 56,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "35d9b8b5b712226bdf3d0ca6110c138211664d8b90bdcbe25af963b27c815997",
+      "path": "Greetings/55. Thank you/MVI_0006.MOV",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_0006.pkl",
+      "label": "55.Thankyou",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "0d93121bd4c54c3fd0433cf96b946aff7b13e1c7a9be92c64e3b4a18d544e5dc",
+      "frames": 53,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "9f8ce40eafac3d0a5386e5dc2ef176a1f724b0f80488da215453b4236333b122",
+      "path": "Greetings/55. Thank you/MVI_0007.MOV",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_0007.pkl",
+      "label": "55.Thankyou",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "145063e0792171458c44c2f274daacbbaf8b41dd8718453033dd97b15b922fc9",
+      "frames": 56,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "52ad673d9e114e21a5a6794ca96194ed92e6e916aaa70831de2e382cfd665b7b",
+      "path": "Greetings/55. Thank you/MVI_9949.MOV",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_9949.pkl",
+      "label": "55.Thankyou",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "b8c64465e3eac3da0b0ddb019f8a6b3224c458bd2a7208e11381afe46b403e47",
+      "frames": 57,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "53b05a0b921b000f00d0ead8b08f849920393ce58b4b56a4606f03d740f0a2ca",
+      "path": "Greetings/55. Thank you/MVI_0063.MOV",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_0063.pkl",
+      "label": "55.Thankyou",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "919616b78bb712b675213d1e63f06d2fe9597a5c095ec6433d46862af9a123e1",
+      "frames": 86,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "266b6a2205f160d3317afbe0903fae2a91d4cd8d458921c524a5730fc7b32449",
+      "path": "Greetings/55. Thank you/MVI_0062.MOV",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_0062.pkl",
+      "label": "55.Thankyou",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "b6762399d48c55d6a6ce522dcefbd2950ee9c06c0660b5986ce781df1553572e",
+      "frames": 79,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "434e234c88de870c6d297f2100eae74a279463ff7e09797ac53274076ad6c1f4",
+      "path": "Greetings/55. Thank you/MVI_0061.MOV",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_0061.pkl",
+      "label": "55.Thankyou",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "ab49c6a4b68b1c82ede2790918b3a5019878f0dbe76069bf87db866fa50614a7",
+      "frames": 82,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "93b0b6235c1779ec5a2951e5172c1c26c0de9407ce7c4e92e011cf0a2b138fd2",
+      "path": "Greetings/55. Thank you/MVI_0058.MOV",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_0058.pkl",
+      "label": "55.Thankyou",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "bf077ef192a8188833402344d5837e89c21a0c33c8cdf3e3678f7944a01870e4",
+      "frames": 60,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "07f89b2bf1e5de5de6fbd82cbbcec31964573a8c0682fdbf056dccdca170c9c6",
+      "path": "Greetings/55. Thank you/MVI_0112.MOV",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_0112.pkl",
+      "label": "55.Thankyou",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "82c54488ea92452111c558645b7bf3f4cbc138c89f3e8dcd6aa43f0860d70161",
+      "frames": 75,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "a72728c72525c6da4744743141ffaa802a3426be99ae275378b7bf25c917b668",
+      "path": "Greetings/55. Thank you/MVI_0113.MOV",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_0113.pkl",
+      "label": "55.Thankyou",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "eb09e5b09d00b2b2b71a1f7ae41c4bf94e9c1f9320bc45cbe56c52ed1ebde646",
+      "frames": 79,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "a33dab86779990615b90a41fb2536809d86592db66c973e3aca449a9443a1631",
+      "path": "Greetings/55. Thank you/MVI_9987.MOV",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_9987.pkl",
+      "label": "55.Thankyou",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "c586bc00d028ef9ce2ab9adbc9a919a5ef56dba069769546feb4626b0ee373e8",
+      "frames": 63,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "14f4303e497a21b702aeb1f8de44353eee8b11d120c0514c6aa20918d5f17c7c",
+      "path": "Greetings/55. Thank you/MVI_9950.MOV",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_9950.pkl",
+      "label": "55.Thankyou",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "727e0e4fecd01d0d94943d11f1b0b6f6c55053715ff778dae626be020ef827f5",
+      "frames": 52,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "889e91b00987220eca1ad9ce7b24985ebc980cae25902c8638f2648bf2bafc1f",
+      "path": "Greetings/55. Thank you/MVI_9951.MOV",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_9951.pkl",
+      "label": "55.Thankyou",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "cd031521884d7a309a37d4982ceee6c9160169f247f033113a2a6e97604744c1",
+      "frames": 54,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "d86e7d5d492e8b69712faa65046fb3d79523f675c79d98cc36662e32ba7f7da9",
+      "path": "Greetings/55. Thank you/MVI_9986.MOV",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_9986.pkl",
+      "label": "55.Thankyou",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "72a22b82519c0628c6b56d8a5a3f9e86fcbc93ffb527c006f1da4327280c30a6",
+      "frames": 56,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "cf33e65ee89d29cbff3253fa7440a1d3e4e33b947af09821c7511dd24cdac2ed",
+      "path": "Greetings/55. Thank you/MVI_0008.MOV",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_0008.pkl",
+      "label": "55.Thankyou",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "59757d3b1fe0d64edb3324dd2e34c3f612af055fc6e94092dc76d5cc6912133e",
+      "frames": 57,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "5f5c92bbcc614883856ca68e8c0b6f1f6d6bebb771f76573b2e8533a50f80f29",
+      "path": "Greetings/55. Thank you/MVI_9984.MOV",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_9984.pkl",
+      "label": "55.Thankyou",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "e10e30dc90e4e64cf5b4e08432acad41e5210d6f80f0b2dafe37016085755d5f",
+      "frames": 61,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "bc59ce363b851a250994153fef84488e2c1c1c082310c2d9feef40af7d693ffa",
+      "path": "Greetings/55. Thank you/MVI_0060_.MOV",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_0060_.pkl",
+      "label": "55.Thankyou",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "530d5cdb161d8dea3c6f45018a1d0ae6d3544ed12370e5b60c95253f664b6735",
+      "frames": 81,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "160cc7e018320aa374bf56625fbd567ce953f9af92c45335710bf1d465c0e04a",
+      "path": "Greetings/55. Thank you/MVI_9985.MOV",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_9985.pkl",
+      "label": "55.Thankyou",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "0888211ba3bd314483722617574069fea51e78b7b12b8a1663e9edc7e889418d",
+      "frames": 67,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "e4ae1d7b3e4570d424e8657e35a5981d1bb1e8ad913a8bc54ee3bd8757afc742",
+      "path": "Greetings/48. Hello/MVI_0039.MOV",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_0039.pkl",
+      "label": "48.Hello",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "83c8d74fc9096a0b2be93ad3f91d1011aa25cb4afb1186248084bdf109c9fce0",
+      "frames": 52,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "260b13139bfa9151612b5cfb8dda18bf3e403e0bf6a2bbf8edfb9ffe045f1bff",
+      "path": "Greetings/48. Hello/MVI_0038.MOV",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_0038.pkl",
+      "label": "48.Hello",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "0ba819ecff1cf951a0c6ff9a508b8b71568535a4cbbe449736224549b642f46f",
+      "frames": 56,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "1d54dc4516b19d58677befeced560b7dd17a8015bd6f97bc625f9944942147d0",
+      "path": "Greetings/48. Hello/MVI_0089.MOV",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_0089.pkl",
+      "label": "48.Hello",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "ac31e2496f3c80264564760f4ca19cd32fad05032fb7ffc23f1263edfbc4ac4c",
+      "frames": 68,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "a77f010186fbc990e094138598cc6c7281e70884d794c47027a7f6118030f0aa",
+      "path": "Greetings/48. Hello/MVI_9915.MOV",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_9915.pkl",
+      "label": "48.Hello",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "c5dbe3a58e69edc05be9e2c6763fab8d4c35c084f03e2c13a4d2b6040264d4e2",
+      "frames": 52,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "a9d27e2831432da6b134d5d44a677868521ffd894ee6c3d6bc5ebd0a234d71cc",
+      "path": "Greetings/48. Hello/MVI_9917.MOV",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_9917.pkl",
+      "label": "48.Hello",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "d9643c662bdff66ffbe840b17b556e81e5c83818737398bcd490aaf0e6a1e88f",
+      "frames": 49,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "eab7702646ebe1017a71e3baab7d9516f69581d96bbd5f4418091f224ac06d96",
+      "path": "Greetings/48. Hello/MVI_9916.MOV",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_9916.pkl",
+      "label": "48.Hello",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "c9e214be49c9a57b857b7238566dc304098d0c2ee68c2b117b26374654bfbe84",
+      "frames": 50,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "4227cd14b068b7c1c9a5589af12e20196c1e8884999fd3438ed0dda06c8b30dc",
+      "path": "Greetings/48. Hello/MVI_0090.MOV",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_0090.pkl",
+      "label": "48.Hello",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "bc397cdae7cdc5ac7307d075a8b34ad45e8e216d8202ba8a7a1a1c1e17e6686c",
+      "frames": 69,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "a840465f7d47b003dbeef1c2eb5c9009f13f183d80f9fda2af01a8f19c9f9265",
+      "path": "Greetings/48. Hello/MVI_0091.MOV",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_0091.pkl",
+      "label": "48.Hello",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "03d349deb9024056f59a4487d3089fb84d533dfb0cc8bdeab463639355ca0681",
+      "frames": 80,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "2438816cf1a4eec02d17ef54eece132c3f40d7267ae393daa3a0992d426e19b5",
+      "path": "Greetings/48. Hello/MVI_9984.MOV",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_9984.pkl",
+      "label": "48.Hello",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "633217acb51e04778e5cb99ca1b3a31e37c963829ea14566655cff4441905faa",
+      "frames": 47,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "def3752cb61e92d8c906b224d90e3cc5cd35df8affaaebd363d16c90e5f340ad",
+      "path": "Greetings/48. Hello/MVI_0037.MOV",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_0037.pkl",
+      "label": "48.Hello",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "429510857482fa1d94cf6388f7f5e036f70e5b1aeb05c786fcdcc0a73f43cec6",
+      "frames": 49,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "a5c2176f830f16a7c8147e931b027b2437e5b5df255b46ad9b8c550e3709a3b9",
+      "path": "Greetings/48. Hello/MVI_9957.MOV",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_9957.pkl",
+      "label": "48.Hello",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "69efae8a0f89e26afddb6cc973930aed1154e50074e040c1408d51fb9742d45c",
+      "frames": 79,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "9604f7516ea698d9cd11e9bc41ce3bfc5f834bed128309dbfbaebf61ad65daa2",
+      "path": "Greetings/48. Hello/MVI_0032.MOV",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_0032.pkl",
+      "label": "48.Hello",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "b4628b348ee5acf51e88bccd668e753a1eeff5043a2cde9196b3675b47e8d88d",
+      "frames": 61,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "a0d68c501983933ffe5fff7b0e8cc14e866403536bf2c530301a64b6e3364f2e",
+      "path": "Greetings/48. Hello/MVI_0030.MOV",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_0030.pkl",
+      "label": "48.Hello",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "0085433db6c713ef841b0815814b39f7f2ce02902a0ea5a9bdbd6a228cdd43d8",
+      "frames": 74,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "2ddae78ff6dd7c3b03358eb0d8732ac946fe72786a4fa3cd0a067d3b40b408b6",
+      "path": "Greetings/48. Hello/MVI_9982.MOV",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_9982.pkl",
+      "label": "48.Hello",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "1f56136d3604d744a75cc6844183d90d2e033228ab51952ec7ba5343c005baf3",
+      "frames": 51,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "cfb3f3cb27305a5a4d1d7acc47cb137b019a9c0891091e709320f8c0ac910ee0",
+      "path": "Greetings/48. Hello/MVI_9955.MOV",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_9955.pkl",
+      "label": "48.Hello",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "53ad5beaec8fa3922f999db5b36a88d1083bf9f32cee7cee66dcc89561ec063b",
+      "frames": 84,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "69237a10eb462a5ef49b059b5ad813f671d75d0f81999021845b55eb2a3d636c",
+      "path": "Greetings/48. Hello/MVI_9954.MOV",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_9954.pkl",
+      "label": "48.Hello",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "b48c166dcfc3c1eb257fa5a32d96e4b32343d8849fa868f39fab5da0c5854cb4",
+      "frames": 69,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "87898dc254dea6efbc64e8d443585cc0d0e8df1b480da520b326e96a1f742f94",
+      "path": "Greetings/48. Hello/MVI_0031.MOV",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_0031.pkl",
+      "label": "48.Hello",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "d63a4dfb3233ba2eed7ba4585cad8eb526170d5bb59d5994c089e8c35379eb77",
+      "frames": 65,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "0adb4df2382471de73c85953758ed8d915d3bd366f9397b889bf04df4907118d",
+      "path": "Society/4. Money/MVI_4266.MOV",
+      "member": "Pose_Signs/Society/4. Money/MVI_4266.pkl",
+      "label": "4.Money",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "7f2dd95f420281ff4cc034cff3a5b5c993ed94d4f210b8f2c2b2ace30e3e3583",
+      "frames": 41,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "83b6c33d99a335558e2e8635c2400d9efbce0d2d9df582e9e30d78a2eb3696d3",
+      "path": "Society/4. Money/MVI_4264.MOV",
+      "member": "Pose_Signs/Society/4. Money/MVI_4264.pkl",
+      "label": "4.Money",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "d498a063366588c030f55e1645068e93793d03f3e95401f1e60af640d5180c27",
+      "frames": 44,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "0faa499ee6b74a743b217eac4756b053178134562ffe6bcb89958178e5fa7764",
+      "path": "Society/4. Money/MVI_4263.MOV",
+      "member": "Pose_Signs/Society/4. Money/MVI_4263.pkl",
+      "label": "4.Money",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "19f60fd2af5badef624cb5f48ab4cf4e1b28dcd33ef406dcf95a5b1b09a4fdb6",
+      "frames": 47,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "2234ed935f10aee4ede15d3f4774eb9f1b7fc0e46f2bac51afe83ba4dece13d7",
+      "path": "Society/4. Money/MVI_4808.MOV",
+      "member": "Pose_Signs/Society/4. Money/MVI_4808.pkl",
+      "label": "4.Money",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "6971e3ba584b2adae3e93327be1ae0668284d09571b7e09c277923c0ca3ca68d",
+      "frames": 52,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "ebe01b23f3aead0d54f3ad471fe459da35dd5b816c45ae61e8fbbb5adb4e2d4d",
+      "path": "Society/4. Money/MVI_8672.MP4",
+      "member": "Pose_Signs/Society/4. Money/MVI_8672.pkl",
+      "label": "4.Money",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "e8217b8a437e06cb6764bbc7fa55ba20e228b75107ba305c82510aa12793ab3f",
+      "frames": 67,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "7f01780e9e12002e4e32a8484d64f4321ab18d7074f1141c763941b4acf7ad6d",
+      "path": "Society/4. Money/MVI_8937.MP4",
+      "member": "Pose_Signs/Society/4. Money/MVI_8937.pkl",
+      "label": "4.Money",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "47caf7aa14fe534b76a7c344556eceafd5248b35dc68eabf1252fbc941ca6072",
+      "frames": 56,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "ce90819ca7e4951b0203ef5db5d031f1ec91abc3cca26d08fb1294a0ae22a6a0",
+      "path": "Society/4. Money/MVI_8670.MP4",
+      "member": "Pose_Signs/Society/4. Money/MVI_8670.pkl",
+      "label": "4.Money",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "5e4c072e65ca8c49b3edbf5a239fb7bb21167a4b0878ac75700555177f8c5439",
+      "frames": 59,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "4e45111580c90181b15d7193b70938d05816ebb30535c3304fc48ec593a22216",
+      "path": "Society/4. Money/MVI_8671.MP4",
+      "member": "Pose_Signs/Society/4. Money/MVI_8671.pkl",
+      "label": "4.Money",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "c4420a3ba14960749d673ef001dfa07f35884f8aa113849060d5cfd7e93f2caf",
+      "frames": 64,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "f62485eb6e1f275c1bac0bc3928663aff61446c122c29a17981298d671c926e1",
+      "path": "Society/4. Money/MVI_8936.MP4",
+      "member": "Pose_Signs/Society/4. Money/MVI_8936.pkl",
+      "label": "4.Money",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "06f68157bd5dd03c46dc778b21345cf542228598e09735eb8338cb97f5c3b53a",
+      "frames": 58,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "e82733a78438d9e3bd42bb347deef903c7edbbd8056c3ffcaee1afaba7caacae",
+      "path": "Society/4. Money/MVI_4807.MOV",
+      "member": "Pose_Signs/Society/4. Money/MVI_4807.pkl",
+      "label": "4.Money",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "19541fb4b76611600f490c055285a499c866393796d35e735c954e26e61dbfb4",
+      "frames": 62,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "8efdc590696ea16809b482f8f35e4f6263216eb2f2969632d7c89c91fbea145e",
+      "path": "Society/4. Money/MVI_8938.MP4",
+      "member": "Pose_Signs/Society/4. Money/MVI_8938.pkl",
+      "label": "4.Money",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "2986a17ec50e7fe458a21f94cfe6b04322714bfc9e65f95c19fb918e2fe255a9",
+      "frames": 55,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "423a8670748ab5639c85ae8f93cad2497ce38aed0948f757106e9c1801f2ac47",
+      "path": "Society/3. Medicine/MVI_4259.MOV",
+      "member": "Pose_Signs/Society/3. Medicine/MVI_4259.pkl",
+      "label": "3.Medicine",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "446cc13bea20448841aae72b0051e26b685861201833c96e5a79024dde02e7f3",
+      "frames": 68,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "e5f07065df04c10acd67bfbb08974017799bf8d86fa51ee1ab8fe404e356083a",
+      "path": "Society/3. Medicine/MVI_4260.MOV",
+      "member": "Pose_Signs/Society/3. Medicine/MVI_4260.pkl",
+      "label": "3.Medicine",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "aecd64a67d6e0326ed9abafdc09e0a3e97e2023d438bfad604b56a3d9886af4a",
+      "frames": 64,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "df7839eb27badfcfb845adcf8d3fd94d52774567ae20cd339ac7880497ad0adb",
+      "path": "Society/3. Medicine/MVI_4262.MOV",
+      "member": "Pose_Signs/Society/3. Medicine/MVI_4262.pkl",
+      "label": "3.Medicine",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "433f054fe358fa0684495f55036618cfc03222e294f30f0031648843a416d0f3",
+      "frames": 64,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "40159f7ea7b9655ace0c18fafc3ff72c27e335e6a4c8d67bf3a2bdc917408a4a",
+      "path": "Society/3. Medicine/MVI_8933.MP4",
+      "member": "Pose_Signs/Society/3. Medicine/MVI_8933.pkl",
+      "label": "3.Medicine",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "41204e87f857bddcab1a8c8ada1a0048cfba2728791a9787476eefe1c0292a3f",
+      "frames": 66,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "90b19d6f3aaa274c93c8546555e705a541a891182f1e6ee9be65e66743529a49",
+      "path": "Society/3. Medicine/MVI_8667.MP4",
+      "member": "Pose_Signs/Society/3. Medicine/MVI_8667.pkl",
+      "label": "3.Medicine",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "5589c9573ae72c4ca697b56daa2ad397e29e7c963a91ba8d20a1d1723490adf0",
+      "frames": 72,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "d4631b8945306a33848223b5dc23bc07cbca19ed8f5494cb0dd8b994c6efe7da",
+      "path": "Society/3. Medicine/MVI_8666.MP4",
+      "member": "Pose_Signs/Society/3. Medicine/MVI_8666.pkl",
+      "label": "3.Medicine",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "e9df76def4186479a9de444892f48492630433856c091813ec33ddfd5ef3ea45",
+      "frames": 74,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "675b6bb49c83047d65b6e90c8ae7ddd21da8113e2b1c367386dd785e65f98c81",
+      "path": "Society/3. Medicine/MVI_8935.MP4",
+      "member": "Pose_Signs/Society/3. Medicine/MVI_8935.pkl",
+      "label": "3.Medicine",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "d9675606251d9a935809fc3058a83ee2f25d8e9b01185a89d17a357c47d3e3c5",
+      "frames": 63,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "6f4e043a3a13c6e1bba2b8f7a91ab08cba09561d83ff193f847f46b36c353b32",
+      "path": "Society/3. Medicine/MVI_8665.MP4",
+      "member": "Pose_Signs/Society/3. Medicine/MVI_8665.pkl",
+      "label": "3.Medicine",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "346a907ec4dd5ad5095f6f1ef31d231c9604b46e53fb470d40c49702a14c9ca2",
+      "frames": 70,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "ce8cd464516936f76def0744f4032853596c38986c968415461b271dcff60f46",
+      "path": "Society/3. Medicine/MVI_8668.MP4",
+      "member": "Pose_Signs/Society/3. Medicine/MVI_8668.pkl",
+      "label": "3.Medicine",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "fbe477c887eea97e207004877d73852299d2df9d963cae7deaf71e8964aec834",
+      "frames": 79,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "e6be04fbf3bd93eb8ca2d226f5bcc99b7044a69e32d72244a2fd79f4234cbecd",
+      "path": "Society/3. Medicine/MVI_4804.MOV",
+      "member": "Pose_Signs/Society/3. Medicine/MVI_4804.pkl",
+      "label": "3.Medicine",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "63a008d230dfa12766c51a1a7d472c6150dfa78b1dec5eb8841e0d9cda15cdd1",
+      "frames": 64,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "577175f5cfc5685d041c95945e2b3ec2d2ab355d2dcd0bbea69c58cda552a2aa",
+      "path": "Society/3. Medicine/MVI_4803.MOV",
+      "member": "Pose_Signs/Society/3. Medicine/MVI_4803.pkl",
+      "label": "3.Medicine",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "7521bdfb6abd5d0a3982e7c370cb5bf32c06437eddd2128435e2f11d53f4b6c8",
+      "frames": 66,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "63b6dad833daea978054d6d4a39a2a62a09fe29c9902ee56aa8387e1b73f28e7",
+      "path": "Jobs/87. Doctor/MVI_4472.MOV",
+      "member": "Pose_Signs/Jobs/87. Doctor/MVI_4472.pkl",
+      "label": "87.Doctor",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "81317717c257481c855c11313ddc99eeb9c620cc0362e947d94df7c842ce7d52",
+      "frames": 60,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "fccd3d88a5b64144a412a3d68b13eb3c53ae4e3909313e529944e0ec42f95769",
+      "path": "Jobs/87. Doctor/MVI_4473.MOV",
+      "member": "Pose_Signs/Jobs/87. Doctor/MVI_4473.pkl",
+      "label": "87.Doctor",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "56ca210ba95ff27ab54ce0070098c39baff0de309a61276b418c1b0c946afdab",
+      "frames": 67,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "d4382281b29db11961f1ebd1b5f080be8225b7d25a34ed7981a65efd758cafcf",
+      "path": "Jobs/87. Doctor/MVI_4470.MOV",
+      "member": "Pose_Signs/Jobs/87. Doctor/MVI_4470.pkl",
+      "label": "87.Doctor",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "48fe25d6bc65bfe9080f94ee6dde31814174259cb5f34b0b0c55b1264620115e",
+      "frames": 57,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "113f3683b7eb9ed7debabcc6d7c36cca7acb66ff4bea6528c2b46b0b92c98820",
+      "path": "Jobs/87. Doctor/MVI_5325.MOV",
+      "member": "Pose_Signs/Jobs/87. Doctor/MVI_5325.pkl",
+      "label": "87.Doctor",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "d5f4220861e9d04bbee8446a969e46d03254f6e5e43b382af2685b0d76bfb72f",
+      "frames": 46,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "fb82626fc69db5fe1dccbf1853a2d550e8c95fd18ebe974b46a1e245fc5cad51",
+      "path": "Jobs/87. Doctor/MVI_5324.MOV",
+      "member": "Pose_Signs/Jobs/87. Doctor/MVI_5324.pkl",
+      "label": "87.Doctor",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "79fd39db817bd796ff556ad03cbe5cdf3c947bd96cbaa6e4dc94e16748dc626d",
+      "frames": 46,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "021c01fbf26ed4dba29717696105efe53724719afd96b4ddb1fdb44485b41fce",
+      "path": "Jobs/87. Doctor/MVI_5322.MOV",
+      "member": "Pose_Signs/Jobs/87. Doctor/MVI_5322.pkl",
+      "label": "87.Doctor",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "e60ee8e9e6bfa78292413b1cf5b04ce2702e59a687d3066e2ea92c4788b10779",
+      "frames": 50,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "53fdb987daf4887c161296ad454a350ca1cef8bc94f6384668d6d344a9b13813",
+      "path": "Jobs/87. Doctor/MVI_4754.MOV",
+      "member": "Pose_Signs/Jobs/87. Doctor/MVI_4754.pkl",
+      "label": "87.Doctor",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "3ce23c11d91316a12312f4a862529affa30255baace1afa04e4645da2e4fad1b",
+      "frames": 61,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "c9bfcefe4be4a08b8aa1141f3c3b6de7d2f1aa19971767e3c5d581a14562f3b2",
+      "path": "Jobs/87. Doctor/MVI_4755.MOV",
+      "member": "Pose_Signs/Jobs/87. Doctor/MVI_4755.pkl",
+      "label": "87.Doctor",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "814d0d12901b82877a9f6a76c13ffa6e1548e07fdea030800f7ee36758bd0645",
+      "frames": 57,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "ddd3541c0cf28936b3c75e3329cef8534c6d1d3120db4aef0304e5ace4ccb8a1",
+      "path": "Jobs/87. Doctor/MVI_4757.MOV",
+      "member": "Pose_Signs/Jobs/87. Doctor/MVI_4757.pkl",
+      "label": "87.Doctor",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "9419f3d7541ae6b264ceee2277a6ad6f456fed144521603ab20a01a2630cd503",
+      "frames": 57,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "43047703b7469fbaf23364a3ed1ae934d47ebe43bb898fcf3288576ee9618132",
+      "path": "Jobs/87. Doctor/MVI_8874.MP4",
+      "member": "Pose_Signs/Jobs/87. Doctor/MVI_8874.pkl",
+      "label": "87.Doctor",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "12cbbc8c6614d4c15e8c428b7505df8d10186e6b6f512cfbf74bda61026aff72",
+      "frames": 62,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "validation"
+    },
+    {
+      "clip_id": "8f3a659eb815e6c044ead9f2d822da27501710badc4ed154b2e970d92d23426e",
+      "path": "Jobs/87. Doctor/MVI_8876.MP4",
+      "member": "Pose_Signs/Jobs/87. Doctor/MVI_8876.pkl",
+      "label": "87.Doctor",
+      "published_split": "train",
+      "signer_id": null,
+      "raw_sha256": "cfe85d715fab10f46397cb0e9a380165f3772c1a01d0ca357a66b67fc34c447a",
+      "frames": 79,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "train"
+    },
+    {
+      "clip_id": "bc6ce7ca90ad957819a770a0618f8b4d2a444c76a44df2031413ec81100e839b",
+      "path": "Greetings/48. Hello/MVI_0029.MOV",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_0029.pkl",
+      "label": "48.Hello",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "b62eac05fbd1b50a05d912c84e20e1720156c89c09b1efd4b14c5beec79c4782",
+      "frames": 63,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "90654ca8ba46f085e0b0180902b485cbe682388a580be5905d4e2ca51f9440aa",
+      "path": "Greetings/48. Hello/MVI_9914.MOV",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_9914.pkl",
+      "label": "48.Hello",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "12413d2f90aee90b53a8bb522669ac0da8d69f9a4529ec3758f2f1b9be7b7a95",
+      "frames": 53,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "22753c2182207ae118099b978a68a0b8698b0ec676988b59139df85ab6f7975d",
+      "path": "Greetings/48. Hello/MVI_9956.MOV",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_9956.pkl",
+      "label": "48.Hello",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "885809be253d96b390a78b55f1debf8a2239a47c81721227831a30a08d93a956",
+      "frames": 76,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "68feba3d6bf5e9a5c230531a5362f5ee6acd498fc49a659fa635840135254319",
+      "path": "Greetings/48. Hello/MVI_9983.MOV",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_9983.pkl",
+      "label": "48.Hello",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "f9de300707ea4c8fc762a7064c149474c8152b5f47fc08bfcde19c84030248b8",
+      "frames": 53,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "753b8cdbac3a9027fd64d2410c8e859e356b713a2791c2e9183589b279731663",
+      "path": "Greetings/55. Thank you/MVI_9948.MOV",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_9948.pkl",
+      "label": "55.Thankyou",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "e706298b295b3bf7838d6cc7fc8d6fba8a2d1772bcda68b5ed38ea12ec024d78",
+      "frames": 53,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "676ecc1e54424cdc1cdc1f17de0a7c87d2b73661e8904fbf089356df6abb141d",
+      "path": "Greetings/55. Thank you/MVI_0111.MOV",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_0111.pkl",
+      "label": "55.Thankyou",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "009ce81f3f377329514beae2bc2964baea159dc8fc329fdc06da0919ab9b8344",
+      "frames": 62,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "60f311707d5702634fd737d6e0125e6d060ab663d8bdc2cddd361efc92e38827",
+      "path": "Greetings/55. Thank you/MVI_0060.MOV",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_0060.pkl",
+      "label": "55.Thankyou",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "7347dc442ec4f57d90534d1fe559582a0c1339d83cb20c87a16a3861c951c679",
+      "frames": 56,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "d8e7174476e0e3bbb52d4eb32d81215e4bd09b6ab0334dfdd1a1fb5b95f3d05c",
+      "path": "Greetings/55. Thank you/MVI_0059.MOV",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_0059.pkl",
+      "label": "55.Thankyou",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "c67076bd34f160a399fdcfd448764a81b418cef35d3225193ffa817e7b153257",
+      "frames": 56,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "5f2ad47383712f5c7542a711b770914486a284ec05cac355e91af01e06398d25",
+      "path": "Home/41. Letter/MVI_4931.MOV",
+      "member": "Pose_Signs/Home/41. Letter/MVI_4931.pkl",
+      "label": "41.Letter",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "fba3da67cff837d2ec10d60a100fd2acc668ee73e266d4a3fb762751132d96e4",
+      "frames": 58,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "af04b527a2147efefe0b3f2a463e2823ae67be810a354dd6c05172748cf5a5d1",
+      "path": "Home/41. Letter/MVI_8823.MP4",
+      "member": "Pose_Signs/Home/41. Letter/MVI_8823.pkl",
+      "label": "41.Letter",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "f65f5294125790cc4add46d810b41bed009b4be2325e265254170f16a09bf145",
+      "frames": 80,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "03322e21e4266a178e163d50c2f1b77f2be2120579db8246de3a03d73e6fe89a",
+      "path": "Home/41. Letter/MVI_4417.MOV",
+      "member": "Pose_Signs/Home/41. Letter/MVI_4417.pkl",
+      "label": "41.Letter",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "44f22f85a97af4dd11c68e3ba6ad1951dd939d37d03a7beb2f7cbe9d85ec8e68",
+      "frames": 63,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "7ac3f258a03a1db2f98b51002abdd8e8dc74dcfddc7e0aba1f8b3fc9707a9181",
+      "path": "Home/42. Paper/MVI_4422.MOV",
+      "member": "Pose_Signs/Home/42. Paper/MVI_4422.pkl",
+      "label": "42.Paper",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "c4103e9086a8809ce723d210030041f7fe8e5a88eb379b7b72e0ca1a9520cc11",
+      "frames": 57,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "a023028901e086b2e2318d403bd407b05227a42188585382a0174dc591200a0b",
+      "path": "Home/42. Paper/MVI_9059.MP4",
+      "member": "Pose_Signs/Home/42. Paper/MVI_9059.pkl",
+      "label": "42.Paper",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "fef6917958899ccac3c79357659381785f03937d0bbf1b5e97483d318cf7a721",
+      "frames": 73,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "f8779fc14f95017fd5436c828e8da2bbee85013de4e5623930552f34f560541b",
+      "path": "Home/42. Paper/MVI_4423.MOV",
+      "member": "Pose_Signs/Home/42. Paper/MVI_4423.pkl",
+      "label": "42.Paper",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "f55e5cfac6a30d3d38d62a5ef1cd0f24ea862226a6f088a4dc66d3b6f4e02fae",
+      "frames": 50,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "012648f140710bea98497a62552b42860cd793be8d04d567e859a43e513d7d71",
+      "path": "Jobs/87. Doctor/MVI_4471.MOV",
+      "member": "Pose_Signs/Jobs/87. Doctor/MVI_4471.pkl",
+      "label": "87.Doctor",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "db7fc8be349254dda33b7fc113272b9ebab9dd9d4eb7864d3617231bc9ea13f8",
+      "frames": 68,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "b8368430b33fafdbb6e83e6ab91b14d22a5cc6bed8d8c6d4ed24007114231929",
+      "path": "Jobs/87. Doctor/MVI_8875.MP4",
+      "member": "Pose_Signs/Jobs/87. Doctor/MVI_8875.pkl",
+      "label": "87.Doctor",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "3faf03c2ba8e13c77b9d4ea4a6ab5143c912b6f11692019a8136a75d24259927",
+      "frames": 58,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "90126111aa2166cdcb0789142fcaf0000f1fb53d694abb0f3a8148c30005dbf7",
+      "path": "Jobs/87. Doctor/MVI_5323.MOV",
+      "member": "Pose_Signs/Jobs/87. Doctor/MVI_5323.pkl",
+      "label": "87.Doctor",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "be2f6cc653e4de22b553a594a971650a1f692e1238a59dd4842ed437707d22a3",
+      "frames": 51,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "5d6bd86d8cf98d5f0a30929af8cb9a3c2773605fc20598579f53c62a1cd7e62b",
+      "path": "Places/24. School/MVI_3536.MOV",
+      "member": "Pose_Signs/Places/24. School/MVI_3536.pkl",
+      "label": "24.School",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "986b2c848d84bca862461b6aecb396715355069b3540fb124e81f6ade12782fe",
+      "frames": 53,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "16d3849fe1fcc22c5d373a02ad570ed29ab6948e189c61fc2d3f454559f959fd",
+      "path": "Places/24. School/MVI_3292.MOV",
+      "member": "Pose_Signs/Places/24. School/MVI_3292.pkl",
+      "label": "24.School",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "17466b109a07ee281eae7e01c8d242ca05bb7a280b40d40585d44db8b969f7c1",
+      "frames": 65,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "0475526bd84ddcf9fe0faa0fc908aedf6a5dec807442a0c7989e72ed4e86406c",
+      "path": "Places/24. School/MVI_3615.MOV",
+      "member": "Pose_Signs/Places/24. School/MVI_3615.pkl",
+      "label": "24.School",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "bb91f6dd7ac0faafdba0ca3b2f6c5014a083f1b715284ce4da01e250e4dc1182",
+      "frames": 55,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "bb303d45bbe27f4dd3576aa16dc81469adc3696fe04a3e59339ce5a134b128ec",
+      "path": "Places/24. School/MVI_3537.MOV",
+      "member": "Pose_Signs/Places/24. School/MVI_3537.pkl",
+      "label": "24.School",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "279ee44cd28e2a9ba56fa3759bf333c7e72c5c21010d2668d4d1164f7461ac0c",
+      "frames": 43,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "2b4f84ca6731850ec1666f0c86fb298ff26f5ebc59e0728be1cc0695f7692788",
+      "path": "Places/30. Hospital/MVI_3481.MOV",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3481.pkl",
+      "label": "30.Hospital",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "fa2a825eda1a834e17db49384673abdad6634cb953abf7f2471f725c02f3f1d0",
+      "frames": 69,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "1a58313fc2d47b315c380dc08764bdea1389dd387ab884a29241c275516745d7",
+      "path": "Places/30. Hospital/MVI_3639.MOV",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3639.pkl",
+      "label": "30.Hospital",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "edd4221fc3811e7535d5f9db4efa45d8452e96990b6cb75632f7b42eacec15c8",
+      "frames": 54,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "d16ddb1f55ea8418ce75a7a8326331808e52a8ebbab8c6c037b0c6eb55db8f98",
+      "path": "Places/30. Hospital/MVI_3640.MOV",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3640.pkl",
+      "label": "30.Hospital",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "cd6f7163c8f16c1f7600d1301aafa03ede38d956fe7037cbe17d0d4b3bdb96c2",
+      "frames": 56,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "cc7aad1db1504605e80d39cb0408de2712ee54069cfb514eabbc95feeae95cd6",
+      "path": "Places/30. Hospital/MVI_3483.MOV",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3483.pkl",
+      "label": "30.Hospital",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "ea300f8ce08fbea844c39743152de43dfb1bcdcf46eaa6087ba423040d8b640a",
+      "frames": 61,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "45161e76280f952afd1b21344f12432f9016f8a3e079b4aa694c7298828b547b",
+      "path": "Places/35. Bank/MVI_3421.MOV",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3421.pkl",
+      "label": "35.Bank",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "d39b10d25f6fa7ec1748c2e06748095c9f6bbca77c615c285fdd63e449fd7abd",
+      "frames": 59,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "dfb0d81ea9b435bf92a4619a8f30916488066067cd9ee1624120ba0ddb20063f",
+      "path": "Places/35. Bank/MVI_3422.MOV",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3422.pkl",
+      "label": "35.Bank",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "2fa5b8f4d8621bebb98ec39f04b170c705383b0da1b6d740b4a2f0ff8413a0f5",
+      "frames": 59,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "9a73855fa5148cc030ce5a300b71a20ed43fdf683f5b626a9cf0ebef8273200a",
+      "path": "Places/35. Bank/MVI_3500.MOV",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3500.pkl",
+      "label": "35.Bank",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "255e12e3fc5b8934a6d86e4370118a9d61aa40507cb7b40caccf1d503c804bfd",
+      "frames": 44,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "38fb083540761ba502721b95054e189f56996ba4a14412ed11381f8a539c5290",
+      "path": "Places/35. Bank/MVI_3663.MOV",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3663.pkl",
+      "label": "35.Bank",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "3baf3626420e6d23c8ce136f2bdf4d8843212fd5b00a75f1ea54752900d131b9",
+      "frames": 44,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "21ea987e712849e1641cab11d9ee37fffee9d0a68a575369ed37cb93aa7203b6",
+      "path": "Society/3. Medicine/MVI_4805.MOV",
+      "member": "Pose_Signs/Society/3. Medicine/MVI_4805.pkl",
+      "label": "3.Medicine",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "39b9f443c2e5422f15ba798d56e0da68455060bd36ca1117481f8326af778975",
+      "frames": 63,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "6056c433d81c3a946132a81809f791e37a7de5360c08d1af60d82b9bcbaddfa6",
+      "path": "Society/3. Medicine/MVI_8934.MP4",
+      "member": "Pose_Signs/Society/3. Medicine/MVI_8934.pkl",
+      "label": "3.Medicine",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "95836b61110871c6ff09e3ef000a87b00d8aa5f2af5488267f3c6dd1255afa9c",
+      "frames": 58,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "1d4d813004992299ae58a48a79c9cfde10889fe7c01e4a68633064beb55ebdfa",
+      "path": "Society/3. Medicine/MVI_4261.MOV",
+      "member": "Pose_Signs/Society/3. Medicine/MVI_4261.pkl",
+      "label": "3.Medicine",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "1ce2d625c266498cdcbce9313ab382caaad7094da85fe7129d4e94dbfe6d6507",
+      "frames": 76,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "ec5fb9c3ec52dbf3298e3caae590fb4278f4f817dfd1191fe79beadf972a7c79",
+      "path": "Society/4. Money/MVI_8669.MP4",
+      "member": "Pose_Signs/Society/4. Money/MVI_8669.pkl",
+      "label": "4.Money",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "c9ccfcc23aba733936a333a36b6f871fd60a41ea6d2e5800260bbe3f598341a5",
+      "frames": 66,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "46c1acaf7dedd581abd10417d0378ec16b9eff5534d3784df50175937ca3c890",
+      "path": "Society/4. Money/MVI_4265.MOV",
+      "member": "Pose_Signs/Society/4. Money/MVI_4265.pkl",
+      "label": "4.Money",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "fb3795b566db8904bd313bb730419329e59050ccd8ed62bf05a4bf01b9ae218e",
+      "frames": 49,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    },
+    {
+      "clip_id": "68e1fb82663fae0a4d3f37efe32f99736fea5002a7c58e59bcfa020b606eeea4",
+      "path": "Society/4. Money/MVI_4806.MOV",
+      "member": "Pose_Signs/Society/4. Money/MVI_4806.pkl",
+      "label": "4.Money",
+      "published_split": "test",
+      "signer_id": null,
+      "raw_sha256": "6e936e738bd094af88cfba918156184c7aaacde006204fa913aae00792bb41b5",
+      "frames": 65,
+      "quality": {
+        "finite": true,
+        "shoulders_valid": true
+      },
+      "linguistic_review": "publisher label; independent ISL-user review pending",
+      "split": "test"
+    }
+  ],
+  "excluded": [],
+  "seed": 42,
+  "class_counts": {
+    "48.Hello": {
+      "train": 14,
+      "validation": 3,
+      "test": 4
+    },
+    "55.Thankyou": {
+      "train": 14,
+      "validation": 3,
+      "test": 4
+    },
+    "24.School": {
+      "train": 13,
+      "validation": 3,
+      "test": 4
+    },
+    "30.Hospital": {
+      "train": 13,
+      "validation": 3,
+      "test": 4
+    },
+    "4.Money": {
+      "train": 9,
+      "validation": 2,
+      "test": 3
+    },
+    "3.Medicine": {
+      "train": 9,
+      "validation": 2,
+      "test": 3
+    },
+    "87.Doctor": {
+      "train": 9,
+      "validation": 2,
+      "test": 3
+    },
+    "35.Bank": {
+      "train": 14,
+      "validation": 4,
+      "test": 4
+    },
+    "42.Paper": {
+      "train": 9,
+      "validation": 2,
+      "test": 3
+    },
+    "41.Letter": {
+      "train": 9,
+      "validation": 2,
+      "test": 3
+    }
+  },
+  "downloaded_range_bytes": 23536055
+}

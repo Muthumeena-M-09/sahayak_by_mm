@@ -1,7 +1,27 @@
-# ISL fallback training preparation
+# ISL training and prototype
 
-These scripts are an untrained fallback, not a working recognizer. No weights,
-dataset, measured accuracy or approved vocabulary are bundled. Python 3.11+ is
+A real 10-class classifier has now been trained on 174 INCLUDE pose recordings.
+It scored 32/35 on the small recording-disjoint test set and passed browser/Worker
+inference parity. Live recognition remains disabled: unknown rejection, signer
+independence and real-user camera accuracy are unverified, and Doctor scored 1/3.
+See [implementation/setup](../docs/isl-implementation.md) and
+[evaluation](../docs/isl-evaluation.md) for exact reproduction commands and results.
+Local trained assets are under `ml/runs/prototype-v1` and `public/models/isl`.
+Data, poses and model binaries are ignored by Git.
+
+`prepare_isl.py` and `isl_preprocessing.py` implement preparation/normalization;
+the mathematical browser counterpart is `src/lib/isl/preprocessing.ts`.
+Use `--allow-unknown-signers` only with `signer_independent: false` to explicitly
+permit recording-disjoint experiments. Signer IDs remain empty, never invented.
+
+## Original preparation contract
+
+The following design notes were written before implementation. Extraction and
+the local ONNX adapter now exist; authoritative current commands, flags and
+limitations are in the implementation/evaluation documents linked above.
+
+These scripts train an experimental classifier; datasets and weights stay local.
+Measured results are in the evaluation report. Python 3.11+ is
 recommended. Install `pip install -r ml/requirements.txt` in a local virtual
 environment when the model path is approved; no paid services are required.
 
@@ -17,7 +37,7 @@ Prepare three NPZ files with `allow_pickle=False` compatible arrays:
 - `signer_id` and `clip_id`: nonempty Unicode `[N]` arrays. Clip IDs must identify
   original recordings, including every derived window or augmentation.
 
-Proposed `holistic75-shoulder-v1` preprocessing (extraction not yet implemented):
+Implemented `holistic75-shoulder-v1` preprocessing:
 unmirrored camera coordinates; MediaPipe pose indices 0–32, left hand 0–20,
 right hand 0–20; xyz in that order. For each frame subtract the midpoint of pose
 shoulders 11/12 and divide by their xy distance. Zero missing landmarks after
@@ -51,7 +71,8 @@ accuracy does not measure false positives on unknown signs or live segmentation.
 Add background/no-sign examples, rejection calibration, timing and multiple-user
 camera evaluation before deployment.
 
-After approval and validation, place reviewed runtime artifacts under
-`public/models/isl/` with hashes, license and label map. No loader exists yet.
+The publisher places experimental artifacts under `public/models/isl/` with
+hashes, attribution and label map. The browser adapter and Worker load them
+locally, while the normal UI keeps recognition disabled pending validation.
 Adding a sign requires new audited data, retraining, held-out evaluation and an
 updated multilingual UI mapping; editing a label file alone cannot teach a sign.
