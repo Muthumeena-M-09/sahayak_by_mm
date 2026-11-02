@@ -1,11 +1,18 @@
 # Sahayak ISL Assist: Phase 1 validation
 
-Reviewed 2026-11-02. Decision: **hold Phase 2 pending model-path approval**.
+Reviewed 2026-11-02. Decision: **hold Phase 2 pending model validation**.
+
+Follow-up: the authorized [OpenHands checkpoint audit](openhands-include-audit.md)
+downloaded the real BiLSTM weights and ran Windows CPU inference on one genuine
+INCLUDE pose sample. Execution succeeded, but Hello was misclassified as Season.
+The audit records a batch/sequence ordering issue in upstream BiLSTM code; ONNX
+export is blocked by the missing `onnx` dependency. No React camera work has begun.
 
 Genuine ISL resources exist. No candidate below has yet passed checkpoint retrieval,
 label-map verification, browser conversion/parity, mobile latency, and licensing
 review together. This is not a claim that no suitable pretrained model exists.
-No model was downloaded or executed; no application accuracy has been measured.
+At the initial survey stage no model was downloaded or executed. The follow-up
+audit above supersedes that status; application accuracy remains unmeasured.
 
 ## Existing integration points
 

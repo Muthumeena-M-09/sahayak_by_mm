@@ -1,0 +1,52 @@
+{
+  "status": "real checkpoint inference executed; not deployment validation",
+  "torch": "2.8.0+cpu",
+  "device": "cpu",
+  "strict_weights": true,
+  "input_shape": [
+    1,
+    2,
+    63,
+    27
+  ],
+  "output_shape": [
+    1,
+    263
+  ],
+  "elapsed_ms_first_pass": 16.379599983338267,
+  "expected_label": "48. Hello",
+  "top5": [
+    {
+      "class_id": 173,
+      "label": "65.Season",
+      "softmax": 0.9999998807907104
+    },
+    {
+      "class_id": 12,
+      "label": "13.Attack",
+      "softmax": 4.3628649137872344e-08
+    },
+    {
+      "class_id": 1,
+      "label": "1.Religion",
+      "softmax": 3.082578459157048e-08
+    },
+    {
+      "class_id": 139,
+      "label": "52.Goodafternoon",
+      "softmax": 3.0623573121779657e-10
+    },
+    {
+      "class_id": 137,
+      "label": "51.Clock",
+      "softmax": 2.651392161379107e-10
+    }
+  ],
+  "upstream_lstm_batch_first": false,
+  "top1_matches_after_space_normalization": false,
+  "onnx": {
+    "export_or_parity": "blocked/failed",
+    "error": "ModuleNotFoundError: No module named 'onnx'",
+    "browser": "not tested"
+  }
+}

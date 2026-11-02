@@ -1,0 +1,11 @@
+{
+  "source": "https://zenodo.org/records/6674324/files/INCLUDE.zip?download=1",
+  "member": "Pose_Signs/Greetings/48. Hello/MVI_0029.pkl",
+  "expected_label": "48. Hello",
+  "split": "published test split",
+  "sha256": "b62eac05fbd1b50a05d912c84e20e1720156c89c09b1efd4b14c5beec79c4782",
+  "archive_bytes": 662887244,
+  "range_bytes_downloaded": 796721,
+  "sample_bytes": 151448,
+  "sample_video": "Greetings/48. Hello/MVI_0029.MOV"
+}
