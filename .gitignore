@@ -9,3 +9,13 @@ coverage/
 
 # Local browser regression-test profile
 .browser-check/
+
+# Local ISL datasets, trained artifacts and generated runtime assets
+ml/data/
+ml/runs/
+public/models/isl/*.onnx
+public/mediapipe/
+public/ort/
+test-results/
+playwright-report/
+__pycache__/

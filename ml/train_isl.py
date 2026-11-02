@@ -1,6 +1,7 @@
 """Train a candidate temporal ISL classifier from audited local landmark data."""
 import argparse
 import json
+import random
 from pathlib import Path
 
 import numpy as np
@@ -21,7 +22,7 @@ class Classifier(nn.Module):
         return self.network(landmarks.transpose(1, 2))
 
 
-def load_data(path, labels):
+def load_data(path, labels, allow_unknown_signers=False):
     with np.load(path, allow_pickle=False) as data:
         x, y = data['x'], data['y']
         signers, clips = data['signer_id'].astype(str), data['clip_id'].astype(str)
@@ -32,11 +33,11 @@ def load_data(path, labels):
             or y.min() < 0 or y.max() >= len(labels)):
         raise ValueError('Invalid integer class indices.')
     for ids in (signers, clips):
-        if ids.shape != (len(x),) or any(not value.strip() for value in ids):
+        if ids.shape != (len(x),) or (ids is clips or not allow_unknown_signers) and any(not value.strip() for value in ids):
             raise ValueError('Nonempty signer_id and clip_id required per sample.')
     if set(y.tolist()) != set(range(len(labels))):
         raise ValueError('Every configured sign needs samples in each split.')
-    return x, y.astype(np.int64), set(signers), set(clips)
+    return x, y.astype(np.int64), set(signers)-{''}, set(clips)
 
 
 def main():
@@ -46,29 +47,37 @@ def main():
     parser.add_argument('--manifest', required=True)
     parser.add_argument('--out', required=True, help='New output directory')
     parser.add_argument('--epochs', type=int, default=50)
+    parser.add_argument('--patience', type=int, default=35)
+    parser.add_argument('--allow-unknown-signers', action='store_true')
     args = parser.parse_args()
     manifest = json.loads(Path(args.manifest).read_text(encoding='utf-8'))
     labels = manifest['labels']
     if (manifest.get('language') != 'ISL' or not manifest.get('license')
-            or not manifest.get('source') or manifest.get('audited') is not True
-            or not 10 <= len(labels) <= 20 or len(set(labels)) != len(labels)
+            or not manifest.get('source') or manifest.get('source_verified', manifest.get('audited')) is not True
+            or not 5 <= len(labels) <= 20 or len(set(labels)) != len(labels)
             or any(not isinstance(label, str) or not label.strip() for label in labels)
             or args.epochs < 1):
         raise ValueError('Require audited licensed ISL manifest with 10–20 unique labels.')
-    train = load_data(args.train, labels)
-    validation = load_data(args.validation, labels)
+    if args.allow_unknown_signers and manifest.get('signer_independent') is not False:
+        raise ValueError('Unknown signers must be explicitly declared in manifest.')
+    train = load_data(args.train, labels, args.allow_unknown_signers)
+    validation = load_data(args.validation, labels, args.allow_unknown_signers)
     if train[2] & validation[2] or train[3] & validation[3]:
         raise ValueError('Train/validation signers and source clips must be disjoint.')
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=False)
     torch.manual_seed(42)
+    random.seed(42)
+    np.random.seed(42)
+    torch.set_num_threads(2)
+    torch.use_deterministic_algorithms(True)
     model = Classifier(225, len(labels))
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
     loader = torch.utils.data.DataLoader(
         torch.utils.data.TensorDataset(torch.from_numpy(train[0]), torch.from_numpy(train[1])),
         batch_size=32, shuffle=True,
     )
-    best = -1.0
+    best, stale, history = float('inf'), 0, []
     for epoch in range(args.epochs):
         model.train()
         for x, y in loader:
@@ -81,10 +90,18 @@ def main():
             predictions = torch.cat([model(batch).argmax(1) for batch in
                                      torch.from_numpy(validation[0]).split(64)])
             accuracy = (predictions == torch.from_numpy(validation[1])).float().mean().item()
-        print(json.dumps({'epoch': epoch + 1, 'validation_accuracy': accuracy}))
-        if accuracy > best:
-            best = accuracy
+            val_logits = model(torch.from_numpy(validation[0]))
+            val_loss = nn.functional.cross_entropy(val_logits, torch.from_numpy(validation[1])).item()
+        row = {'epoch': epoch + 1, 'validation_accuracy': accuracy, 'validation_loss': val_loss}
+        history.append(row)
+        print(json.dumps(row), flush=True)
+        if val_loss < best - 0.0001:
+            best, stale = val_loss, 0
             torch.save(model.state_dict(), out / 'best.pt')
+        else:
+            stale += 1
+        if stale >= args.patience:
+            break
     model.load_state_dict(torch.load(out / 'best.pt', weights_only=True))
     model.eval()
     example = torch.from_numpy(validation[0][:1])
@@ -98,11 +115,12 @@ def main():
         expected = model(example).numpy()
     np.testing.assert_allclose(session.run(None, {'landmarks': example.numpy()})[0],
                                expected, rtol=1e-4, atol=1e-5)
-    manifest.update(validation_accuracy=best, train_signers=sorted(train[2]),
+    manifest.update(validation_loss=best, train_signers=sorted(train[2]),
                     validation_signers=sorted(validation[2]),
                     source_clips=sorted(train[3] | validation[3]),
                     input_shape=[None, 32, 225], preprocessing='holistic75-shoulder-v1')
     (out / 'manifest.json').write_text(json.dumps(manifest, indent=2), encoding='utf-8')
+    (out / 'training-log.json').write_text(json.dumps(history, indent=2), encoding='utf-8')
 
 
 if __name__ == '__main__':
