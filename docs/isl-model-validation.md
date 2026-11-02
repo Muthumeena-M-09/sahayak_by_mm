@@ -1,6 +1,7 @@
 # Sahayak ISL Assist — Phase 1 validation
 
-Reviewed: 2 November 2026. Status: **model selection pending; stop before Phase 2**.
+Reviewed: 2 November 2026. Status: **INCLUDE checkpoint validation authorized;
+camera integration remains gated on validation**.
 
 ## Recommendation
 
@@ -87,3 +88,87 @@ latency or accuracy is claimed. No production model placement is defined yet.
    keyboard access, reduced motion, mobile layout and no camera network payloads.
 
 Future scope: continuous sentence translation and text-to-ISL animation.
+
+## Authorized follow-up: INCLUDE checkpoint inspection
+
+The user approved investigating and converting INCLUDE checkpoints after the
+initial review. The following findings supersede the acquisition uncertainties
+above; the candidate table preserves the initial review evidence.
+
+- Pinned upstream source commit: `df348f4a640060d4d39f02556d9f96851e8c46c7`.
+- The [Zenodo API](https://zenodo.org/api/records/4010759) was accessible via a
+  direct HTTP request. Its dataset metadata declares **CC BY 4.0**. It describes
+  isolated ISL recordings by Deaf students, 263 words and 4,292 videos. Preserve
+  attribution and verify any separately distributed checkpoint terms. Code is MIT;
+  no separate weight license was found in the inspected checkpoint index.
+- Paper-level accuracy in the metadata is 94.5% for INCLUDE50 and 85.6% for
+  INCLUDE. Neither is a measurement of this converted small model.
+- Downloaded `include_no_cnn_transformer_small.pth`: 46,230,805 bytes;
+  SHA-256 `c25f7e8a4eb6f11964d4038552ab8e60f23dde392be7ab722f46aef4d7948c7e`.
+  It loads with PyTorch restricted weights-only deserialization after explicitly
+  allowing NumPy scalar metadata. Unrestricted pickle loading is not used.
+- Checkpoint tensors match 134 input features, hidden size 256, two BERT layers,
+  256 positional embeddings and 263 outputs. Saved `score` is
+  `0.8134057971014492`. Source training code saves validation accuracy in this
+  field; the split, score and inference behavior have not been reproduced here.
+
+### Verified vocabulary coverage
+
+The [full label map](https://github.com/AI4Bharat/INCLUDE/blob/df348f4a640060d4d39f02556d9f96851e8c46c7/label_maps/label_map_include.json)
+contains these potential service-prototype labels (index in parentheses): bank
+(13), card (34), doctor (58), hello (101), hospital (104), job (113), letter (120),
+medicine (135), money (138), office (149), paper (155), police (168), school (185),
+thankyou (224), trainticket (236). These are candidate vocabulary entries, not
+validated recognition claims or confirmed sign-to-intent mappings. ISL-user review
+is still needed. No exact help, yes, no, documents or ration labels occur in this
+map. Do not rename paper/card/letter to documents without review.
+
+### Preprocessing and conversion constraints
+
+The pinned extraction and dataset source establish:
+
+- Two separate legacy MediaPipe Hands/Pose trackers; Pose uses the obsolete
+  `upper_body_only=True` option and a 25-point pose layout. Both hand layouts have
+  21 points. Only x/y coordinates are used, without visibility masks or z values.
+- Input order is pose, hand1, hand2, with interleaved x/y coordinates. Wrist
+  proximity is used to assign a single detected hand; the two-hand case does not
+  explicitly reorder detections. That ambiguity needs real clip testing.
+- Missing values are interpolated over time in both directions. Entirely absent
+  coordinate arrays become zero, but individual all-missing landmark columns can
+  remain NaN. A robust replacement must handle those explicitly and be evaluated.
+- Normalized x/y values are multiplied by 1920/1080. Sequences are zero-padded to
+  169 frames, without an attention mask; longer clips are not handled by the
+  reference dataset loader. Preserve unmirrored model inputs and mirror only the
+  eventual visual preview unless evaluated otherwise.
+- A current 33-point pose output must not be silently substituted for the legacy
+  25-point layout. Establish a tested mapping/extractor or retrain with a current
+  landmark contract. This remains a blocker for claiming browser recognition.
+- Upstream final `F.dropout` is active even in eval mode. The export script
+  explicitly disables it in eval and adapts the deprecated BERT import. It
+  otherwise keeps the source network and strictly loads every checkpoint tensor.
+  Changing dropout requires re-evaluation; parity is against the adapted model.
+
+`ml/fetch_include.py` reproduces acquisition; `ml/validate_include.py` performs
+local conversion and numerical parity checks and writes a machine-readable report.
+Downloaded artifacts and generated output are ignored by Git. No camera data,
+training examples or user information are transmitted by these tools.
+
+### Measured conversion result
+
+Export and ONNX schema validation passed. Four deterministic engineering probes
+(zeros and generated coordinate arrays with different padding lengths) matched the
+adapted PyTorch model within `atol=1e-4, rtol=1e-4`; worst absolute logit difference
+was `5.7220458984375e-06`, with all top-1 predictions matching. These generated
+arrays are conversion tests only and are never used as recognition results.
+
+Export size: 15,414,369 bytes. SHA-256:
+`4abd701d12076d0f68d50039a6660352a42808dd7dda84932a8b29c23e4c0c2a`.
+The [recorded report](isl-include-conversion.json) includes runtime versions,
+labels and probe errors. The actual model remains local at
+`ml/output/include/model.onnx` rather than being bundled into the app.
+
+Remaining gates: browser WASM/WebGPU compatibility and
+mobile latency, legacy extractor compatibility, checkpoint reuse terms, held-out
+ISL accuracy, non-sign rejection and multiple-user evaluation. Do not enable
+recognition until these are resolved. Training on a current landmark contract
+remains the fallback, rather than an unverified claim of compatibility.

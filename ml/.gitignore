@@ -1,0 +1,5 @@
+# Local downloaded research artifacts and generated validation output.
+.cache/
+output/
+__pycache__/
+.deps/

@@ -1,5 +1,40 @@
 # Offline ISL fallback scaffold
 
+## INCLUDE checkpoint conversion
+
+The approved follow-up investigates the genuine ISL 263-class small transformer.
+Research assets and generated models stay in ignored local folders, outside public
+web assets. The app is still not enabled for recognition.
+
+```powershell
+python ml/fetch_include.py
+python -m pip install --target ml/.deps --no-deps --only-binary=:all: onnx==1.20.1
+python ml/validate_include.py
+```
+
+The validation environment also needs PyTorch, NumPy, Transformers, ONNX Runtime,
+protobuf and ml_dtypes. The exact versions from a successful run are recorded in
+`ml/output/include/conversion-report.json`. This is a research environment, not an
+addition to the application's npm dependencies.
+
+The fetcher downloads only public artifacts, pins source by commit and checks the
+checkpoint and model-source SHA-256 before use. The exporter uses restricted
+weights-only loading, strict state-dict matching, ONNX schema checking and four
+numerical parity probes. Its two source adaptations fix the old BertLayer import
+and turn final dropout off during evaluation. This changes upstream evaluation
+behavior and requires fresh accuracy measurement.
+
+The output is fixed at `[1,169,134]`, with 263 raw logits in the upstream label
+order. Never narrow logits to a chosen subset before determining the full-model
+winner: that would turn unrelated signs into apparently supported ones. No unknown
+class or calibrated rejection threshold is supplied. Synthetic parity probes do
+not measure ISL recognition accuracy, and CPU ONNX Runtime is not a browser test.
+
+See the follow-up section in the model validation document for licensing and
+legacy landmark constraints before attempting a browser adapter.
+
+## Training fallback
+
 No trained model or dataset is included. Read
 [Phase 1 findings](../docs/isl-model-validation.md) before proceeding.
 Training, export parity and browser inference have not been validated.
