@@ -1,0 +1,17 @@
+{
+  "current-pose-transforms.py": {
+    "sha256": "045136b6004139308656603f6353462612b430adcc4c6e0ff142a5971c0445f5",
+    "classes_equivalent_ignoring_docstrings": {
+      "PoseSelect": true,
+      "CenterAndScaleNormalize": true
+    }
+  },
+  "current-st-gcn.py": {
+    "sha256": "f3c9b45dbcb6c6033d67a9fc1db8666463acd7ab6fd2c5e1edd91aed5887d2d5",
+    "classes_equivalent_ignoring_docstrings": {
+      "ConvTemporalGraphical": true,
+      "STGCN_BLOCK": true,
+      "STGCN": true
+    }
+  }
+}

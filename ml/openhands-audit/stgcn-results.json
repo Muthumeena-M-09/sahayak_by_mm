@@ -1,0 +1,1782 @@
+{
+  "status": "audit only; no integration",
+  "torch": "2.8.0+cpu",
+  "stgcn_archive_sha256": "bf79d52c168c5db98ad6c403846abd8712241eae7f5f1d40233eb3eae8c9346e",
+  "strict_weights": true,
+  "graph_adjacency_matches_config": true,
+  "vocabulary_classes": 263,
+  "summaries": {
+    "stgcn": {
+      "correct": 6,
+      "tested": 24,
+      "sample_accuracy": 0.25,
+      "per_class": {
+        "48.Hello": {
+          "correct": 0,
+          "tested": 2
+        },
+        "55.Thankyou": {
+          "correct": 0,
+          "tested": 2
+        },
+        "24.School": {
+          "correct": 2,
+          "tested": 2
+        },
+        "30.Hospital": {
+          "correct": 0,
+          "tested": 2
+        },
+        "4.Money": {
+          "correct": 0,
+          "tested": 2
+        },
+        "3.Medicine": {
+          "correct": 0,
+          "tested": 2
+        },
+        "87.Doctor": {
+          "correct": 1,
+          "tested": 2
+        },
+        "35.Bank": {
+          "correct": 0,
+          "tested": 2
+        },
+        "42.Paper": {
+          "correct": 0,
+          "tested": 2
+        },
+        "41.Letter": {
+          "correct": 1,
+          "tested": 2
+        },
+        "25.Office": {
+          "correct": 0,
+          "tested": 2
+        },
+        "92.Police": {
+          "correct": 2,
+          "tested": 2
+        }
+      },
+      "parameters": 2927975,
+      "padding_diagnostic": {
+        "batch_shape": [
+          24,
+          2,
+          80,
+          27
+        ],
+        "correct": 6,
+        "labels_changed_from_single_clip": 2
+      }
+    },
+    "bilstm": {
+      "correct": 0,
+      "tested": 24,
+      "sample_accuracy": 0.0,
+      "per_class": {
+        "48.Hello": {
+          "correct": 0,
+          "tested": 2
+        },
+        "55.Thankyou": {
+          "correct": 0,
+          "tested": 2
+        },
+        "24.School": {
+          "correct": 0,
+          "tested": 2
+        },
+        "30.Hospital": {
+          "correct": 0,
+          "tested": 2
+        },
+        "4.Money": {
+          "correct": 0,
+          "tested": 2
+        },
+        "3.Medicine": {
+          "correct": 0,
+          "tested": 2
+        },
+        "87.Doctor": {
+          "correct": 0,
+          "tested": 2
+        },
+        "35.Bank": {
+          "correct": 0,
+          "tested": 2
+        },
+        "42.Paper": {
+          "correct": 0,
+          "tested": 2
+        },
+        "41.Letter": {
+          "correct": 0,
+          "tested": 2
+        },
+        "25.Office": {
+          "correct": 0,
+          "tested": 2
+        },
+        "92.Police": {
+          "correct": 0,
+          "tested": 2
+        }
+      },
+      "parameters": 1638407,
+      "padding_diagnostic": {
+        "batch_shape": [
+          24,
+          2,
+          80,
+          27
+        ],
+        "correct": 15,
+        "labels_changed_from_single_clip": 24
+      }
+    }
+  },
+  "samples": [
+    {
+      "file": "samples/00.pkl",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_0029.pkl",
+      "actual_label": "48. Hello",
+      "video_path": "Greetings/48. Hello/MVI_0029.MOV",
+      "bytes": 151448,
+      "sha256": "b62eac05fbd1b50a05d912c84e20e1720156c89c09b1efd4b14c5beec79c4782",
+      "frames": 63,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 0,
+      "missing_right_hand_frames": 7,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 144,
+            "label": "53.Orange",
+            "softmax": 1.0
+          },
+          {
+            "class_id": 194,
+            "label": "74.Queen",
+            "softmax": 2.1504973801711458e-08
+          },
+          {
+            "class_id": 91,
+            "label": "37.Hat",
+            "softmax": 3.153319827475798e-09
+          }
+        ],
+        "forward_ms": 72.17399997171015,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 144,
+          "label": "53.Orange",
+          "softmax": 1.0
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 173,
+            "label": "65.Season",
+            "softmax": 0.9999998807907104
+          },
+          {
+            "class_id": 12,
+            "label": "13.Attack",
+            "softmax": 4.3628649137872344e-08
+          },
+          {
+            "class_id": 1,
+            "label": "1.Religion",
+            "softmax": 3.082578459157048e-08
+          }
+        ],
+        "forward_ms": 8.45989998197183,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 142,
+          "label": "53.Fan",
+          "softmax": 0.9735518097877502
+        }
+      }
+    },
+    {
+      "file": "samples/01.pkl",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_9914.pkl",
+      "actual_label": "48. Hello",
+      "video_path": "Greetings/48. Hello/MVI_9914.MOV",
+      "bytes": 127448,
+      "sha256": "12413d2f90aee90b53a8bb522669ac0da8d69f9a4529ec3758f2f1b9be7b7a95",
+      "frames": 53,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 0,
+      "missing_right_hand_frames": 13,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 144,
+            "label": "53.Orange",
+            "softmax": 0.8654138445854187
+          },
+          {
+            "class_id": 91,
+            "label": "37.Hat",
+            "softmax": 0.13059864938259125
+          },
+          {
+            "class_id": 194,
+            "label": "74.Queen",
+            "softmax": 0.002728750230744481
+          }
+        ],
+        "forward_ms": 31.46349999587983,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 144,
+          "label": "53.Orange",
+          "softmax": 0.968923807144165
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 173,
+            "label": "65.Season",
+            "softmax": 0.9921820759773254
+          },
+          {
+            "class_id": 14,
+            "label": "13.thick",
+            "softmax": 0.00781751237809658
+          },
+          {
+            "class_id": 176,
+            "label": "66.Sunday",
+            "softmax": 3.4339842613917426e-07
+          }
+        ],
+        "forward_ms": 6.473199988249689,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 126,
+          "label": "48.Hello",
+          "softmax": 0.8108320236206055
+        }
+      }
+    },
+    {
+      "file": "samples/02.pkl",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_9948.pkl",
+      "actual_label": "55. Thank you",
+      "video_path": "Greetings/55. Thank you/MVI_9948.MOV",
+      "bytes": 127448,
+      "sha256": "e706298b295b3bf7838d6cc7fc8d6fba8a2d1772bcda68b5ed38ea12ec024d78",
+      "frames": 53,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 7,
+      "missing_right_hand_frames": 6,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 203,
+            "label": "78.Year",
+            "softmax": 0.9990370273590088
+          },
+          {
+            "class_id": 239,
+            "label": "9.Technology",
+            "softmax": 0.0008579294662922621
+          },
+          {
+            "class_id": 2,
+            "label": "1.loud",
+            "softmax": 6.932690303074196e-05
+          }
+        ],
+        "forward_ms": 28.007499990053475,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 203,
+          "label": "78.Year",
+          "softmax": 0.9942845702171326
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 102,
+            "label": "40.Skirt",
+            "softmax": 0.9274098873138428
+          },
+          {
+            "class_id": 149,
+            "label": "55.Thankyou",
+            "softmax": 0.07230032235383987
+          },
+          {
+            "class_id": 66,
+            "label": "3.Fish",
+            "softmax": 0.00012118541781092063
+          }
+        ],
+        "forward_ms": 4.675700038205832,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 149,
+          "label": "55.Thankyou",
+          "softmax": 0.9999994039535522
+        }
+      }
+    },
+    {
+      "file": "samples/03.pkl",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_0111.pkl",
+      "actual_label": "55. Thank you",
+      "video_path": "Greetings/55. Thank you/MVI_0111.MOV",
+      "bytes": 149048,
+      "sha256": "009ce81f3f377329514beae2bc2964baea159dc8fc329fdc06da0919ab9b8344",
+      "frames": 62,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 9,
+      "missing_right_hand_frames": 11,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 239,
+            "label": "9.Technology",
+            "softmax": 0.9980297684669495
+          },
+          {
+            "class_id": 203,
+            "label": "78.Year",
+            "softmax": 0.0017313987482339144
+          },
+          {
+            "class_id": 101,
+            "label": "40.Paint",
+            "softmax": 0.00023013874306343496
+          }
+        ],
+        "forward_ms": 33.299499948043376,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 239,
+          "label": "9.Technology",
+          "softmax": 0.9853995442390442
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 102,
+            "label": "40.Skirt",
+            "softmax": 0.9609006643295288
+          },
+          {
+            "class_id": 149,
+            "label": "55.Thankyou",
+            "softmax": 0.03870011493563652
+          },
+          {
+            "class_id": 227,
+            "label": "85.Student",
+            "softmax": 0.00025250049657188356
+          }
+        ],
+        "forward_ms": 7.02869996894151,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 149,
+          "label": "55.Thankyou",
+          "softmax": 1.0
+        }
+      }
+    },
+    {
+      "file": "samples/04.pkl",
+      "member": "Pose_Signs/Places/24. School/MVI_3536.pkl",
+      "actual_label": "24. School",
+      "video_path": "Places/24. School/MVI_3536.MOV",
+      "bytes": 127448,
+      "sha256": "986b2c848d84bca862461b6aecb396715355069b3540fb124e81f6ade12782fe",
+      "frames": 53,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 15,
+      "missing_right_hand_frames": 15,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 48,
+            "label": "24.School",
+            "softmax": 0.9999014139175415
+          },
+          {
+            "class_id": 239,
+            "label": "9.Technology",
+            "softmax": 8.162108133547008e-05
+          },
+          {
+            "class_id": 203,
+            "label": "78.Year",
+            "softmax": 1.5762274415465072e-05
+          }
+        ],
+        "forward_ms": 29.838599963113666,
+        "correct": true,
+        "padded_panel_batch_top1": {
+          "class_id": 48,
+          "label": "24.School",
+          "softmax": 0.9824977517127991
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 102,
+            "label": "40.Skirt",
+            "softmax": 0.9855741858482361
+          },
+          {
+            "class_id": 149,
+            "label": "55.Thankyou",
+            "softmax": 0.014226999133825302
+          },
+          {
+            "class_id": 66,
+            "label": "3.Fish",
+            "softmax": 0.00014852473395876586
+          }
+        ],
+        "forward_ms": 4.652799980249256,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 90,
+          "label": "37.Book",
+          "softmax": 0.7714024782180786
+        }
+      }
+    },
+    {
+      "file": "samples/05.pkl",
+      "member": "Pose_Signs/Places/24. School/MVI_3292.pkl",
+      "actual_label": "24. School",
+      "video_path": "Places/24. School/MVI_3292.MOV",
+      "bytes": 156248,
+      "sha256": "17466b109a07ee281eae7e01c8d242ca05bb7a280b40d40585d44db8b969f7c1",
+      "frames": 65,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 13,
+      "missing_right_hand_frames": 14,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 48,
+            "label": "24.School",
+            "softmax": 0.9999997615814209
+          },
+          {
+            "class_id": 125,
+            "label": "48.Green",
+            "softmax": 2.973996799937595e-07
+          },
+          {
+            "class_id": 239,
+            "label": "9.Technology",
+            "softmax": 2.2587061110357354e-08
+          }
+        ],
+        "forward_ms": 35.65719997277483,
+        "correct": true,
+        "padded_panel_batch_top1": {
+          "class_id": 48,
+          "label": "24.School",
+          "softmax": 0.9999902248382568
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 102,
+            "label": "40.Skirt",
+            "softmax": 0.5834523439407349
+          },
+          {
+            "class_id": 149,
+            "label": "55.Thankyou",
+            "softmax": 0.403341680765152
+          },
+          {
+            "class_id": 66,
+            "label": "3.Fish",
+            "softmax": 0.01004199218004942
+          }
+        ],
+        "forward_ms": 6.94280001334846,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 48,
+          "label": "24.School",
+          "softmax": 0.999930739402771
+        }
+      }
+    },
+    {
+      "file": "samples/06.pkl",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3481.pkl",
+      "actual_label": "30. Hospital",
+      "video_path": "Places/30. Hospital/MVI_3481.MOV",
+      "bytes": 165848,
+      "sha256": "fa2a825eda1a834e17db49384673abdad6634cb953abf7f2471f725c02f3f1d0",
+      "frames": 69,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 14,
+      "missing_right_hand_frames": 6,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 57,
+            "label": "27.Dream",
+            "softmax": 0.700188159942627
+          },
+          {
+            "class_id": 137,
+            "label": "51.Clock",
+            "softmax": 0.25261762738227844
+          },
+          {
+            "class_id": 70,
+            "label": "30.Hospital",
+            "softmax": 0.04574870318174362
+          }
+        ],
+        "forward_ms": 42.87130001466721,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 57,
+          "label": "27.Dream",
+          "softmax": 0.5061565041542053
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 179,
+            "label": "68.Family",
+            "softmax": 0.5773651003837585
+          },
+          {
+            "class_id": 112,
+            "label": "44.Shoes",
+            "softmax": 0.2708730697631836
+          },
+          {
+            "class_id": 136,
+            "label": "51.Brown",
+            "softmax": 0.1326318383216858
+          }
+        ],
+        "forward_ms": 8.488499966915697,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 70,
+          "label": "30.Hospital",
+          "softmax": 1.0
+        }
+      }
+    },
+    {
+      "file": "samples/07.pkl",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3639.pkl",
+      "actual_label": "30. Hospital",
+      "video_path": "Places/30. Hospital/MVI_3639.MOV",
+      "bytes": 129848,
+      "sha256": "edd4221fc3811e7535d5f9db4efa45d8452e96990b6cb75632f7b42eacec15c8",
+      "frames": 54,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 12,
+      "missing_right_hand_frames": 13,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 137,
+            "label": "51.Clock",
+            "softmax": 0.950747549533844
+          },
+          {
+            "class_id": 57,
+            "label": "27.Dream",
+            "softmax": 0.028956325724720955
+          },
+          {
+            "class_id": 194,
+            "label": "74.Queen",
+            "softmax": 0.019853299483656883
+          }
+        ],
+        "forward_ms": 34.74839997943491,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 137,
+          "label": "51.Clock",
+          "softmax": 0.583788275718689
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 88,
+            "label": "36.Soap",
+            "softmax": 0.7735089659690857
+          },
+          {
+            "class_id": 83,
+            "label": "34.alive",
+            "softmax": 0.16998867690563202
+          },
+          {
+            "class_id": 116,
+            "label": "45.Pocket",
+            "softmax": 0.05557851120829582
+          }
+        ],
+        "forward_ms": 10.551500017754734,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 70,
+          "label": "30.Hospital",
+          "softmax": 0.9999793767929077
+        }
+      }
+    },
+    {
+      "file": "samples/08.pkl",
+      "member": "Pose_Signs/Society/4. Money/MVI_8669.pkl",
+      "actual_label": "4. Money",
+      "video_path": "Society/4. Money/MVI_8669.MP4",
+      "bytes": 158648,
+      "sha256": "c9ccfcc23aba733936a333a36b6f871fd60a41ea6d2e5800260bbe3f598341a5",
+      "frames": 66,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 66,
+      "missing_right_hand_frames": 47,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 30,
+            "label": "19.Ball",
+            "softmax": 0.9604507088661194
+          },
+          {
+            "class_id": 79,
+            "label": "33.Pencil",
+            "softmax": 0.020168470218777657
+          },
+          {
+            "class_id": 240,
+            "label": "9.Train",
+            "softmax": 0.019366919994354248
+          }
+        ],
+        "forward_ms": 54.775799973867834,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 30,
+          "label": "19.Ball",
+          "softmax": 0.9080905318260193
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 184,
+            "label": "7.Horse",
+            "softmax": 0.4382255971431732
+          },
+          {
+            "class_id": 247,
+            "label": "93.Soldier",
+            "softmax": 0.392312228679657
+          },
+          {
+            "class_id": 0,
+            "label": "1.Dog",
+            "softmax": 0.11103984713554382
+          }
+        ],
+        "forward_ms": 11.651600012555718,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 98,
+          "label": "4.Money",
+          "softmax": 0.9999978542327881
+        }
+      }
+    },
+    {
+      "file": "samples/09.pkl",
+      "member": "Pose_Signs/Society/4. Money/MVI_4265.pkl",
+      "actual_label": "4. Money",
+      "video_path": "Society/4. Money/MVI_4265.MOV",
+      "bytes": 117848,
+      "sha256": "fb3795b566db8904bd313bb730419329e59050ccd8ed62bf05a4bf01b9ae218e",
+      "frames": 49,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 0,
+      "missing_right_hand_frames": 3,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 135,
+            "label": "50.Yellow",
+            "softmax": 1.0
+          },
+          {
+            "class_id": 130,
+            "label": "5.Beautiful",
+            "softmax": 8.910091331415515e-09
+          },
+          {
+            "class_id": 33,
+            "label": "2.Cat",
+            "softmax": 3.9397520801287556e-09
+          }
+        ],
+        "forward_ms": 36.50850005215034,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 135,
+          "label": "50.Yellow",
+          "softmax": 0.9999643564224243
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 105,
+            "label": "41.you",
+            "softmax": 0.907922089099884
+          },
+          {
+            "class_id": 36,
+            "label": "20.Price",
+            "softmax": 0.09205181896686554
+          },
+          {
+            "class_id": 161,
+            "label": "6.Mouse",
+            "softmax": 2.163750832551159e-05
+          }
+        ],
+        "forward_ms": 7.39480002084747,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 98,
+          "label": "4.Money",
+          "softmax": 0.9091103672981262
+        }
+      }
+    },
+    {
+      "file": "samples/10.pkl",
+      "member": "Pose_Signs/Society/3. Medicine/MVI_4805.pkl",
+      "actual_label": "3. Medicine",
+      "video_path": "Society/3. Medicine/MVI_4805.MOV",
+      "bytes": 151448,
+      "sha256": "39b9f443c2e5422f15ba798d56e0da68455060bd36ca1117481f8326af778975",
+      "frames": 63,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 14,
+      "missing_right_hand_frames": 13,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 1,
+            "label": "1.Religion",
+            "softmax": 0.5736420750617981
+          },
+          {
+            "class_id": 203,
+            "label": "78.Year",
+            "softmax": 0.415457159280777
+          },
+          {
+            "class_id": 103,
+            "label": "41.Letter",
+            "softmax": 0.007558334618806839
+          }
+        ],
+        "forward_ms": 35.50319996429607,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 203,
+          "label": "78.Year",
+          "softmax": 0.9391342401504517
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 164,
+            "label": "60.Radio",
+            "softmax": 0.7471858859062195
+          },
+          {
+            "class_id": 207,
+            "label": "79.short",
+            "softmax": 0.14784640073776245
+          },
+          {
+            "class_id": 97,
+            "label": "4.Bird",
+            "softmax": 0.04050956666469574
+          }
+        ],
+        "forward_ms": 5.8188000111840665,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 67,
+          "label": "3.Medicine",
+          "softmax": 0.999815046787262
+        }
+      }
+    },
+    {
+      "file": "samples/11.pkl",
+      "member": "Pose_Signs/Society/3. Medicine/MVI_8934.pkl",
+      "actual_label": "3. Medicine",
+      "video_path": "Society/3. Medicine/MVI_8934.MP4",
+      "bytes": 139448,
+      "sha256": "95836b61110871c6ff09e3ef000a87b00d8aa5f2af5488267f3c6dd1255afa9c",
+      "frames": 58,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 7,
+      "missing_right_hand_frames": 6,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 203,
+            "label": "78.Year",
+            "softmax": 0.9925922155380249
+          },
+          {
+            "class_id": 103,
+            "label": "41.Letter",
+            "softmax": 0.005753990262746811
+          },
+          {
+            "class_id": 1,
+            "label": "1.Religion",
+            "softmax": 0.0014837994240224361
+          }
+        ],
+        "forward_ms": 36.92879999289289,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 203,
+          "label": "78.Year",
+          "softmax": 0.9944215416908264
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 97,
+            "label": "4.Bird",
+            "softmax": 0.9996674060821533
+          },
+          {
+            "class_id": 164,
+            "label": "60.Radio",
+            "softmax": 0.00033258143230341375
+          },
+          {
+            "class_id": 253,
+            "label": "96.Manager",
+            "softmax": 1.3523502317980274e-09
+          }
+        ],
+        "forward_ms": 10.138300014659762,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 67,
+          "label": "3.Medicine",
+          "softmax": 0.999498724937439
+        }
+      }
+    },
+    {
+      "file": "samples/12.pkl",
+      "member": "Pose_Signs/Jobs/87. Doctor/MVI_4471.pkl",
+      "actual_label": "87. Doctor",
+      "video_path": "Jobs/87. Doctor/MVI_4471.MOV",
+      "bytes": 163448,
+      "sha256": "db7fc8be349254dda33b7fc113272b9ebab9dd9d4eb7864d3617231bc9ea13f8",
+      "frames": 68,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 14,
+      "missing_right_hand_frames": 12,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 137,
+            "label": "51.Clock",
+            "softmax": 0.9996557235717773
+          },
+          {
+            "class_id": 144,
+            "label": "53.Orange",
+            "softmax": 0.000291579810436815
+          },
+          {
+            "class_id": 258,
+            "label": "98.sick",
+            "softmax": 3.0777569918427616e-05
+          }
+        ],
+        "forward_ms": 37.67589997733012,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 137,
+          "label": "51.Clock",
+          "softmax": 0.9595795273780823
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 66,
+            "label": "3.Fish",
+            "softmax": 0.9999998807907104
+          },
+          {
+            "class_id": 228,
+            "label": "85.slow",
+            "softmax": 6.55928715787013e-08
+          },
+          {
+            "class_id": 77,
+            "label": "32.weak",
+            "softmax": 2.3702032336814227e-08
+          }
+        ],
+        "forward_ms": 7.770199968945235,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 77,
+          "label": "32.weak",
+          "softmax": 0.6045867800712585
+        }
+      }
+    },
+    {
+      "file": "samples/13.pkl",
+      "member": "Pose_Signs/Jobs/87. Doctor/MVI_8875.pkl",
+      "actual_label": "87. Doctor",
+      "video_path": "Jobs/87. Doctor/MVI_8875.MP4",
+      "bytes": 139448,
+      "sha256": "3faf03c2ba8e13c77b9d4ea4a6ab5143c912b6f11692019a8136a75d24259927",
+      "frames": 58,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 17,
+      "missing_right_hand_frames": 7,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 232,
+            "label": "87.Doctor",
+            "softmax": 0.9672240018844604
+          },
+          {
+            "class_id": 136,
+            "label": "51.Brown",
+            "softmax": 0.028726374730467796
+          },
+          {
+            "class_id": 137,
+            "label": "51.Clock",
+            "softmax": 0.0033347958233207464
+          }
+        ],
+        "forward_ms": 24.58879997720942,
+        "correct": true,
+        "padded_panel_batch_top1": {
+          "class_id": 232,
+          "label": "87.Doctor",
+          "softmax": 0.617023766040802
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 136,
+            "label": "51.Brown",
+            "softmax": 0.9003581404685974
+          },
+          {
+            "class_id": 77,
+            "label": "32.weak",
+            "softmax": 0.09963922202587128
+          },
+          {
+            "class_id": 66,
+            "label": "3.Fish",
+            "softmax": 2.70164719040622e-06
+          }
+        ],
+        "forward_ms": 5.395399988628924,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 77,
+          "label": "32.weak",
+          "softmax": 0.958641529083252
+        }
+      }
+    },
+    {
+      "file": "samples/14.pkl",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3421.pkl",
+      "actual_label": "35. Bank",
+      "video_path": "Places/35. Bank/MVI_3421.MOV",
+      "bytes": 141848,
+      "sha256": "d39b10d25f6fa7ec1748c2e06748095c9f6bbca77c615c285fdd63e449fd7abd",
+      "frames": 59,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 29,
+      "missing_right_hand_frames": 7,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 65,
+            "label": "29.clean",
+            "softmax": 0.8465068936347961
+          },
+          {
+            "class_id": 33,
+            "label": "2.Cat",
+            "softmax": 0.08832036703824997
+          },
+          {
+            "class_id": 57,
+            "label": "27.Dream",
+            "softmax": 0.06501907110214233
+          }
+        ],
+        "forward_ms": 26.67350001865998,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 33,
+          "label": "2.Cat",
+          "softmax": 0.64748615026474
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 102,
+            "label": "40.Skirt",
+            "softmax": 0.9989916682243347
+          },
+          {
+            "class_id": 136,
+            "label": "51.Brown",
+            "softmax": 0.0004985116538591683
+          },
+          {
+            "class_id": 92,
+            "label": "38.Dress",
+            "softmax": 0.0002918349637184292
+          }
+        ],
+        "forward_ms": 6.376700010150671,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 177,
+          "label": "67.Monday",
+          "softmax": 0.5213242173194885
+        }
+      }
+    },
+    {
+      "file": "samples/15.pkl",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3422.pkl",
+      "actual_label": "35. Bank",
+      "video_path": "Places/35. Bank/MVI_3422.MOV",
+      "bytes": 141848,
+      "sha256": "2fa5b8f4d8621bebb98ec39f04b170c705383b0da1b6d740b4a2f0ff8413a0f5",
+      "frames": 59,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 19,
+      "missing_right_hand_frames": 9,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 65,
+            "label": "29.clean",
+            "softmax": 0.8737378716468811
+          },
+          {
+            "class_id": 57,
+            "label": "27.Dream",
+            "softmax": 0.10482369363307953
+          },
+          {
+            "class_id": 46,
+            "label": "23.God",
+            "softmax": 0.021152574568986893
+          }
+        ],
+        "forward_ms": 24.367099977098405,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 65,
+          "label": "29.clean",
+          "softmax": 0.8094604015350342
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 36,
+            "label": "20.Price",
+            "softmax": 0.9982550740242004
+          },
+          {
+            "class_id": 18,
+            "label": "15.Boat",
+            "softmax": 0.0010927803814411163
+          },
+          {
+            "class_id": 65,
+            "label": "29.clean",
+            "softmax": 0.0005439784727059305
+          }
+        ],
+        "forward_ms": 4.099500016309321,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 65,
+          "label": "29.clean",
+          "softmax": 0.9211914539337158
+        }
+      }
+    },
+    {
+      "file": "samples/16.pkl",
+      "member": "Pose_Signs/Home/42. Paper/MVI_4422.pkl",
+      "actual_label": "42. Paper",
+      "video_path": "Home/42. Paper/MVI_4422.MOV",
+      "bytes": 137048,
+      "sha256": "c4103e9086a8809ce723d210030041f7fe8e5a88eb379b7b72e0ca1a9520cc11",
+      "frames": 57,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 5,
+      "missing_right_hand_frames": 9,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 33,
+            "label": "2.Cat",
+            "softmax": 0.8647624254226685
+          },
+          {
+            "class_id": 203,
+            "label": "78.Year",
+            "softmax": 0.09797878563404083
+          },
+          {
+            "class_id": 106,
+            "label": "42.Paper",
+            "softmax": 0.034433990716934204
+          }
+        ],
+        "forward_ms": 29.64409999549389,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 33,
+          "label": "2.Cat",
+          "softmax": 0.46851256489753723
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 161,
+            "label": "6.Mouse",
+            "softmax": 0.5377536416053772
+          },
+          {
+            "class_id": 113,
+            "label": "44.Telephone",
+            "softmax": 0.4067733883857727
+          },
+          {
+            "class_id": 30,
+            "label": "19.Ball",
+            "softmax": 0.0532858669757843
+          }
+        ],
+        "forward_ms": 8.512799977324903,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 106,
+          "label": "42.Paper",
+          "softmax": 0.9999014139175415
+        }
+      }
+    },
+    {
+      "file": "samples/17.pkl",
+      "member": "Pose_Signs/Home/42. Paper/MVI_9059.pkl",
+      "actual_label": "42. Paper",
+      "video_path": "Home/42. Paper/MVI_9059.MP4",
+      "bytes": 175448,
+      "sha256": "fef6917958899ccac3c79357659381785f03937d0bbf1b5e97483d318cf7a721",
+      "frames": 73,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 9,
+      "missing_right_hand_frames": 11,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 33,
+            "label": "2.Cat",
+            "softmax": 0.5130940079689026
+          },
+          {
+            "class_id": 203,
+            "label": "78.Year",
+            "softmax": 0.27076712250709534
+          },
+          {
+            "class_id": 103,
+            "label": "41.Letter",
+            "softmax": 0.20098643004894257
+          }
+        ],
+        "forward_ms": 36.082300008274615,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 33,
+          "label": "2.Cat",
+          "softmax": 0.5059467554092407
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 161,
+            "label": "6.Mouse",
+            "softmax": 0.9998553991317749
+          },
+          {
+            "class_id": 248,
+            "label": "93.young",
+            "softmax": 0.00013915733143221587
+          },
+          {
+            "class_id": 30,
+            "label": "19.Ball",
+            "softmax": 4.959345005772775e-06
+          }
+        ],
+        "forward_ms": 7.1156000485643744,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 106,
+          "label": "42.Paper",
+          "softmax": 0.9997813105583191
+        }
+      }
+    },
+    {
+      "file": "samples/18.pkl",
+      "member": "Pose_Signs/Home/41. Letter/MVI_4931.pkl",
+      "actual_label": "41. Letter",
+      "video_path": "Home/41. Letter/MVI_4931.MOV",
+      "bytes": 139448,
+      "sha256": "fba3da67cff837d2ec10d60a100fd2acc668ee73e266d4a3fb762751132d96e4",
+      "frames": 58,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 12,
+      "missing_right_hand_frames": 13,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 106,
+            "label": "42.Paper",
+            "softmax": 0.9794929623603821
+          },
+          {
+            "class_id": 33,
+            "label": "2.Cat",
+            "softmax": 0.018309539183974266
+          },
+          {
+            "class_id": 132,
+            "label": "5.Cow",
+            "softmax": 0.0021697606425732374
+          }
+        ],
+        "forward_ms": 24.841600039508194,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 106,
+          "label": "42.Paper",
+          "softmax": 0.902637779712677
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 21,
+            "label": "16.Gun",
+            "softmax": 0.9967004656791687
+          },
+          {
+            "class_id": 242,
+            "label": "90.cool",
+            "softmax": 0.001786670065484941
+          },
+          {
+            "class_id": 172,
+            "label": "64.Man",
+            "softmax": 0.0007280664867721498
+          }
+        ],
+        "forward_ms": 4.3886000057682395,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 106,
+          "label": "42.Paper",
+          "softmax": 1.0
+        }
+      }
+    },
+    {
+      "file": "samples/19.pkl",
+      "member": "Pose_Signs/Home/41. Letter/MVI_8823.pkl",
+      "actual_label": "41. Letter",
+      "video_path": "Home/41. Letter/MVI_8823.MP4",
+      "bytes": 192248,
+      "sha256": "f65f5294125790cc4add46d810b41bed009b4be2325e265254170f16a09bf145",
+      "frames": 80,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 53,
+      "missing_right_hand_frames": 36,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 103,
+            "label": "41.Letter",
+            "softmax": 0.9999997615814209
+          },
+          {
+            "class_id": 1,
+            "label": "1.Religion",
+            "softmax": 2.478075202816399e-07
+          },
+          {
+            "class_id": 6,
+            "label": "11.Car",
+            "softmax": 5.124728419403368e-10
+          }
+        ],
+        "forward_ms": 32.441899995319545,
+        "correct": true,
+        "padded_panel_batch_top1": {
+          "class_id": 103,
+          "label": "41.Letter",
+          "softmax": 0.9999997615814209
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 57,
+            "label": "27.Dream",
+            "softmax": 0.9999955892562866
+          },
+          {
+            "class_id": 203,
+            "label": "78.Year",
+            "softmax": 2.292081489940756e-06
+          },
+          {
+            "class_id": 69,
+            "label": "30.Bedroom",
+            "softmax": 1.066034769792168e-06
+          }
+        ],
+        "forward_ms": 6.445900013204664,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 103,
+          "label": "41.Letter",
+          "softmax": 0.9996596574783325
+        }
+      }
+    },
+    {
+      "file": "samples/20.pkl",
+      "member": "Pose_Signs/Places/25. Office/MVI_3541.pkl",
+      "actual_label": "25. Office",
+      "video_path": "Places/25. Office/MVI_3541.MOV",
+      "bytes": 125048,
+      "sha256": "a9ba98c9aa46f1e74bc7e0bd3a58a531b476c990a3a730abaa50521481c4e79f",
+      "frames": 52,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 1,
+      "missing_right_hand_frames": 5,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 144,
+            "label": "53.Orange",
+            "softmax": 0.6329343318939209
+          },
+          {
+            "class_id": 135,
+            "label": "50.Yellow",
+            "softmax": 0.3479950428009033
+          },
+          {
+            "class_id": 239,
+            "label": "9.Technology",
+            "softmax": 0.01858578994870186
+          }
+        ],
+        "forward_ms": 22.498900012578815,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 144,
+          "label": "53.Orange",
+          "softmax": 0.9880951642990112
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 94,
+            "label": "39.Key",
+            "softmax": 0.9709369540214539
+          },
+          {
+            "class_id": 161,
+            "label": "6.Mouse",
+            "softmax": 0.028373269364237785
+          },
+          {
+            "class_id": 100,
+            "label": "40.I",
+            "softmax": 0.0006639314233325422
+          }
+        ],
+        "forward_ms": 5.997500033117831,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 252,
+          "label": "95.bad",
+          "softmax": 0.8897275924682617
+        }
+      }
+    },
+    {
+      "file": "samples/21.pkl",
+      "member": "Pose_Signs/Places/25. Office/MVI_3676.pkl",
+      "actual_label": "25. Office",
+      "video_path": "Places/25. Office/MVI_3676.MOV",
+      "bytes": 144248,
+      "sha256": "a65c660faa3f00056a4f904d69e16a63b3e44f81babf8b8f6759170af5ba7929",
+      "frames": 60,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 0,
+      "missing_right_hand_frames": 7,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 194,
+            "label": "74.Queen",
+            "softmax": 0.657984733581543
+          },
+          {
+            "class_id": 135,
+            "label": "50.Yellow",
+            "softmax": 0.34175047278404236
+          },
+          {
+            "class_id": 144,
+            "label": "53.Orange",
+            "softmax": 0.0002612243697512895
+          }
+        ],
+        "forward_ms": 29.96100002201274,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 194,
+          "label": "74.Queen",
+          "softmax": 0.6667008996009827
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 173,
+            "label": "65.Season",
+            "softmax": 0.9998261332511902
+          },
+          {
+            "class_id": 127,
+            "label": "49.Blue",
+            "softmax": 0.00011654354602796957
+          },
+          {
+            "class_id": 12,
+            "label": "13.Attack",
+            "softmax": 3.218998244847171e-05
+          }
+        ],
+        "forward_ms": 6.540999980643392,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 144,
+          "label": "53.Orange",
+          "softmax": 0.9988369345664978
+        }
+      }
+    },
+    {
+      "file": "samples/22.pkl",
+      "member": "Pose_Signs/Jobs/92. Police/MVI_4775.pkl",
+      "actual_label": "92. Police",
+      "video_path": "Jobs/92. Police/MVI_4775.MOV",
+      "bytes": 117848,
+      "sha256": "74dfedae134ace494afc1217a9d14f3146c2fba987f830d4d9124d2d94e46316",
+      "frames": 49,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 12,
+      "missing_right_hand_frames": 12,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 245,
+            "label": "92.Police",
+            "softmax": 0.9999992847442627
+          },
+          {
+            "class_id": 258,
+            "label": "98.sick",
+            "softmax": 7.174218694672163e-07
+          },
+          {
+            "class_id": 73,
+            "label": "31.Temple",
+            "softmax": 1.2806889134798528e-14
+          }
+        ],
+        "forward_ms": 20.306100021116436,
+        "correct": true,
+        "padded_panel_batch_top1": {
+          "class_id": 245,
+          "label": "92.Police",
+          "softmax": 0.9998447895050049
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 211,
+            "label": "80.Adult",
+            "softmax": 0.9965062737464905
+          },
+          {
+            "class_id": 66,
+            "label": "3.Fish",
+            "softmax": 0.002853663405403495
+          },
+          {
+            "class_id": 14,
+            "label": "13.thick",
+            "softmax": 0.0005783255328424275
+          }
+        ],
+        "forward_ms": 3.835700044874102,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 245,
+          "label": "92.Police",
+          "softmax": 1.0
+        }
+      }
+    },
+    {
+      "file": "samples/23.pkl",
+      "member": "Pose_Signs/Jobs/92. Police/MVI_5348.pkl",
+      "actual_label": "92. Police",
+      "video_path": "Jobs/92. Police/MVI_5348.MOV",
+      "bytes": 122648,
+      "sha256": "2ec9cf5f5b2463f90f183c7363085973b98ba4f0b4b6c02a8e5b7dd5c6a65242",
+      "frames": 51,
+      "train_path_overlap": false,
+      "zero_shoulder_frames": 0,
+      "missing_left_hand_frames": 4,
+      "missing_right_hand_frames": 3,
+      "stgcn": {
+        "top3": [
+          {
+            "class_id": 245,
+            "label": "92.Police",
+            "softmax": 0.9999418258666992
+          },
+          {
+            "class_id": 258,
+            "label": "98.sick",
+            "softmax": 5.8157453167950734e-05
+          },
+          {
+            "class_id": 103,
+            "label": "41.Letter",
+            "softmax": 1.6865840946067578e-09
+          }
+        ],
+        "forward_ms": 20.76010004384443,
+        "correct": true,
+        "padded_panel_batch_top1": {
+          "class_id": 245,
+          "label": "92.Police",
+          "softmax": 0.9968655705451965
+        }
+      },
+      "bilstm": {
+        "top3": [
+          {
+            "class_id": 224,
+            "label": "84.Teacher",
+            "softmax": 0.9998981952667236
+          },
+          {
+            "class_id": 18,
+            "label": "15.Boat",
+            "softmax": 0.00010080460197059438
+          },
+          {
+            "class_id": 1,
+            "label": "1.Religion",
+            "softmax": 7.033772817521822e-07
+          }
+        ],
+        "forward_ms": 5.623199976980686,
+        "correct": false,
+        "padded_panel_batch_top1": {
+          "class_id": 245,
+          "label": "92.Police",
+          "softmax": 0.9997840523719788
+        }
+      }
+    }
+  ],
+  "diagnostics": {
+    "stgcn": {
+      "batch_companion_max_abs_logit_difference": 3.0517578125e-05,
+      "batch_order_max_abs_logit_difference": 0.0,
+      "time_reversal_max_abs_logit_difference": 22.797056198120117,
+      "zero_input_prediction": {
+        "class_id": 220,
+        "label": "83.Afternoon",
+        "softmax": 0.27254900336265564
+      },
+      "plus_32_zero_frames_prediction": {
+        "class_id": 144,
+        "label": "53.Orange",
+        "softmax": 0.9999994039535522
+      }
+    },
+    "bilstm": {
+      "batch_companion_max_abs_logit_difference": 33.6744384765625,
+      "batch_order_max_abs_logit_difference": 34.87694549560547,
+      "time_reversal_max_abs_logit_difference": 3.2276086807250977,
+      "zero_input_prediction": {
+        "class_id": 231,
+        "label": "86.fast",
+        "softmax": 0.04127797484397888
+      },
+      "plus_32_zero_frames_prediction": {
+        "class_id": 220,
+        "label": "83.Afternoon",
+        "softmax": 0.5367740988731384
+      }
+    }
+  },
+  "sample_train_path_overlaps": 0,
+  "sample_duplicate_content_hashes": [],
+  "metadata_paths_with_conflicting_labels": {},
+  "vendor_hashes": {
+    "LICENSE.txt": "d32ce31913494b79882c5b2571e23ffd491fa52d76db7a5075dd47a8cf2a90a8",
+    "openhands/models/network.py": "71dcf4f4dbe2a1017481083d58836a2abe1eb0ce4bf7c34088ee4b762219574b",
+    "openhands/models/encoder/graph/pose_flattener.py": "80ec7cea6ade6db7560deab907bcd2d6d9d84b61c2f68548c3244502d4553cd9",
+    "openhands/models/encoder/graph/st_gcn.py": "bcfefb2f2a5f780dc73a5468b9b191f9ceb5512e316ac24b60bfcd2fad91828b",
+    "openhands/models/encoder/graph/graph_utils.py": "4962e96dfd449458b031f2c266abe40264e7c29133dbf419271faa818b43c871",
+    "openhands/models/decoder/rnn.py": "f0a0b5e03c30a251cd2dfcdafb1622b60af1e44d4cb0f5e470feeedd0216ae5b",
+    "openhands/models/decoder/utils.py": "3b609ec51ecb89974324b30edbe70d8f1bd73a8e23c289ffc4418ef2abbe3e53",
+    "openhands/models/decoder/fc.py": "3ef841aabd9c35bf733ea69da6e17d7a509d5b47d04eafb64561e505dd5651bd",
+    "openhands/datasets/pose_transforms.py": "2f60a48ca6471471b10cc717a428e74dafc44c1e0dcbf722577e218a69895b00"
+  },
+  "onnx": {
+    "opset": 17,
+    "onnx_version": "1.19.1",
+    "runtime_version": "1.24.2",
+    "unmodified_dynamic_export": "SymbolicValueError: Failed to export a node '%533 : Long(device=cpu) = onnx::Gather[axis=0](%530, %532), scope: openhands.models.network.Network::/openhands.models.encoder.graph.st_gcn.STGCN::encoder # D:\\hackathon\\sahayak_by_mm\\ml\\openhands-audit\\vendor\\openhands\\models\\encoder\\graph\\st_gcn.py:217:0\n' (in list node %538 : int[] = prim::ListConstruct(%533, %537), scope: openhands.models.network.Network::/openhands.models.encoder.graph.st_gcn.STGCN::encoder\n) because it is not constant. Please try to make things (e.g. kernel sizes) static if possible.  [Caused by the value '538 defined in (%538 : int[] = prim::ListConstruct(%533, %537), scope: openhands.models.network.Network::/openhands.models.encoder.graph.st_gcn.STGCN::encoder\n)' (type 'List[int]') in the TorchScript graph. The containing node has kind 'prim::ListConstruct'.] \n\n    Inputs:\n        #0: 533 defined in (%533 : Long(device=cpu) = onnx::Gather[axis=0](%530, %532), scope: openhands.models.network.Network::/openhands.models.encoder.graph.st_gcn.STGCN::encoder # D:\\hackathon\\sahayak_by_mm\\ml\\openhands-audit\\vendor\\openhands\\models\\encoder\\graph\\st_gcn.py:217:0\n    )  (type 'Tensor')\n        #1: 537 defined in (%537 : Long(device=cpu) = onnx::Gather[axis=0](%534, %536), scope: openhands.models.network.Network::/openhands.models.encoder.graph.st_gcn.STGCN::encoder # D:\\hackathon\\sahayak_by_mm\\ml\\openhands-audit\\vendor\\openhands\\models\\encoder\\graph\\st_gcn.py:217:0\n    )  (type 'Tensor')\n    Outputs:\n        #0: 538 defined in (%538 : int[] = prim::ListConstruct(%533, %537), scope: openhands.models.network.Network::/openhands.models.encoder.graph.st_gcn.STGCN::encoder\n    )  (type 'List[int]')",
+    "equivalent_global_mean_export": "passed",
+    "status": "export/checker/CPU parity passed",
+    "parity_samples": 24,
+    "max_abs_logit_error": 8.392333984375e-05,
+    "bytes": 11779899,
+    "sha256": "eaba189075b9175177c1cf4beed7efce87fabe168eaf348f4c69cfca1ab5dfdb",
+    "operators": [
+      "Add",
+      "BatchNormalization",
+      "Cast",
+      "Concat",
+      "Constant",
+      "Conv",
+      "Div",
+      "Einsum",
+      "Gather",
+      "Gemm",
+      "Mul",
+      "ReduceMean",
+      "Relu",
+      "Reshape",
+      "Shape",
+      "Transpose",
+      "Unsqueeze"
+    ],
+    "browser": "not tested"
+  }
+}

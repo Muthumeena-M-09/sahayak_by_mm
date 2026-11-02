@@ -1,0 +1,215 @@
+{
+  "source": "https://zenodo.org/records/6674324/files/INCLUDE.zip?download=1",
+  "split": "publisher test split; signer independence unverified",
+  "selection": "first two distinct available clips in CSV order per predeclared class",
+  "classes": [
+    "48.Hello",
+    "55.Thankyou",
+    "24.School",
+    "30.Hospital",
+    "4.Money",
+    "3.Medicine",
+    "87.Doctor",
+    "35.Bank",
+    "42.Paper",
+    "41.Letter",
+    "25.Office",
+    "92.Police"
+  ],
+  "samples": [
+    {
+      "file": "samples/00.pkl",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_0029.pkl",
+      "actual_label": "48. Hello",
+      "video_path": "Greetings/48. Hello/MVI_0029.MOV",
+      "bytes": 151448,
+      "sha256": "b62eac05fbd1b50a05d912c84e20e1720156c89c09b1efd4b14c5beec79c4782"
+    },
+    {
+      "file": "samples/01.pkl",
+      "member": "Pose_Signs/Greetings/48. Hello/MVI_9914.pkl",
+      "actual_label": "48. Hello",
+      "video_path": "Greetings/48. Hello/MVI_9914.MOV",
+      "bytes": 127448,
+      "sha256": "12413d2f90aee90b53a8bb522669ac0da8d69f9a4529ec3758f2f1b9be7b7a95"
+    },
+    {
+      "file": "samples/02.pkl",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_9948.pkl",
+      "actual_label": "55. Thank you",
+      "video_path": "Greetings/55. Thank you/MVI_9948.MOV",
+      "bytes": 127448,
+      "sha256": "e706298b295b3bf7838d6cc7fc8d6fba8a2d1772bcda68b5ed38ea12ec024d78"
+    },
+    {
+      "file": "samples/03.pkl",
+      "member": "Pose_Signs/Greetings/55. Thank you/MVI_0111.pkl",
+      "actual_label": "55. Thank you",
+      "video_path": "Greetings/55. Thank you/MVI_0111.MOV",
+      "bytes": 149048,
+      "sha256": "009ce81f3f377329514beae2bc2964baea159dc8fc329fdc06da0919ab9b8344"
+    },
+    {
+      "file": "samples/04.pkl",
+      "member": "Pose_Signs/Places/24. School/MVI_3536.pkl",
+      "actual_label": "24. School",
+      "video_path": "Places/24. School/MVI_3536.MOV",
+      "bytes": 127448,
+      "sha256": "986b2c848d84bca862461b6aecb396715355069b3540fb124e81f6ade12782fe"
+    },
+    {
+      "file": "samples/05.pkl",
+      "member": "Pose_Signs/Places/24. School/MVI_3292.pkl",
+      "actual_label": "24. School",
+      "video_path": "Places/24. School/MVI_3292.MOV",
+      "bytes": 156248,
+      "sha256": "17466b109a07ee281eae7e01c8d242ca05bb7a280b40d40585d44db8b969f7c1"
+    },
+    {
+      "file": "samples/06.pkl",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3481.pkl",
+      "actual_label": "30. Hospital",
+      "video_path": "Places/30. Hospital/MVI_3481.MOV",
+      "bytes": 165848,
+      "sha256": "fa2a825eda1a834e17db49384673abdad6634cb953abf7f2471f725c02f3f1d0"
+    },
+    {
+      "file": "samples/07.pkl",
+      "member": "Pose_Signs/Places/30. Hospital/MVI_3639.pkl",
+      "actual_label": "30. Hospital",
+      "video_path": "Places/30. Hospital/MVI_3639.MOV",
+      "bytes": 129848,
+      "sha256": "edd4221fc3811e7535d5f9db4efa45d8452e96990b6cb75632f7b42eacec15c8"
+    },
+    {
+      "file": "samples/08.pkl",
+      "member": "Pose_Signs/Society/4. Money/MVI_8669.pkl",
+      "actual_label": "4. Money",
+      "video_path": "Society/4. Money/MVI_8669.MP4",
+      "bytes": 158648,
+      "sha256": "c9ccfcc23aba733936a333a36b6f871fd60a41ea6d2e5800260bbe3f598341a5"
+    },
+    {
+      "file": "samples/09.pkl",
+      "member": "Pose_Signs/Society/4. Money/MVI_4265.pkl",
+      "actual_label": "4. Money",
+      "video_path": "Society/4. Money/MVI_4265.MOV",
+      "bytes": 117848,
+      "sha256": "fb3795b566db8904bd313bb730419329e59050ccd8ed62bf05a4bf01b9ae218e"
+    },
+    {
+      "file": "samples/10.pkl",
+      "member": "Pose_Signs/Society/3. Medicine/MVI_4805.pkl",
+      "actual_label": "3. Medicine",
+      "video_path": "Society/3. Medicine/MVI_4805.MOV",
+      "bytes": 151448,
+      "sha256": "39b9f443c2e5422f15ba798d56e0da68455060bd36ca1117481f8326af778975"
+    },
+    {
+      "file": "samples/11.pkl",
+      "member": "Pose_Signs/Society/3. Medicine/MVI_8934.pkl",
+      "actual_label": "3. Medicine",
+      "video_path": "Society/3. Medicine/MVI_8934.MP4",
+      "bytes": 139448,
+      "sha256": "95836b61110871c6ff09e3ef000a87b00d8aa5f2af5488267f3c6dd1255afa9c"
+    },
+    {
+      "file": "samples/12.pkl",
+      "member": "Pose_Signs/Jobs/87. Doctor/MVI_4471.pkl",
+      "actual_label": "87. Doctor",
+      "video_path": "Jobs/87. Doctor/MVI_4471.MOV",
+      "bytes": 163448,
+      "sha256": "db7fc8be349254dda33b7fc113272b9ebab9dd9d4eb7864d3617231bc9ea13f8"
+    },
+    {
+      "file": "samples/13.pkl",
+      "member": "Pose_Signs/Jobs/87. Doctor/MVI_8875.pkl",
+      "actual_label": "87. Doctor",
+      "video_path": "Jobs/87. Doctor/MVI_8875.MP4",
+      "bytes": 139448,
+      "sha256": "3faf03c2ba8e13c77b9d4ea4a6ab5143c912b6f11692019a8136a75d24259927"
+    },
+    {
+      "file": "samples/14.pkl",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3421.pkl",
+      "actual_label": "35. Bank",
+      "video_path": "Places/35. Bank/MVI_3421.MOV",
+      "bytes": 141848,
+      "sha256": "d39b10d25f6fa7ec1748c2e06748095c9f6bbca77c615c285fdd63e449fd7abd"
+    },
+    {
+      "file": "samples/15.pkl",
+      "member": "Pose_Signs/Places/35. Bank/MVI_3422.pkl",
+      "actual_label": "35. Bank",
+      "video_path": "Places/35. Bank/MVI_3422.MOV",
+      "bytes": 141848,
+      "sha256": "2fa5b8f4d8621bebb98ec39f04b170c705383b0da1b6d740b4a2f0ff8413a0f5"
+    },
+    {
+      "file": "samples/16.pkl",
+      "member": "Pose_Signs/Home/42. Paper/MVI_4422.pkl",
+      "actual_label": "42. Paper",
+      "video_path": "Home/42. Paper/MVI_4422.MOV",
+      "bytes": 137048,
+      "sha256": "c4103e9086a8809ce723d210030041f7fe8e5a88eb379b7b72e0ca1a9520cc11"
+    },
+    {
+      "file": "samples/17.pkl",
+      "member": "Pose_Signs/Home/42. Paper/MVI_9059.pkl",
+      "actual_label": "42. Paper",
+      "video_path": "Home/42. Paper/MVI_9059.MP4",
+      "bytes": 175448,
+      "sha256": "fef6917958899ccac3c79357659381785f03937d0bbf1b5e97483d318cf7a721"
+    },
+    {
+      "file": "samples/18.pkl",
+      "member": "Pose_Signs/Home/41. Letter/MVI_4931.pkl",
+      "actual_label": "41. Letter",
+      "video_path": "Home/41. Letter/MVI_4931.MOV",
+      "bytes": 139448,
+      "sha256": "fba3da67cff837d2ec10d60a100fd2acc668ee73e266d4a3fb762751132d96e4"
+    },
+    {
+      "file": "samples/19.pkl",
+      "member": "Pose_Signs/Home/41. Letter/MVI_8823.pkl",
+      "actual_label": "41. Letter",
+      "video_path": "Home/41. Letter/MVI_8823.MP4",
+      "bytes": 192248,
+      "sha256": "f65f5294125790cc4add46d810b41bed009b4be2325e265254170f16a09bf145"
+    },
+    {
+      "file": "samples/20.pkl",
+      "member": "Pose_Signs/Places/25. Office/MVI_3541.pkl",
+      "actual_label": "25. Office",
+      "video_path": "Places/25. Office/MVI_3541.MOV",
+      "bytes": 125048,
+      "sha256": "a9ba98c9aa46f1e74bc7e0bd3a58a531b476c990a3a730abaa50521481c4e79f"
+    },
+    {
+      "file": "samples/21.pkl",
+      "member": "Pose_Signs/Places/25. Office/MVI_3676.pkl",
+      "actual_label": "25. Office",
+      "video_path": "Places/25. Office/MVI_3676.MOV",
+      "bytes": 144248,
+      "sha256": "a65c660faa3f00056a4f904d69e16a63b3e44f81babf8b8f6759170af5ba7929"
+    },
+    {
+      "file": "samples/22.pkl",
+      "member": "Pose_Signs/Jobs/92. Police/MVI_4775.pkl",
+      "actual_label": "92. Police",
+      "video_path": "Jobs/92. Police/MVI_4775.MOV",
+      "bytes": 117848,
+      "sha256": "74dfedae134ace494afc1217a9d14f3146c2fba987f830d4d9124d2d94e46316"
+    },
+    {
+      "file": "samples/23.pkl",
+      "member": "Pose_Signs/Jobs/92. Police/MVI_5348.pkl",
+      "actual_label": "92. Police",
+      "video_path": "Jobs/92. Police/MVI_5348.MOV",
+      "bytes": 122648,
+      "sha256": "2ec9cf5f5b2463f90f183c7363085973b98ba4f0b4b6c02a8e5b7dd5c6a65242"
+    }
+  ],
+  "archive_bytes": 662887244,
+  "range_bytes_downloaded": 4088715
+}
