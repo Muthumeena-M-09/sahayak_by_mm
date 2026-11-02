@@ -5,6 +5,8 @@ import {PredictionSmoother,confirmWord} from './smoothing.ts';
 import {validateLabels,displaySign} from './signs.ts';
 import {OnnxRecognizer,validateManifest} from './recognizer.ts';
 import {confirmedISLPayload,validateISLChatBody} from './chat.ts';
+import {experimentalRecognitionMode} from './development.ts';
+import {RecognitionPipeline} from './pipeline.ts';
 
 function frame(){const f=new Float32Array(225);f.set([.3,.4,.1],33);f.set([.7,.4,.1],36);f.set([.2,.2,.1],99);return f;}
 test('temporal buffer bounds, copies and resets sequences',()=>{
@@ -45,4 +47,33 @@ test('chat payload contains only reviewed text, language, conversation and mode'
   assert.match(validateISLChatBody({...body,landmarks:[1,2]})!,/text only/);
   assert.match(validateISLChatBody({...body,attachment:{base64Data:'camera'}})!,/text only/);
   assert.equal(validateISLChatBody({message:'existing text',attachment:{}}),null);
+});
+test('experimental recognition requires explicit activation on a loopback development server',()=>{
+  for(const hostname of ['localhost','127.0.0.1','[::1]']){
+    assert.equal(experimentalRecognitionMode(true,hostname,false).active,false);
+    assert.equal(experimentalRecognitionMode(true,hostname,true).active,true);
+    assert.equal(experimentalRecognitionMode(false,hostname,true).available,false);
+  }
+  for(const hostname of ['192.168.1.12','example.com','localhost.example.com']){
+    assert.equal(experimentalRecognitionMode(true,hostname,true).available,false);
+  }
+});
+test('diagnostic pipeline submits only a full valid tensor and explains missing landmarks',()=>{
+  const pipeline=new RecognitionPipeline(['48.Hello'],.85);
+  assert.equal(pipeline.frame(new Float32Array(225)),null);
+  assert.match(pipeline.diagnostics.reason,/No body/);
+  for(let i=0;i<31;i++)assert.equal(pipeline.frame(frame()),null);
+  assert.equal(pipeline.diagnostics.bufferFrames,31);
+  const sequence=pipeline.frame(frame());assert.equal(sequence?.length,7200);
+  assert.equal(pipeline.diagnostics.inputShape,'[1, 32, 225]');assert.equal(pipeline.diagnostics.inputFinite,true);
+  assert.equal(pipeline.prediction({label:'48.Hello',confidence:.84}),null);
+  assert.match(pipeline.diagnostics.filterReason,/below 85/);
+  assert.equal(pipeline.prediction({label:'48.Hello',confidence:.95}),null);
+  assert.match(pipeline.diagnostics.filterReason,/1\/2/);
+  assert.equal(pipeline.prediction({label:'48.Hello',confidence:.96})?.label,'48.Hello');
+  assert.equal(pipeline.prediction({label:'48.Hello',confidence:.96}),null);
+  assert.match(pipeline.diagnostics.filterReason,/Duplicate/);
+  pipeline.reset();assert.equal(pipeline.diagnostics.raw,null);assert.equal(pipeline.diagnostics.bufferFrames,0);
+  pipeline.frame(frame(),0);pipeline.frame(new Float32Array(225),100);assert.equal(pipeline.diagnostics.bufferFrames,1);
+  pipeline.frame(new Float32Array(225),1601);assert.equal(pipeline.diagnostics.bufferFrames,0);
 });

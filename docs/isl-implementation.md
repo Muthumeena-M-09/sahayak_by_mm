@@ -5,6 +5,12 @@ session trained a real classifier using genuine licensed INCLUDE pose recordings
 exported it, and tested its real outputs in Chrome and a Web Worker. Neither
 previous OpenHands recognition checkpoint is used by the new classifier.
 
+Local testing update: an explicit localhost-development control can now run the
+existing model experimentally without enabling production recognition. It keeps
+threshold/smoothing safeguards and shows live landmark/buffer/model diagnostics.
+See [development webcam testing](isl-development-testing.md); the quality-gated
+default and outstanding validation limitations below remain unchanged.
+
 ## Current behavior
 
 Open the existing citizen Ask screen and select **Sahayak ISL Assist**. Camera

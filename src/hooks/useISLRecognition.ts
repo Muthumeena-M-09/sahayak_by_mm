@@ -1,19 +1,24 @@
 import {useEffect,useRef,useState} from 'react';
 import type {ModelManifest} from '../lib/isl/recognizer.ts';
-import {preprocess,TemporalBuffer} from '../lib/isl/preprocessing.ts';
-import {PredictionSmoother,type Prediction} from '../lib/isl/smoothing.ts';
+import {RecognitionPipeline,type RecognitionDiagnostics} from '../lib/isl/pipeline.ts';
+import {experimentalRecognitionMode} from '../lib/isl/development.ts';
+import type {Prediction} from '../lib/isl/smoothing.ts';
 
-export function useISLRecognition(video: HTMLVideoElement|null, manifest:ModelManifest|null, enabled:boolean) {
+export function useISLRecognition(video: HTMLVideoElement|null, manifest:ModelManifest|null, experimentalEnabled:boolean) {
   const [status,setStatus]=useState('idle'), [prediction,setPrediction]=useState<Prediction|null>(null), [error,setError]=useState('');
+  const [diagnostics,setDiagnostics]=useState<RecognitionDiagnostics|null>(null);
   const resetRef=useRef<()=>void>(()=>{});
+  const mode=experimentalRecognitionMode(import.meta.env.DEV,globalThis.location.hostname,experimentalEnabled);
   useEffect(()=>{
-    if(!video || !manifest || !enabled || !manifest.recognitionEnabled) return;
+    if(!video || !manifest || !mode.active){setStatus('idle');setPrediction(null);setDiagnostics(null);setError('');return;}
     let cancelled=false, timer:ReturnType<typeof setTimeout>, worker:Worker|null=null;
     let holistic:import('@mediapipe/holistic').Holistic|null=null, ready=false, pending=false, nextId=0;
     let workerReady=false, landmarksReady=false, failed=false;
-    const becomeReady=()=>{if(!cancelled && !failed && workerReady && landmarksReady){ready=true;setStatus('ready');}};
-    const buffer=new TemporalBuffer(), smooth=new PredictionSmoother(manifest.labels,manifest.threshold,2);
-    resetRef.current=()=>{buffer.clear(); smooth.reset(); setPrediction(null);setError('');};
+    const pipeline=new RecognitionPipeline(manifest.labels,manifest.threshold,2);
+    const publish=()=>{if(!cancelled){pipeline.readiness(workerReady,landmarksReady);setDiagnostics(pipeline.diagnostics);}};
+    const becomeReady=()=>{if(!cancelled && !failed && workerReady && landmarksReady){ready=true;setStatus('ready');}publish();};
+    let ignoreThrough=0;
+    resetRef.current=()=>{ignoreThrough=nextId;pipeline.reset();setPrediction(null);publish();};
     setStatus('loading');setError('');
     const fail=(message:string)=>{failed=true;if(!cancelled){setError(message);setStatus('error');} ready=false;};
     void(async()=>{
@@ -25,10 +30,11 @@ export function useISLRecognition(video: HTMLVideoElement|null, manifest:ModelMa
           pending=false;
           if(event.data.error){fail(event.data.error);return;}
           if(event.data.ready){workerReady=true;becomeReady();}
-          if(event.data.prediction){
-            const candidate=smooth.update(event.data.prediction);
-            if(candidate)setPrediction(candidate);
+          if(event.data.prediction && event.data.id>ignoreThrough){
+            const candidate=pipeline.prediction(event.data.prediction);
+            if(candidate){setPrediction(candidate);setStatus('ready');}
             else setStatus('unsure');
+            publish();
           }
         };
         worker.postMessage({id:++nextId,type:'init',manifest});
@@ -48,14 +54,10 @@ export function useISLRecognition(video: HTMLVideoElement|null, manifest:ModelMa
             if(offset===0 && (point.visibility??1)<.5)return;
             frame.set([point.x,point.y,point.z],(offset+i)*3);
           });
-          try {
-            if(!results.poseLandmarks || (!results.leftHandLandmarks && !results.rightHandLandmarks)) {buffer.clear();smooth.reset();setStatus('unsure');return;}
-            buffer.push(frame);
-            if(buffer.length===32){
-              const sequence=preprocess(buffer.snapshot());
-              pending=true;worker?.postMessage({id:++nextId,type:'predict',sequence},[sequence.buffer]);
-            }
-          }catch{buffer.clear();smooth.reset();setStatus('unsure');}
+          const sequence=pipeline.frame(frame);
+          if(sequence){pending=true;worker?.postMessage({id:++nextId,type:'predict',sequence},[sequence.buffer]);}
+          else setStatus('collecting');
+          publish();
         });
         await holistic.initialize();
         landmarksReady=true;becomeReady();
@@ -68,7 +70,7 @@ export function useISLRecognition(video: HTMLVideoElement|null, manifest:ModelMa
         void sample();
       }catch(error){fail(error instanceof Error?error.message:'Model initialization failed.');}
     })();
-    return ()=>{cancelled=true;clearTimeout(timer);worker?.terminate();void holistic?.close();buffer.clear();setPrediction(null);setStatus('idle');};
-  },[video,manifest,enabled]);
-  return {status,prediction,error,reset:()=>resetRef.current()};
+    return ()=>{cancelled=true;clearTimeout(timer);worker?.terminate();void holistic?.close();pipeline.reset();resetRef.current=()=>{};setPrediction(null);setStatus('idle');};
+  },[video,manifest,mode.active]);
+  return {status,prediction,error,diagnostics,gateReason:mode.reason,reset:()=>resetRef.current()};
 }

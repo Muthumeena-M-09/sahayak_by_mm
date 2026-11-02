@@ -37,3 +37,15 @@ test('real trained model matches reference logits on all held-out clips and runs
   fs.writeFileSync('docs/isl-results/browser.json',JSON.stringify(report,null,2));
   expect(report.externalRequests).toEqual([]);expect(modelErrors).toEqual([]);
 });
+test('real landmark sequence fills 32-frame pipeline, runs the actual worker and preserves safeguards',async({page})=>{
+  test.skip(!fs.existsSync(fixturePath),'Real local model/landmark fixtures are required.');
+  const fixtures=JSON.parse(fs.readFileSync(fixturePath,'utf-8'));
+  await page.goto('/tests/isl/harness.html');await page.waitForFunction(()=>!!(window as any).islAudit);
+  const result=await page.evaluate(raw=>(window as any).islAudit.pipeline(raw),fixtures.preprocessing[0].raw) as any;
+  expect(result.progress).toContain(31);expect(result.progress).toContain(32);
+  expect(result.diagnostics.inputFinite).toBe(true);expect(result.diagnostics.inputShape).toBe('[1, 32, 225]');
+  expect(result.diagnostics.requests).toBeGreaterThan(0);expect(result.diagnostics.responses).toBe(result.diagnostics.requests);
+  expect(Number.isFinite(result.diagnostics.raw.confidence)).toBe(true);
+  expect(result.diagnostics.threshold).toBe(.85);expect(result.diagnostics.required).toBe(2);
+  expect(result.diagnostics.filterReason.length).toBeGreaterThan(0);
+});

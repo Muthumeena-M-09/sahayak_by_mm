@@ -59,10 +59,31 @@ test('local MediaPipe assets initialize and process synthetic camera frames',asy
   fs.writeFileSync('test-results/probe-diagnostic.json',JSON.stringify({events,dom:await page.locator('body').innerHTML(),url:page.url()},null,2));
   // Synthetic test video has no supported ISL signing. Unsure proves a completed
   // landmark callback; it is never counted as a real recognition test.
-  await page.waitForFunction(()=>['unsure','error'].includes(document.querySelector('[data-testid="probe-status"]')?.textContent||''),null,{timeout:30000});
+  await page.waitForFunction(()=>['collecting','error'].includes(document.querySelector('[data-testid="probe-status"]')?.textContent||''),null,{timeout:30000});
   await expect(page.getByTestId('probe-error')).toHaveText('');
-  await expect(page.getByTestId('probe-status')).toHaveText('unsure',{timeout:1000});
+  await expect(page.getByTestId('probe-status')).toHaveText('collecting',{timeout:1000});
   await expect(page.getByTestId('probe-error')).toHaveText('');expect(external).toEqual([]);
+});
+test('experimental controls are opt-in, explain empty review, and stop inference when disabled',async({page})=>{
+  const inferenceRequests:string[]=[];
+  page.on('request',request=>{if(request.url().includes('model.onnx'))inferenceRequests.push(request.url());});
+  await page.goto('/tests/isl/harness.html');
+  await expect(page.getByText('Experimental — Not validated',{exact:true})).toBeVisible();
+  await expect(page.getByRole('button',{name:'Enable experimental recognition',exact:true})).toBeEnabled();
+  await page.getByRole('button',{name:'Start camera',exact:true}).click();
+  await expect(page.getByText('● Camera is on',{exact:true})).toBeVisible();
+  expect(inferenceRequests).toHaveLength(0);
+  await page.getByRole('button',{name:'Enable experimental recognition',exact:true}).click();
+  await expect(page.getByTestId('diagnostic-worker')).toHaveText('ready',{timeout:30000});
+  await expect.poll(async()=>Number(await page.getByTestId('diagnostic-callbacks').textContent()),{timeout:30000}).toBeGreaterThan(0);
+  await expect(page.getByTestId('diagnostic-reason')).toContainText(/No body|No hand|shoulders/);
+  await expect(page.getByLabel('Review word',{exact:true})).toHaveValue('');
+  expect(inferenceRequests.length).toBeGreaterThan(0);
+  await page.getByRole('button',{name:'Disable experimental recognition',exact:true}).click();
+  await expect(page.getByTestId('diagnostic-worker')).toHaveText('not ready');
+  await expect(page.getByTestId('diagnostic-prediction')).toHaveText('No prediction yet');
+  // Activation is per visit, never persisted.
+  await page.reload();await expect(page.getByRole('button',{name:'Enable experimental recognition',exact:true})).toBeVisible();
 });
 test('existing citizen chat receives only confirmed draft and renders SSE response',async({page})=>{
   const sent:any[]=[];

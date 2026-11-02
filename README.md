@@ -16,6 +16,12 @@ Live recognition remains disabled by `VITE_ENABLE_ISL_ASSIST=false` and the mode
 manifest's quality gate. The UI explains this and retains text/voice fallback.
 No simulated predictions are used. No frames or landmarks leave the browser.
 
+For explicit local testing, `npm run dev` on localhost now exposes **Enable
+experimental recognition** with **Experimental — Not validated** and live
+pipeline diagnostics. Production remains disabled and confidence/smoothing checks
+remain active. No `.env` or manifest edits are needed. See
+[webcam testing steps](docs/isl-development-testing.md).
+
 Setup: `npm ci`, `npm run isl:assets`, `npm run dev`; then open
 `http://localhost:3000` → Ask → Sahayak ISL Assist. Model/data binaries stay local
 and are ignored by Git. A fresh checkout must prepare/train/publish them using

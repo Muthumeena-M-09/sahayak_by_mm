@@ -5,16 +5,19 @@ import {displaySign} from '../../lib/isl/signs.ts';
 import {confirmWord} from '../../lib/isl/smoothing.ts';
 import {islMessages} from '../../lib/isl/messages.ts';
 import {useISLRecognition} from '../../hooks/useISLRecognition.ts';
+import {experimentalRecognitionMode} from '../../lib/isl/development.ts';
+import {ISLDiagnostics} from './ISLDiagnostics.tsx';
 
 export function ISLAssist({language,onDraft,onClose}: {language:string;onDraft:(phrase:string)=>void;onClose:()=>void}) {
   const [active,setActive]=useState(false),[video,setVideo]=useState<HTMLVideoElement|null>(null);
   const [manifest,setManifest]=useState<ModelManifest|null>(null),[modelError,setModelError]=useState('');
   const [word,setWord]=useState(''),[phrase,setPhrase]=useState('');
+  const [experimental,setExperimental]=useState(false);
   const input=useRef<HTMLInputElement>(null),text=islMessages(language);
-  const enabled=import.meta.env.VITE_ENABLE_ISL_ASSIST==='true';
+  const mode=experimentalRecognitionMode(import.meta.env.DEV,globalThis.location.hostname,experimental);
   const stop=useCallback(()=>setActive(false),[]);
   const onVideo=useCallback((element:HTMLVideoElement|null)=>setVideo(element),[]);
-  const recognition=useISLRecognition(video,manifest,enabled);
+  const recognition=useISLRecognition(video,manifest,mode.active);
   useEffect(()=>{
     const controller=new AbortController();
     void fetch('/models/isl/manifest.json',{signal:controller.signal,cache:'no-cache'})
@@ -28,12 +31,22 @@ export function ISLAssist({language,onDraft,onClose}: {language:string;onDraft:(
     <div className="flex justify-between gap-3 items-center"><h2 className="font-display font-bold">{text.title}</h2>
       <button type="button" onClick={()=>{stop();onClose();}} className="min-h-11 px-3 border rounded-xl">{text.fallback}</button></div>
     <p className="text-sm">{text.consent}</p>
-    {(!enabled || !manifest?.recognitionEnabled) && <p role="status" className="p-3 border border-strong rounded-xl text-sm">{text.disabled}{manifest?.disabledReason && ` ${manifest.disabledReason}`}</p>}
+    {!mode.active && <p role="status" className="p-3 border border-strong rounded-xl text-sm">{text.disabled}{manifest?.disabledReason && ` ${manifest.disabledReason}`}</p>}
+    {mode.available && <div className="p-3 border border-strong rounded-xl space-y-2">
+      <p className="font-bold">Experimental — Not validated</p>
+      <p className="text-sm">Local development only. Incorrect and overconfident predictions are possible. The 85% threshold and two-window smoothing remain active.</p>
+      <button type="button" aria-pressed={mode.active} disabled={!manifest} onClick={()=>{recognition.reset();setExperimental(value=>!value);}} className="min-h-11 px-3 border border-strong rounded-xl disabled:opacity-50">
+        {mode.active?'Disable experimental recognition':'Enable experimental recognition'}
+      </button>
+    </div>}
     {modelError && <p role="alert">{modelError}</p>}
     <button type="button" onClick={()=>setActive(value=>!value)} className="min-h-12 px-4 bg-primary text-on-primary rounded-xl">{active?text.stop:text.start}</button>
     {active && <ISLCamera active={active} language={language} onVideo={onVideo} onStop={stop}/>}
     <p role="status" aria-live="polite">{recognition.status==='loading'?text.loading:recognition.status==='ready'?text.ready:recognition.status==='unsure'?text.unsure:''}</p>
     {recognition.error && <p role="alert">{recognition.error}</p>}
+    {mode.available && <ISLDiagnostics cameraRequested={active} video={video} status={recognition.status}
+      diagnostics={recognition.diagnostics} reason={!manifest?'Waiting for a valid trained model manifest.':!video&&mode.active?'Start the camera to collect landmarks.':recognition.gateReason}
+      error={recognition.error} language={language} featureFlag={import.meta.env.VITE_ENABLE_ISL_ASSIST} manifestEnabled={manifest?.recognitionEnabled}/>}
     {recognition.prediction && <p>{displaySign(recognition.prediction.label,language)} · {Math.round(recognition.prediction.confidence*100)}% <span className="text-sm">(model score)</span></p>}
     <label className="block">{text.word}<input ref={input} value={word} maxLength={200} onChange={event=>setWord(event.target.value)} className="block w-full min-h-12 px-3 border border-strong rounded-xl bg-elevated"/></label>
     <div className="flex flex-wrap gap-2">

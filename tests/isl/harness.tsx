@@ -6,6 +6,7 @@ import {preprocess} from '../../src/lib/isl/preprocessing.ts';
 import {confirmedISLPayload} from '../../src/lib/isl/chat.ts';
 import {ISLCamera} from '../../src/components/isl/ISLCamera.tsx';
 import {useISLRecognition} from '../../src/hooks/useISLRecognition.ts';
+import {RecognitionPipeline} from '../../src/lib/isl/pipeline.ts';
 import {AppProvider} from '../../src/context/AppContext.tsx';
 import {CitizenAskScreen} from '../../src/components/CitizenAskAndExplain.tsx';
 import '../../src/index.css';
@@ -21,7 +22,7 @@ function Harness(){
 function LiveProbe(){
   const [active,setActive]=useState(false),[video,setVideo]=useState<HTMLVideoElement|null>(null),[manifest,setManifest]=useState<any>(null);
   const stop=useCallback(()=>setActive(false),[]),onVideo=useCallback((v:HTMLVideoElement|null)=>setVideo(v),[]);
-  useEffect(()=>{void fetch('/models/isl/manifest.json').then(r=>r.json()).then(value=>setManifest({...value,recognitionEnabled:true}));},[]);
+  useEffect(()=>{void fetch('/models/isl/manifest.json').then(r=>r.json()).then(setManifest);},[]);
   const recognition=useISLRecognition(video,manifest,true);
   return <><button onClick={()=>setActive(true)}>Probe local extraction</button>
     {active && <ISLCamera active={active} language="en" onVideo={onVideo} onStop={stop}/>}
@@ -32,6 +33,27 @@ createRoot(document.getElementById('root')!).render(query.has('chat')?
   <AppProvider><CitizenAskScreen onStartService={()=>{}} onNavigate={()=>{}}/></AppProvider>:
   query.has('live')?<LiveProbe/>:<Harness/>);
 (window as any).islAudit={preprocess: (frames:number[][])=>Array.from(preprocess(frames.map(frame=>new Float32Array(frame)))),
+  async pipeline(rawFrames:number[][]){
+    const manifest=validateManifest(await(await fetch('/models/isl/manifest.json')).json());
+    const pipeline=new RecognitionPipeline(manifest.labels,manifest.threshold,2);
+    const worker=new Worker(new URL('../../src/workers/isl.worker.ts',import.meta.url),{type:'module'});
+    let nextId=0;
+    const request=(type:string,extra:any)=>new Promise<any>((resolve,reject)=>{
+      const id=++nextId;
+      const timer=setTimeout(()=>reject(new Error('Real inference worker timed out')),30000);
+      worker.onmessage=event=>{if(event.data.id===id){clearTimeout(timer);event.data.error?reject(new Error(event.data.error)):resolve(event.data);}};
+      worker.postMessage({id,type,...extra});
+    });
+    try{
+      await request('init',{manifest});pipeline.readiness(true,true);
+      const progress:number[]=[],accepted:string[]=[];
+      for(const raw of rawFrames){
+        const sequence=pipeline.frame(new Float32Array(raw));progress.push(pipeline.diagnostics.bufferFrames);
+        if(sequence){const result=await request('predict',{sequence});const word=pipeline.prediction(result.prediction);if(word)accepted.push(word.label);}
+      }
+      return {diagnostics:pipeline.diagnostics,progress,accepted};
+    }finally{worker.terminate();}
+  },
   async batch(samples:number[][]){
     const manifest=validateManifest(await(await fetch('/models/isl/manifest.json')).json());
     const adapter=new OnnxRecognizer();const start=performance.now();await adapter.init(manifest);
