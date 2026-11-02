@@ -1,0 +1,10 @@
+{
+  "id": "holistic75-shoulder-v1",
+  "frames": 32,
+  "landmarks": 75,
+  "channels": 3,
+  "features": 225,
+  "minimum_shoulder_distance": 0.001,
+  "ordering": "pose33,leftHand21,rightHand21",
+  "mirrored": false
+}

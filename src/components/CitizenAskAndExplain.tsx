@@ -18,6 +18,9 @@ import {
 } from 'lucide-react';
 import { useApp } from '../context/AppContext.tsx';
 import { fileToBase64, useVoiceAudio } from '../hooks/usePWAAndNetwork.ts';
+import { ISLAssist } from './isl/ISLAssist.tsx';
+import { confirmedISLPayload } from '../lib/isl/chat.ts';
+import { islMessages } from '../lib/isl/messages.ts';
 import type {
   CitationItem,
   CitizenScreen,
@@ -103,6 +106,8 @@ export const CitizenAskScreen: React.FC<{
   const [activeConv, setActiveConv] = useState<ConversationItem | null>(null);
   const [messages, setMessages] = useState<MessageItem[]>([]);
   const [input, setInput] = useState('');
+  const [islOpen, setIslOpen] = useState(false);
+  const [draftMode, setDraftMode] = useState<'text'|'isl'>('text');
   const [streamingText, setStreamingText] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [isTranscribing, setIsTranscribing] = useState(false);
@@ -179,7 +184,7 @@ export const CitizenAskScreen: React.FC<{
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, streamingText, isSending]);
 
-  const sendQuestion = async (rawQuestion: string, attachmentOverride?: PendingAttachment | null) => {
+  const sendQuestion = async (rawQuestion: string, attachmentOverride?: PendingAttachment | null, inputMode:'text'|'isl'='text') => {
     const attachmentToSend =
       attachmentOverride !== undefined ? attachmentOverride : pendingAttachment;
     const trimmed =
@@ -343,7 +348,7 @@ export const CitizenAskScreen: React.FC<{
           'Content-Type': 'application/json',
           ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
         },
-        body: JSON.stringify({
+        body: JSON.stringify(inputMode==='isl' ? confirmedISLPayload(trimmed,currentLanguage.code,activeConv?.id) : {
           message: trimmed,
           conversationId: activeConv?.id,
           preferredLanguageCode: currentLanguage.code,
@@ -397,6 +402,8 @@ export const CitizenAskScreen: React.FC<{
   }, [initialQuestion]);
 
   const handleVoiceToggle = async () => {
+    setIslOpen(false);
+    setDraftMode('text');
     setErrorBanner(null);
     if (voice.isRecording) {
       setIsTranscribing(true);
@@ -924,10 +931,15 @@ export const CitizenAskScreen: React.FC<{
           )}
 
           {/* Input Composer */}
+          <div className="flex flex-wrap items-center gap-2 px-4 pt-2 border-t border-hairline" aria-label="Input mode">
+            <button type="button" onClick={()=>{setIslOpen(false);setDraftMode('text');}} aria-pressed={!islOpen} className="min-h-11 px-3 border border-hairline rounded-xl">{islMessages(currentLanguage.code).text}</button>
+            <button type="button" disabled={isSending || voice.isRecording || isTranscribing} aria-pressed={islOpen} onClick={()=>{voice.stopPlayback();setIslOpen(open=>!open);}} className="min-h-11 px-3 border border-strong rounded-xl disabled:opacity-50">Sahayak ISL Assist</button>
+          </div>
+          {islOpen && <ISLAssist language={currentLanguage.code} onClose={()=>setIslOpen(false)} onDraft={phrase=>{setInput(phrase);setPendingAttachment(null);setDraftMode('isl');setIslOpen(false);requestAnimationFrame(()=>inputRef.current?.focus());}}/>}
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              sendQuestion(input);
+              sendQuestion(input,draftMode==='isl'?null:undefined,draftMode);
             }}
             className="p-3.5 sm:p-4 flex items-center gap-2"
           >

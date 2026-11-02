@@ -1,0 +1,27 @@
+{
+  "language": "ISL",
+  "labels": [
+    "48.Hello",
+    "55.Thankyou",
+    "24.School",
+    "30.Hospital",
+    "4.Money",
+    "3.Medicine",
+    "87.Doctor",
+    "35.Bank",
+    "42.Paper",
+    "41.Letter"
+  ],
+  "preprocessing": "holistic75-shoulder-v1",
+  "modelSha256": "f3d769a8aa30cab92a71fe89e5c111e74477b982b4f85b262133559e4b58aeb0",
+  "recognitionEnabled": false,
+  "disabledReason": "Experimental model: some per-sign scores and live-camera/unknown-sign validation are insufficient. ISL-user review and signer-independent evaluation remain pending.",
+  "threshold": 0.85,
+  "testAccuracy": 0.9142857142857143,
+  "testSamples": 35,
+  "signerIndependent": false,
+  "unknownValidated": false,
+  "browserValidated": true,
+  "datasetLicense": "CC-BY-4.0",
+  "trained": true
+}

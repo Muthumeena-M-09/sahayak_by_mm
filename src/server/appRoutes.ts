@@ -1,5 +1,6 @@
 import { registerCentreRoutes } from '../features/centres/routes.ts';
 import { SpeechError } from '../lib/speech.ts';
+import { validateISLChatBody } from '../lib/isl/chat.ts';
 import { embedSingleTextWithRetry, EMBEDDING_MODEL, EMBEDDING_DIMENSIONS } from '../lib/embeddings.ts';
 import type { Router } from 'express';
 import type { Server as HttpServer } from 'http';
@@ -376,6 +377,8 @@ export function registerAppRoutes(app: Router, httpServer: HttpServer): void {
 
     try {
       const { message, conversationId, preferredLanguageCode, attachment } = req.body || {};
+      const islError = validateISLChatBody(req.body || {});
+      if (islError) { sendEvent({type:'error',error:islError}); return res.end(); }
       const cleanMessage = typeof message === 'string' ? message.trim() : '';
       const hasValidAttachment =
         attachment &&

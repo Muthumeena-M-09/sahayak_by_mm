@@ -1,0 +1,4 @@
+INCLUDE: Sridhar, Ganesan, Kumar, Khapra (ACM MM 2020); poses: Gokul NC and Prem Selvaraj, OpenHands
+Dataset: https://zenodo.org/records/6674324/files/INCLUDE.zip?download=1
+License: https://creativecommons.org/licenses/by/4.0/
+Custom classifier trained locally; no OpenHands recognition weights used.
