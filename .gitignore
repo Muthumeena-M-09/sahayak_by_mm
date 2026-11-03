@@ -10,6 +10,7 @@ coverage/
 # Local browser regression-test profile
 .browser-check/
 
+<<<<<<< HEAD
 # Local ISL datasets, trained artifacts and generated runtime assets
 ml/data/
 ml/runs/
@@ -19,3 +20,8 @@ public/ort/
 test-results/
 playwright-report/
 __pycache__/
+=======
+# Browser regression-test artifacts used by the voice tests.
+test-results/
+playwright-report/
+>>>>>>> 76f6a270f9f6c40f7a428df3d1e7d2b01b9cb7d4

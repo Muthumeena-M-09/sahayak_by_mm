@@ -393,12 +393,17 @@ export const CitizenHomeScreen: React.FC<{
 
 export const CitizenServicesScreen: React.FC<{
   initialDomain?: string;
+  voiceSearch?: {query:string};
   onStartForm: (template: ServiceTemplate) => void;
   onAskDomain: (question: string) => void;
-}> = ({ initialDomain, onStartForm, onAskDomain }) => {
+}> = ({ initialDomain, voiceSearch, onStartForm, onAskDomain }) => {
   const { services, t, formatNumber } = useApp();
   const [selectedDomain, setSelectedDomain] = useState<string>(initialDomain || 'all');
   const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    if (voiceSearch) { setQuery(voiceSearch.query); setSelectedDomain('all'); }
+  }, [voiceSearch]);
 
   useEffect(() => {
     if (initialDomain) setSelectedDomain(initialDomain);

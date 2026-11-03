@@ -85,6 +85,7 @@ import {
   translateUiStringsBatch,
 } from '../lib/gemini.ts';
 import { getSarvamApiKey } from '../lib/sarvam.ts';
+import { recognizeVoiceIntent } from '../lib/aiVoiceIntent.ts';
 import { validateSafeUrl } from '../lib/webScraper.ts';
 import { queueIngestionJob, resumePendingIngestionJobs } from '../lib/ingestionWorker.ts';
 import { requireAuth, requireRole, type AuthRequest } from '../middleware/auth.ts';
@@ -304,6 +305,26 @@ export function registerAppRoutes(app: Router, httpServer: HttpServer): void {
   // =========================================================================
   // CITIZEN VOICE, RAG CHAT, LETTER EXPLAIN, SMART FORM, STATUS, GRIEVANCE
   // =========================================================================
+
+  const voiceIntentInFlight = new Set<string>();
+  app.post('/api/voice/intent', requireAuth, async (req: AuthRequest, res) => {
+    const {text, language, pageLabel, previousText, clarification} = req.body || {};
+    if (typeof text !== 'string' || !text.trim() || text.length > 500 ||
+        !['en-IN','hi-IN'].includes(language) ||
+        (pageLabel !== undefined && (typeof pageLabel !== 'string' || pageLabel.length > 120)) ||
+        (previousText !== undefined && (typeof previousText !== 'string' || previousText.length > 500)) ||
+        (clarification !== undefined && (typeof clarification !== 'string' || clarification.length > 240))) {
+      return res.status(400).json({error:'Invalid voice command.'});
+    }
+    const uid = req.authContext!.uid;
+    if (voiceIntentInFlight.has(uid)) return res.status(429).json({error:'A voice command is already being processed.'});
+    voiceIntentInFlight.add(uid);
+    try {
+      res.json(await recognizeVoiceIntent({text:text.trim(), language, pageLabel:pageLabel || '', previousText, clarification}));
+    } catch {
+      res.status(503).json({error:'AI voice understanding is temporarily unavailable. Please use a direct command.'});
+    } finally { voiceIntentInFlight.delete(uid); }
+  });
 
   app.post('/api/voice/stt', requireAuth, async (req: AuthRequest, res) => {
     try {

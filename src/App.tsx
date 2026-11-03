@@ -49,6 +49,7 @@ import {
   WeakConnectionStrip,
 } from './components/SharedUI.tsx';
 import { AppProvider, useApp } from './context/AppContext.tsx';
+import { VoiceAssistantDemo } from './components/VoiceAssistantDemo.tsx';
 import { useVoiceAudio } from './hooks/usePWAAndNetwork.ts';
 import type { CitizenScreen, ServiceTemplate } from './types.ts';
 
@@ -72,6 +73,7 @@ const SahayakWorkspace: React.FC = () => {
   const [screen, setScreen] = useState<CitizenScreen>('home');
   const [pendingQuestion, setPendingQuestion] = useState<string | undefined>(undefined);
   const [selectedDomain, setSelectedDomain] = useState<string | undefined>(undefined);
+  const [voiceServiceSearch, setVoiceServiceSearch] = useState<{query:string} | undefined>();
   const [selectedService, setSelectedService] = useState<ServiceTemplate | null>(null);
   const [selectedAppId, setSelectedAppId] = useState<number | undefined>(undefined);
 
@@ -488,6 +490,12 @@ const SahayakWorkspace: React.FC = () => {
 
           {/* Screen Content */}
           <main className="flex-1 p-4 sm:p-6 lg:p-8 pb-28 md:pb-10 max-w-6xl w-full mx-auto">
+            <VoiceAssistantDemo onNavigate={handleCitizenNavigate} onBack={handleCitizenBack} pageLabel={currentPageLabel}
+              onSearchServices={query => {
+                setVoiceServiceSearch({query});
+                handleCitizenNavigate('services', {domain:'all'});
+              }} />
+            <div id="citizen-page-content" lang={currentLanguage.localeCode}>
             {screen === 'centres' && <CentresErrorBoundary message={centreText(currentLanguage.code,35)} retryLabel={t('nav.home')} onBack={()=>handleCitizenNavigate('home')}><React.Suspense fallback={<p role="status">{centreText(currentLanguage.code,18)}</p>}><CentresScreen /></React.Suspense></CentresErrorBoundary>}
             {screen === 'home' && <CitizenHomeScreen onNavigate={handleCitizenNavigate} />}
 
@@ -505,6 +513,7 @@ const SahayakWorkspace: React.FC = () => {
             {screen === 'services' && (
               <CitizenServicesScreen
                 initialDomain={selectedDomain}
+                voiceSearch={voiceServiceSearch}
                 onStartForm={(tpl) =>
                   handleCitizenNavigate('smart_form', { serviceTemplate: tpl })
                 }
@@ -545,6 +554,7 @@ const SahayakWorkspace: React.FC = () => {
             {screen === 'settings' && <CitizenSettingsScreen />}
 
             {screen === 'help' && <CitizenHelpScreen onNavigate={handleCitizenNavigate} />}
+            </div>
           </main>
         </div>
       </div>
