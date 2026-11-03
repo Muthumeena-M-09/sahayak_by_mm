@@ -26,7 +26,6 @@ import type {
   ServiceTemplate,
 } from '../types.ts';
 import { ResponsiveSheet } from './SharedUI.tsx';
-import { ISLAssist } from '../features/isl/ISLAssist.tsx';
 
 function renderInlineBold(line: string): React.ReactNode {
   const segments = line.split(/(\*\*[^*]+\*\*)/g);
@@ -104,7 +103,6 @@ export const CitizenAskScreen: React.FC<{
   const [activeConv, setActiveConv] = useState<ConversationItem | null>(null);
   const [messages, setMessages] = useState<MessageItem[]>([]);
   const [input, setInput] = useState('');
-  const [islOpen, setIslOpen] = useState(false);
   const [streamingText, setStreamingText] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [isTranscribing, setIsTranscribing] = useState(false);
@@ -181,7 +179,7 @@ export const CitizenAskScreen: React.FC<{
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, streamingText, isSending]);
 
-  const sendQuestion = async (rawQuestion: string, attachmentOverride?: PendingAttachment | null, inputMode?: 'isl') => {
+  const sendQuestion = async (rawQuestion: string, attachmentOverride?: PendingAttachment | null) => {
     const attachmentToSend =
       attachmentOverride !== undefined ? attachmentOverride : pendingAttachment;
     const trimmed =
@@ -189,8 +187,6 @@ export const CitizenAskScreen: React.FC<{
       (attachmentToSend ? t('ask.default_doc_prompt') : '');
 
     if ((!trimmed && !attachmentToSend) || isSending) return;
-
-    setIslOpen(false);
 
     setErrorBanner(null);
     setFeedbackBanner(null);
@@ -349,7 +345,6 @@ export const CitizenAskScreen: React.FC<{
         },
         body: JSON.stringify({
           message: trimmed,
-          input_mode: inputMode,
           conversationId: activeConv?.id,
           preferredLanguageCode: currentLanguage.code,
           attachment: attachmentToSend || undefined,
@@ -858,14 +853,6 @@ export const CitizenAskScreen: React.FC<{
 
         {/* Active Voice Recording / Transcript Review / Attached File Context Strips */}
         <div className="border-t border-hairline">
-          {import.meta.env.VITE_ENABLE_ISL_ASSIST === 'true' && <div className="p-3">
-            {islOpen ? <ISLAssist language={currentLanguage.code} disabled={isSending}
-              onClose={() => { setIslOpen(false); inputRef.current?.focus(); }}
-              onSubmit={text => { setIslOpen(false); sendQuestion(text, null, 'isl'); }} />
-              : <button type="button" disabled={isSending || voice.isRecording || isTranscribing}
-                className="min-h-12 px-4 rounded-xl border border-strong text-body bg-elevated"
-                onClick={() => setIslOpen(true)}>ISL Assist · Experimental</button>}
-          </div>}
           {voice.isRecording && (
             <div className="px-4 py-2.5 bg-warm-soft border-b border-hairline flex items-center justify-between gap-3 text-xs font-semibold text-body">
               <div className="flex items-center gap-2">
@@ -964,7 +951,7 @@ export const CitizenAskScreen: React.FC<{
             {!network.isWeakNetworkActive && currentLanguage.sttSupported && (
               <button
                 type="button"
-                disabled={isSending || isTranscribing || islOpen}
+                disabled={isSending || isTranscribing}
                 onClick={handleVoiceToggle}
                 aria-label={t('home.tap_to_speak')}
                 title={t('home.tap_to_speak')}

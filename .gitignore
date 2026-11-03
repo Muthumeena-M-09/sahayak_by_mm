@@ -9,6 +9,7 @@ coverage/
 
 # Local browser regression-test profile
 .browser-check/
-public/isl/
+
+# Browser regression-test artifacts used by the voice tests.
 test-results/
 playwright-report/

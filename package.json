@@ -7,9 +7,6 @@
     "node": ">=22.6.0"
   },
   "scripts": {
-    "isl:prepare": "node scripts/prepare-isl.mjs",
-    "test:isl": "tsx --test src/features/isl/core.test.ts",
-    "test:isl:browser": "playwright test --config playwright.isl.config.ts",
     "dev": "tsx watch server.ts",
     "build": "vite build",
     "start": "tsx server.ts",
@@ -23,7 +20,6 @@
   },
   "dependencies": {
     "@google/genai": "^2.32.0",
-    "@mediapipe/tasks-vision": "1.2.0",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.118.0",
     "@tailwindcss/vite": "^4.3.3",
@@ -36,7 +32,6 @@
     "firebase-admin": "^14.5.0",
     "lucide-react": "^0.546.0",
     "motion": "^12.23.24",
-    "onnxruntime-web": "1.31.1",
     "pg": "^8.23.1",
     "react": "^19.0.1",
     "react-dom": "^19.0.1",
