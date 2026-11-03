@@ -1,0 +1,10 @@
+<!doctype html><html><head><meta charset="UTF-8"><title>Voice regression fixture</title></head><body><div id="root"></div><script type="module">
+import React from 'react';
+import '/src/index.css';
+import {createRoot} from 'react-dom/client';
+import {VoiceAssistantDemo} from '/src/components/VoiceAssistantDemo.tsx';
+createRoot(document.getElementById('root')).render(React.createElement(VoiceAssistantDemo, {
+  pageLabel:'Home', onNavigate:screen=>{document.getElementById('destination').textContent=screen;},
+  onBack:()=>{}, onSearchServices:()=>{}
+}));
+</script><p id="destination"></p></body></html>
